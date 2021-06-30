@@ -1,3 +1,5 @@
-h1{
-    color: red;
+.text-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }

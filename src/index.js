@@ -5,7 +5,9 @@ import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <FrontPart/>
+    <div className="text-center">
+      <FrontPart/>
+    </div>
   </React.StrictMode>,
   document.getElementById('root')
 );
