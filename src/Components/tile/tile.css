@@ -6,9 +6,33 @@
 }
 
 .black-tile {
-    background-color: rgb(114, 114, 114);
+    /* background-color: rgb(114, 114, 114); */
+    background-color: #b58863;
 }
 
 .white-tile {
-    background-color: rgb(218, 214, 214);
+    /* background-color: rgb(218, 214, 214); */
+    background-color:#f0d9b5;
+}
+
+.black-tile .chess-piece {
+    height: 70px;
+    width: 70px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.white-tile .chess-piece {
+    height: 70px;
+    width: 70px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.chess-piece:hover{
+    cursor: grab;
+}
+
+.chess-piece:active{
+    cursor: grabbing;
 }
