@@ -2,35 +2,33 @@ import React, { useRef } from "react"
 import { useState } from "react"
 import "./chessboard.css"
 import Tile from "../tile/tile"
-
-
-
+import CheckMove from "../../CheckMove/CheckMove"
 
 let horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h"]
 let verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
 
 const initialBoard = [];
 
-initialBoard.push({ image:"images/br.png", x:0, y:0 });
-initialBoard.push({ image:"images/br.png", x:0, y:7 });
-initialBoard.push({ image:"images/bn.png", x:0, y:1 });
-initialBoard.push({ image:"images/bn.png", x:0, y:6 });
-initialBoard.push({ image:"images/bb.png", x:0, y:2 });
-initialBoard.push({ image:"images/bb.png", x:0, y:5 });
-initialBoard.push({ image:"images/bq.png", x:0, y:3 });
-initialBoard.push({ image:"images/bk.png", x:0, y:4 });
+initialBoard.push({ image:"images/br.png", x:0, y:0,  type: "rook", color: "black"});
+initialBoard.push({ image:"images/br.png", x:0, y:7,  type: "rook", color: "black"});
+initialBoard.push({ image:"images/bn.png", x:0, y:1,  type: "knight", color: "black" });
+initialBoard.push({ image:"images/bn.png", x:0, y:6,  type: "knight", color: "black" });
+initialBoard.push({ image:"images/bb.png", x:0, y:2,  type: "bisop", color: "black"});
+initialBoard.push({ image:"images/bb.png", x:0, y:5,  type: "bisop", color: "black"});
+initialBoard.push({ image:"images/bq.png", x:0, y:3,  type: "queen", color: "black" });
+initialBoard.push({ image:"images/bk.png", x:0, y:4,  type: "king", color: "black"});
 
-initialBoard.push({ image:"images/wr.png", x:7, y:0 });
-initialBoard.push({ image:"images/wr.png", x:7, y:7 });
-initialBoard.push({ image:"images/wn.png", x:7, y:1 });
-initialBoard.push({ image:"images/wn.png", x:7, y:6 });
-initialBoard.push({ image:"images/wb.png", x:7, y:2 });
-initialBoard.push({ image:"images/wb.png", x:7, y:5 });
-initialBoard.push({ image:"images/wq.png", x:7, y:3 });
-initialBoard.push({ image:"images/wk.png", x:7, y:4 });
+initialBoard.push({ image:"images/wr.png", x:7, y:0,  type: "rook", color: "white"});
+initialBoard.push({ image:"images/wr.png", x:7, y:7,  type: "rook", color: "white"});
+initialBoard.push({ image:"images/wn.png", x:7, y:1,  type: "knight", color: "white"});
+initialBoard.push({ image:"images/wn.png", x:7, y:6,  type: "knight", color: "white"});
+initialBoard.push({ image:"images/wb.png", x:7, y:2,  type: "bisop", color: "white"});
+initialBoard.push({ image:"images/wb.png", x:7, y:5,  type: "bisop", color: "white"});
+initialBoard.push({ image:"images/wq.png", x:7, y:3,  type: "queen", color: "white"});
+initialBoard.push({ image:"images/wk.png", x:7, y:4,  type: "king", color: "white"});
 
-for (let i = 0; i < 8; i++) { initialBoard.push({ image:"images/bp.png", x:1, y:i }) };
-for (let i = 0; i < 8; i++) { initialBoard.push({ image:"images/wp.png", x:6, y:i }) };
+for (let i = 0; i < 8; i++) { initialBoard.push({ image:"images/bp.png", x:1, y:i,  type: "pawn", color: "black" }) };
+for (let i = 0; i < 8; i++) { initialBoard.push({ image:"images/wp.png", x:6, y:i, type: "pawn", color: "white" }) };
 
 
 function Chessboard() {
@@ -39,6 +37,7 @@ function Chessboard() {
     const [initialX, setInitialX] = useState(null);
     const [initialY, setInitialY] = useState(null);
     const [activePiece, setActivePiece] = useState(null);
+    const checkMove = new CheckMove();
     // console.log(pieces);
 
     let board = [];
@@ -117,20 +116,40 @@ function Chessboard() {
         const col_num = Math.floor((e.clientX - chessboard.offsetLeft)/70);
         const row_num = Math.floor((e.clientY - chessboard.offsetTop)/70);
         const minX = chessboard.offsetLeft - 15;
-            const minY = chessboard.offsetTop - 15;
-            const maxX = chessboard.offsetLeft + chessboard.clientWidth - 60;
-            const maxY = chessboard.offsetTop + chessboard.clientHeight - 60;
+        const minY = chessboard.offsetTop - 15;
+        const maxX = chessboard.offsetLeft + chessboard.clientWidth - 30;
+        const maxY = chessboard.offsetTop + chessboard.clientHeight - 30;
         // console.log(initialX, initialY);
         // console.log(row_num, col_num);
+
+
+
         if (activePiece) {
             if(e.clientX > maxX || e.clientX < minX || e.clientY > maxY || e.clientY < minY) {
-                setPieces(pieces);
+
+                
+                        activePiece.style.position = 'relative';
+                        activePiece.style.removeProperty('top');
+                        activePiece.style.removeProperty('left');
+                        setActivePiece(null);
+                  
             } else{
                 setPieces( prevPieces =>{
                     const newPieces = prevPieces.map( piece=>{
                         if(piece.x === initialX && piece.y === initialY) {
-                            piece.x = row_num;
-                            piece.y = col_num;
+                            // console.log(checkMove.isValidMove);
+                            console.log(initialX, initialY, row_num, col_num, piece.type, piece.color);
+                            const vaildMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, piece.type, piece.color);
+
+                            if(vaildMove){
+                                piece.x = row_num;
+                                piece.y = col_num;
+                            }else{
+                                activePiece.style.position = 'relative';
+                                activePiece.style.removeProperty('top');
+                                activePiece.style.removeProperty('left');
+                            }
+                            
                         }
                         return piece;
                     } );
