@@ -141,9 +141,9 @@ function Chessboard() {
                             console.log(initialX, initialY, row_num, col_num, piece.type, piece.color);
                             let vaildMove = null;
                             if(piece.type === 'queen')
-                                vaildMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', piece.color,pieces) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bisop', piece.color,pieces);
+                                vaildMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', piece.color,pieces,setPieces) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bisop', piece.color,pieces,setPieces);
                             else
-                                vaildMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, piece.type, piece.color,pieces);
+                                vaildMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, piece.type, piece.color,pieces,setPieces);
                             if(vaildMove){
                                 piece.x = row_num;
                                 piece.y = col_num;

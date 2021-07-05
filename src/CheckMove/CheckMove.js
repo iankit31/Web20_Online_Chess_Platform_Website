@@ -18,7 +18,22 @@ export default class checkMove {
         return flag;
     }
 
-    isValidMove(px ,py , x, y, type, color,pieces){
+    capturePiece(x,y,pieces,setPieces)
+    {
+        setPieces(pieces => {
+            console.log('in setPieces')
+            let newPieces = pieces.filter(p =>
+                
+                !(p.x === x && p.y === y)
+                
+            )
+            console.log(newPieces.length)
+
+            return newPieces;
+        })
+    }
+
+    isValidMove(px ,py , x, y, type, color,pieces,setPieces){
     //  console.log('checking');
     //  console.log(type);
     //  console.log(color);
@@ -68,7 +83,7 @@ export default class checkMove {
                             console.log(occupiedColor)
                             // different colors (i =x j =y ) attack
                             if(occupiedColor === color )
-                                break;
+                               return false;
                             else {
 
                             }
@@ -88,7 +103,7 @@ export default class checkMove {
                             console.log(occupiedColor)
                             // different colors (i = x j =y ) attack
                             if(occupiedColor === color )
-                                break;
+                                return false;
                             else {
 
                             }
@@ -115,7 +130,7 @@ export default class checkMove {
 
                         if(this.isOccupied(i,j,pieces)){
                             if(occupiedColor === color )
-                                break;
+                                return false;
                             else {
 
                             }
@@ -131,7 +146,7 @@ export default class checkMove {
                     for(let i = px + -1*dir,j=py+dir;dir === 1 ? i>=x : i<=x, dir === 1 ? j<=y : j>=y; i+= -1*dir, j+=dir){
                         if(this.isOccupied(i,j,pieces)){
                             if(occupiedColor === color )
-                                break;
+                                return false;
                             else {
 
                             }
@@ -155,7 +170,8 @@ export default class checkMove {
                     if(occupiedColor === color )
                         return false;
                     else{
-
+                        console.log('call capture ')
+                        this.capturePiece(x,y,pieces,setPieces);
                     }
                 }
                 return true;
