@@ -66,7 +66,6 @@ function Chessboard() {
             element.style.position = "absolute";
             element.style.left = `${x}px`
             element.style.top = `${y}px`
-
             setActivePiece(element);
         }
         //console.log(e.target)
@@ -76,9 +75,7 @@ function Chessboard() {
 
         const chessboard = chessBoardRef.current;
 
-        if (activePiece && chessboard) {
-
-            //console.log(e);
+        if (activePiece) {
             const minX = chessboard.offsetLeft - 15;
             const minY = chessboard.offsetTop - 15;
             const maxX = chessboard.offsetLeft + chessboard.clientWidth - 60;
@@ -115,10 +112,10 @@ function Chessboard() {
         const chessboard = chessBoardRef.current;
         const col_num = Math.floor((e.clientX - chessboard.offsetLeft)/70);
         const row_num = Math.floor((e.clientY - chessboard.offsetTop)/70);
-        const minX = chessboard.offsetLeft - 15;
-        const minY = chessboard.offsetTop - 15;
-        const maxX = chessboard.offsetLeft + chessboard.clientWidth - 30;
-        const maxY = chessboard.offsetTop + chessboard.clientHeight - 30;
+        const minX = chessboard.offsetLeft;
+        const minY = chessboard.offsetTop;
+        const maxX = chessboard.offsetLeft + chessboard.clientWidth;
+        const maxY = chessboard.offsetTop + chessboard.clientHeight;
         // console.log(initialX, initialY);
         // console.log(row_num, col_num);
 
@@ -126,38 +123,59 @@ function Chessboard() {
 
         if (activePiece) {
             if(e.clientX > maxX || e.clientX < minX || e.clientY > maxY || e.clientY < minY) {
-
-                
+                console.log("outside board");
+                    activePiece.style.position = 'relative';
+                    activePiece.style.removeProperty('top');
+                    activePiece.style.removeProperty('left');
+                    setActivePiece(null);
+                  
+            } else{
+                const currentPiece = pieces.find(p=>p.x === initialX && p.y === initialY);
+                const attackedPiece = pieces.find(p=>p.x === row_num && p.y === col_num);
+                if(currentPiece) {
+                    let validMove = null;
+                    if(currentPiece.type === 'queen')
+                        validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', currentPiece.color,pieces,setPieces) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bisop', currentPiece.color,pieces,setPieces);
+                    else
+                        validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, currentPiece.type, currentPiece.color,pieces,setPieces);
+                    if(validMove){
+                        currentPiece.x = row_num;
+                        currentPiece.y = col_num;
+                        setPieces(prevPieces=>{
+                            const newPieces = prevPieces.filter(p=>!(p===attackedPiece))
+                            return newPieces;
+                        })
+                    }else{
                         activePiece.style.position = 'relative';
                         activePiece.style.removeProperty('top');
                         activePiece.style.removeProperty('left');
-                        setActivePiece(null);
-                  
-            } else{
-                setPieces( prevPieces =>{
-                    const newPieces = prevPieces.map( piece=>{
-                        if(piece.x === initialX && piece.y === initialY) {
-                            // console.log(checkMove.isValidMove);
-                            console.log(initialX, initialY, row_num, col_num, piece.type, piece.color);
-                            let vaildMove = null;
-                            if(piece.type === 'queen')
-                                vaildMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', piece.color,pieces,setPieces) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bisop', piece.color,pieces,setPieces);
-                            else
-                                vaildMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, piece.type, piece.color,pieces,setPieces);
-                            if(vaildMove){
-                                piece.x = row_num;
-                                piece.y = col_num;
-                            }else{
-                                activePiece.style.position = 'relative';
-                                activePiece.style.removeProperty('top');
-                                activePiece.style.removeProperty('left');
-                            }
+                    }      
+                }     
+
+                // setPieces( prevPieces =>{
+                //     const newPieces = prevPieces.map( piece=>{
+                //         if(piece.x === initialX && piece.y === initialY) {
+                //             // console.log(checkMove.isValidMove);
+                //             console.log(initialX, initialY, row_num, col_num, piece.type, piece.color);
+                //             let vaildMove = null;
+                //             if(piece.type === 'queen')
+                //                 vaildMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', piece.color,pieces,setPieces) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bisop', piece.color,pieces,setPieces);
+                //             else
+                //                 vaildMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, piece.type, piece.color,pieces,setPieces);
+                //             if(vaildMove){
+                //                 piece.x = row_num;
+                //                 piece.y = col_num;
+                //             }else{
+                //                 activePiece.style.position = 'relative';
+                //                 activePiece.style.removeProperty('top');
+                //                 activePiece.style.removeProperty('left');
+                //             }
                             
-                        }
-                        return piece;
-                    } );
-                    return newPieces;
-                })
+                //         }
+                //         return piece;
+                //     } );
+                //     return newPieces;
+                // })
             }
             setActivePiece(null);
             setInitialX(null);
