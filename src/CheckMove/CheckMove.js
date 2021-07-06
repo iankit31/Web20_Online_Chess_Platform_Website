@@ -72,7 +72,7 @@ export default class checkMove {
                     const dir = py < y ? 1 : -1;
                     for( let i = py+dir;dir === 1 ? i<=y : i>=y; i+=dir){
                         if(this.isOccupied(x,i,pieces)){
-                            return occupiedColor !== color;                             
+                            return occupiedColor !== color && i === y;                             
                         }
                         if( i === y )
                             return true;
@@ -86,7 +86,7 @@ export default class checkMove {
                             // if same color than break 
                             console.log(occupiedColor)
                             // different colors (i = x j =y ) attack
-                            return occupiedColor !== color;                             
+                            return occupiedColor !== color && i === x;                             
                         }
                         if( i === x )
                             return true;
@@ -107,7 +107,7 @@ export default class checkMove {
                     for(let i = px + dir,j = py + dir;dir === 1 ? i<=x : i>=y , dir === 1 ? j<=y : j>=y;i+=dir,j+=dir){
 
                         if(this.isOccupied(i,j,pieces)){
-                            return occupiedColor !== color; 
+                            return occupiedColor !== color && i === x && j === y;  
                         } 
                         if( i === x && j === y )
                             return true;   
@@ -118,7 +118,7 @@ export default class checkMove {
                     const dir = py < y ? 1 : -1;
                     for(let i = px + -1*dir,j=py+dir;dir === 1 ? i>=x : i<=x, dir === 1 ? j<=y : j>=y; i+= -1*dir, j+=dir){
                         if(this.isOccupied(i,j,pieces)){
-                            return occupiedColor !== color; 
+                            return occupiedColor !== color && i === x && j === y; 
                         } 
                         if( i === x && j === y )
                             return true; 
