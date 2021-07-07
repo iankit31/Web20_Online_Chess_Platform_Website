@@ -110,7 +110,7 @@ export default class checkMove {
         let i,j;
 
             // 45* 1st quard 
-            i = x-1,j = y+1;
+            i = x-1;j = y+1;
             while(i>=0 && j<8){
                 if(this.isOccupied(i,j,pieces)){
                     if(occupiedColor === opponentColor && ( occupiedType === "bishop" || occupiedType === "queen")){
@@ -119,11 +119,11 @@ export default class checkMove {
                     }
                     break;
                 }
-                i--,j++;
+                i--;j++;
             }
 
             // 135* 2nd quad
-            i = x-1,j = y-1;
+            i = x-1;j = y-1;
             while(i>=0 && j>=0){
                 if(this.isOccupied(i,j,pieces)){
                     if(occupiedColor === opponentColor && ( occupiedType === "bishop" || occupiedType === "queen")){
@@ -132,11 +132,11 @@ export default class checkMove {
                     }
                     break;
                 }
-                i--,j--;
+                i--;j--;
             }
 
             // 225* 3rd quad
-            i = x+1,j = y-1;
+            i = x+1;j = y-1;
             while(i<8 && j>=0){
                 if(this.isOccupied(i,j,pieces)){
                     if(occupiedColor === opponentColor && ( occupiedType === "bishop" || occupiedType === "queen")){
@@ -145,11 +145,11 @@ export default class checkMove {
                     }
                     break;
                 }
-                i++,j--;
+                i++;j--;
             }
 
             //315* 4th quad
-            i = x+1,j = y+1;
+            i = x+1;j = y+1;
             while(i<8 && j<8){
                 if(this.isOccupied(i,j,pieces)){
                     if(occupiedColor === opponentColor && ( occupiedType === "bishop" || occupiedType === "queen")){
@@ -158,7 +158,7 @@ export default class checkMove {
                     }
                     break;
                 }
-                i++,j++;
+                i++;j++;
             }
 
 
