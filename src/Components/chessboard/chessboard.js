@@ -13,8 +13,8 @@ initialBoard.push({ image:"images/br.png", x:0, y:0,  type: "rook", color: "blac
 initialBoard.push({ image:"images/br.png", x:0, y:7,  type: "rook", color: "black"});
 initialBoard.push({ image:"images/bn.png", x:0, y:1,  type: "knight", color: "black" });
 initialBoard.push({ image:"images/bn.png", x:0, y:6,  type: "knight", color: "black" });
-initialBoard.push({ image:"images/bb.png", x:0, y:2,  type: "bisop", color: "black"});
-initialBoard.push({ image:"images/bb.png", x:0, y:5,  type: "bisop", color: "black"});
+initialBoard.push({ image:"images/bb.png", x:0, y:2,  type: "bishop", color: "black"});
+initialBoard.push({ image:"images/bb.png", x:0, y:5,  type: "bishop", color: "black"});
 initialBoard.push({ image:"images/bq.png", x:0, y:3,  type: "queen", color: "black" });
 initialBoard.push({ image:"images/bk.png", x:0, y:4,  type: "king", color: "black"});
 
@@ -22,8 +22,8 @@ initialBoard.push({ image:"images/wr.png", x:7, y:0,  type: "rook", color: "whit
 initialBoard.push({ image:"images/wr.png", x:7, y:7,  type: "rook", color: "white"});
 initialBoard.push({ image:"images/wn.png", x:7, y:1,  type: "knight", color: "white"});
 initialBoard.push({ image:"images/wn.png", x:7, y:6,  type: "knight", color: "white"});
-initialBoard.push({ image:"images/wb.png", x:7, y:2,  type: "bisop", color: "white"});
-initialBoard.push({ image:"images/wb.png", x:7, y:5,  type: "bisop", color: "white"});
+initialBoard.push({ image:"images/wb.png", x:7, y:2,  type: "bishop", color: "white"});
+initialBoard.push({ image:"images/wb.png", x:7, y:5,  type: "bishop", color: "white"});
 initialBoard.push({ image:"images/wq.png", x:7, y:3,  type: "queen", color: "white"});
 initialBoard.push({ image:"images/wk.png", x:7, y:4,  type: "king", color: "white"});
 
@@ -37,7 +37,7 @@ function Chessboard() {
     const [initialX, setInitialX] = useState(null);
     const [initialY, setInitialY] = useState(null);
     const [activePiece, setActivePiece] = useState(null);
-    const [chances, setChances] = useState("white");
+    const [whoseChanceItIs, setWhoseChanceItIs] = useState("white");
     const checkMove = new CheckMove();
     // console.log(pieces);
 
@@ -142,9 +142,9 @@ function Chessboard() {
                 if(currentPiece) {
                     let validMove = null;
                     if(currentPiece.type === 'queen')
-                        validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', currentPiece.color,pieces,chances) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bisop', currentPiece.color,pieces,chances);
+                        validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', currentPiece.color,pieces,whoseChanceItIs) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bishop', currentPiece.color,pieces,whoseChanceItIs);
                     else
-                        validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, currentPiece.type, currentPiece.color,pieces,chances);
+                        validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, currentPiece.type, currentPiece.color,pieces,whoseChanceItIs);
                     if(validMove){
                         currentPiece.x = row_num;
                         currentPiece.y = col_num;
@@ -153,8 +153,8 @@ function Chessboard() {
                             return newPieces;
                         })
 
-                        setChances(prevChances=>{
-                            if(prevChances === "white" ){
+                        setWhoseChanceItIs(prevwhoseChanceItIs=>{
+                            if(prevwhoseChanceItIs === "white" ){
                                 return "black";
                             }else{
                                 return "white";
