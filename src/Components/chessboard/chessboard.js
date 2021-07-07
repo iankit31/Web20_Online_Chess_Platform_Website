@@ -37,6 +37,7 @@ function Chessboard() {
     const [initialX, setInitialX] = useState(null);
     const [initialY, setInitialY] = useState(null);
     const [activePiece, setActivePiece] = useState(null);
+    const [chances, setChances] = useState("white");
     const checkMove = new CheckMove();
     // console.log(pieces);
 
@@ -84,25 +85,29 @@ function Chessboard() {
             const y = e.clientY - 35;
             activePiece.style.position = "absolute";
 
-            if (x < minX) {
-                activePiece.style.left = `${minX}px`
-            }
-            else if (x > maxX) {
-                activePiece.style.left = `${maxX}px`
-            }
-            else {
-                activePiece.style.left = `${x}px`
-            }
+            // if (x < minX) {
+            //     activePiece.style.left = `${minX}px`
+            // }
+            // else if (x > maxX) {
+            //     activePiece.style.left = `${maxX}px`
+            // }
+            // else {
+            //     activePiece.style.left = `${x}px`
+            // }
 
-            if (y < minY) {
-                activePiece.style.top = `${minY}px`
-            }
-            else if (y > maxY) {
-                activePiece.style.top = `${maxY}px`
-            }
-            else {
-                activePiece.style.top = `${y}px`
-            }
+            // if (y < minY) {
+            //     activePiece.style.top = `${minY}px`
+            // }
+            // else if (y > maxY) {
+            //     activePiece.style.top = `${maxY}px`
+            // }
+            // else {
+            //     activePiece.style.top = `${y}px`
+            // }
+
+            activePiece.style.top = `${y}px`
+            activePiece.style.left = `${x}px`
+
 
         }
         //console.log(e.target)
@@ -132,12 +137,14 @@ function Chessboard() {
             } else{
                 const currentPiece = pieces.find(p=>p.x === initialX && p.y === initialY);
                 const attackedPiece = pieces.find(p=>p.x === row_num && p.y === col_num);
+
+                
                 if(currentPiece) {
                     let validMove = null;
                     if(currentPiece.type === 'queen')
-                        validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', currentPiece.color,pieces,setPieces) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bisop', currentPiece.color,pieces,setPieces);
+                        validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', currentPiece.color,pieces,chances) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bisop', currentPiece.color,pieces,chances);
                     else
-                        validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, currentPiece.type, currentPiece.color,pieces,setPieces);
+                        validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, currentPiece.type, currentPiece.color,pieces,chances);
                     if(validMove){
                         currentPiece.x = row_num;
                         currentPiece.y = col_num;
@@ -145,37 +152,32 @@ function Chessboard() {
                             const newPieces = prevPieces.filter(p=>!(p===attackedPiece))
                             return newPieces;
                         })
+
+                        setChances(prevChances=>{
+                            if(prevChances === "white" ){
+                                return "black";
+                            }else{
+                                return "white";
+                            }
+                        })
+                        
+                        if(currentPiece.type === "pawn" )
+                        {  
+                            if(currentPiece.color === "white" && row_num === 0 ){
+                                currentPiece.type = "queen";
+                                currentPiece.image = "images/wq.png";
+                            }else if(currentPiece.color === "black" && row_num === 7){
+                            currentPiece.type = "queen";
+                            currentPiece.image = "images/bq.png";
+                            }
+                        }
                     }else{
                         activePiece.style.position = 'relative';
                         activePiece.style.removeProperty('top');
                         activePiece.style.removeProperty('left');
                     }      
                 }     
-
-                // setPieces( prevPieces =>{
-                //     const newPieces = prevPieces.map( piece=>{
-                //         if(piece.x === initialX && piece.y === initialY) {
-                //             // console.log(checkMove.isValidMove);
-                //             console.log(initialX, initialY, row_num, col_num, piece.type, piece.color);
-                //             let vaildMove = null;
-                //             if(piece.type === 'queen')
-                //                 vaildMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', piece.color,pieces,setPieces) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bisop', piece.color,pieces,setPieces);
-                //             else
-                //                 vaildMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, piece.type, piece.color,pieces,setPieces);
-                //             if(vaildMove){
-                //                 piece.x = row_num;
-                //                 piece.y = col_num;
-                //             }else{
-                //                 activePiece.style.position = 'relative';
-                //                 activePiece.style.removeProperty('top');
-                //                 activePiece.style.removeProperty('left');
-                //             }
-                            
-                //         }
-                //         return piece;
-                //     } );
-                //     return newPieces;
-                // })
+                
             }
             setActivePiece(null);
             setInitialX(null);

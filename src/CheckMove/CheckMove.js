@@ -17,18 +17,26 @@ export default class checkMove {
         return flag;
     }
 
-    isValidMove(px ,py , x, y, type, color,pieces,setPieces){
+    // isKingOnCheck(chances,pieces){
+    //     let opponentColor = chances === "white" ? "black" : "white";
+    //     pieces.forEach((p)=>{
+    //         if(p.color === opponentColor ){
+ 
+    //         }
+    //     }
+    // }
+
+    isValidMove(px ,py , x, y, type, color,pieces,chances){
     //  console.log('checking');
     //  console.log(type);
     //  console.log(color);
-
-    const direction = color === 'white' ? 1 : -1;
-    const sppos = color === 'white' ? 6 : 1;
-        
-        if(px === x && py === y){
+    
+        if((px === x && py === y) || chances !== color ){
             return false;
         }
-
+        const direction = color === 'white' ? 1 : -1;
+        const sppos = color === 'white' ? 6 : 1;
+        
         if(type === 'pawn'){
             if(px === sppos && py === y){
                 if(px - x === direction ){
