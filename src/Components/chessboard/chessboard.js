@@ -140,6 +140,17 @@ function Chessboard() {
 
                 
                 if(currentPiece) {
+
+                    if(!checkMove.isThereAnyValidMove(currentPiece.color,pieces)){
+                        console.log("we have no valid move")
+                        let opponentColor=currentPiece.color==="white"?"black":"white";
+                        if(!checkMove.isKingNotOnCheck(-1,-1,-1,-1,opponentColor,pieces)){
+                            console.log("checkmate")
+                        }
+                        else{
+                            console.log("stalemate")
+                        }
+                    }
                     let validMove = null;
                     if(currentPiece.type === 'queen')
                         validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', currentPiece.color,pieces,whoseChanceItIs) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bishop', currentPiece.color,pieces,whoseChanceItIs);

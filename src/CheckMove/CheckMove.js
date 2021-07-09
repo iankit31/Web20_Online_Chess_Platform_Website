@@ -5,6 +5,114 @@ let occupiedType = null;
 
 export default class checkMove {
 
+
+    isThereAnyValidMove(color,pieces){
+        const direction = color === 'white' ? 1 : -1;
+        
+        pieces.forEach((p)=>{
+            if(p.color===color){
+                if(p.type==="pawn"){
+                    return(this.isValidMove(p.x,p.y,p.x-direction,p.y,"pawn",p.color,pieces,p.color)||
+                    this.isValidMove(p.x,p.y,p.x-direction,p.y+1,"pawn",p.color,pieces,p.color)||
+                    this.isValidMove(p.x,p.y,p.x-direction,p.y-1,"pawn",p.color,pieces,p.color)||
+                    this.isValidMove(p.x,p.y,p.x-direction*2,p.y,"pawn",p.color,pieces,p.color))
+                    
+                }
+
+                else if(p.type==="knight"){
+                    return(
+                    this.isValidMove(p.x,p.y,p.x+1,p.y+2,"knight",p.color,pieces,p.color)||
+                    this.isValidMove(p.x,p.y,p.x-1,p.y+2,"knight",p.color,pieces,p.color)||
+                    this.isValidMove(p.x,p.y,p.x+1,p.y-2,"knight",p.color,pieces,p.color)||
+                    this.isValidMove(p.x,p.y,p.x-1,p.y-2,"knight",p.color,pieces,p.color)||
+                    this.isValidMove(p.x,p.y,p.x+2,p.y+1,"knight",p.color,pieces,p.color)||
+                    this.isValidMove(p.x,p.y,p.x-2,p.y+1,"knight",p.color,pieces,p.color)||
+                    this.isValidMove(p.x,p.y,p.x+2,p.y-1,"knight",p.color,pieces,p.color)||
+                    this.isValidMove(p.x,p.y,p.x-2,p.y-1,"knight",p.color,pieces,p.color)
+                    )
+                }
+
+                else if(p.type==="king"){
+                    return(
+                        this.isValidMove(p.x,p.y,p.x+1,p.y+1,"king",p.color,pieces,p.color)||
+                        this.isValidMove(p.x,p.y,p.x-1,p.y+1,"king",p.color,pieces,p.color)||
+                        this.isValidMove(p.x,p.y,p.x+1,p.y-1,"king",p.color,pieces,p.color)||
+                        this.isValidMove(p.x,p.y,p.x-1,p.y-1,"king",p.color,pieces,p.color)||
+                        this.isValidMove(p.x,p.y,p.x,p.y+1,"king",p.color,pieces,p.color)||
+                        this.isValidMove(p.x,p.y,p.x,p.y-1,"king",p.color,pieces,p.color)||
+                        this.isValidMove(p.x,p.y,p.x+1,p.y,"king",p.color,pieces,p.color)||
+                        this.isValidMove(p.x,p.y,p.x-1,p.y,"king",p.color,pieces,p.color)
+                        )
+                }
+
+                else if(p.type==="rook"){
+                    
+                        for(let i=0;i<=7;i++){
+                            if(this.isValidMove(p.x,p.y,i,p.y,"rook",p.color,pieces,p.color)){
+                                return true;
+                            }
+                            if(this.isValidMove(p.x,p.y,p.x,i,"rook",p.color,pieces,p.color)){
+                                return true;
+                            }
+                        }
+                        return false;
+                        
+                }
+
+                else if(p.type==="bisop"){
+
+                    for(let i=0;i<=7;i++){
+                        if(this.isValidMove(p.x,p.y,p.x-i,p.y+i,"bisop",p.color,pieces,p.color)){
+                            return true;
+                        }
+                        if(this.isValidMove(p.x,p.y,p.x+i,p.y+i,"bisop",p.color,pieces,p.color)){
+                            return true;
+                        }
+                        if(this.isValidMove(p.x,p.y,p.x-i,p.y-i,"bisop",p.color,pieces,p.color)){
+                            return true;
+                        }
+                        if(this.isValidMove(p.x,p.y,p.x+i,p.y-i,"bisop",p.color,pieces,p.color)){
+                            return true;
+                        }
+                    }
+                    return false;
+
+                }
+
+                else if(p.type==="queen"){
+                    //rook
+                    for(let i=0;i<=7;i++){
+                        if(this.isValidMove(p.x,p.y,i,p.y,"rook",p.color,pieces,p.color)){
+                            return true;
+                        }
+                        if(this.isValidMove(p.x,p.y,p.x,i,"rook",p.color,pieces,p.color)){
+                            return true;
+                        }
+                    }
+
+                    //bisop
+
+                    for(let i=0;i<=7;i++){
+                        if(this.isValidMove(p.x,p.y,p.x-i,p.y+i,"bisop",p.color,pieces,p.color)){
+                            return true;
+                        }
+                        if(this.isValidMove(p.x,p.y,p.x+i,p.y+i,"bisop",p.color,pieces,p.color)){
+                            return true;
+                        }
+                        if(this.isValidMove(p.x,p.y,p.x-i,p.y-i,"bisop",p.color,pieces,p.color)){
+                            return true;
+                        }
+                        if(this.isValidMove(p.x,p.y,p.x+i,p.y-i,"bisop",p.color,pieces,p.color)){
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+
+        })
+    }
+
     isOccupied(x,y,pieces){
         let occupiedPiece = pieces.find(p => p.x === x && p.y === y);
         if(occupiedPiece) {
@@ -30,7 +138,7 @@ export default class checkMove {
     isKingNotOnCheck(px, py, x, y, opponentColor, pieces) {
         var newPieces = pieces.map(p=>{
             if(p.x === px && p.y === py) {
-                console.log(p);
+                //console.log(p);
                 return {
                     image: p.image,
                     x: x,
@@ -53,9 +161,9 @@ export default class checkMove {
         })
 
         let isCheck = this.isSquareAttacked(kx, ky, opponentColor, newPieces);
-        console.log(isCheck);
+        //console.log(isCheck);
         if(isCheck) {
-            console.log("King is on check so you can't move");
+            //console.log("King is on check so you can't move");
             return false;
         }
         return true;
@@ -70,7 +178,7 @@ export default class checkMove {
         for(let i=0; i < 8; i++) { 
             if(this.isOccupied(knightX[i],knightY[i],newPieces)){
                if(occupiedColor === opponentColor && occupiedType === "knight"){
-                    console.log("king on attack by Knight at ",knightX[i],knightY[i]);
+                    //console.log("king on attack by Knight at ",knightX[i],knightY[i]);
                     return true;
                }
             }
@@ -83,7 +191,7 @@ export default class checkMove {
         for(let i=0; i < 2; i++) { 
             if(this.isOccupied(pawnX[i],pawnY[i],newPieces)){
                if(occupiedColor === opponentColor && occupiedType === "pawn"){
-                    console.log("king on attack by pawn at ",pawnX[i],pawnY[i]);
+                    //console.log("king on attack by pawn at ",pawnX[i],pawnY[i]);
                     return true;
                }
             }
@@ -96,7 +204,7 @@ export default class checkMove {
         for(let i=0; i < 8; i++) { 
             if(this.isOccupied(kingX[i],kingY[i],newPieces)){
                if(occupiedColor === opponentColor && occupiedType === "king"){
-                    console.log("king on attack by king at ",kingX[i],kingY[i]);
+                    //console.log("king on attack by king at ",kingX[i],kingY[i]);
                     return true;
                }
             }
@@ -108,7 +216,7 @@ export default class checkMove {
             for(let i=y+1;i<8;i++){
                 if(this.isOccupied(x,i,newPieces)){
                     if(occupiedColor === opponentColor && ( occupiedType === "rook" || occupiedType === "queen")){
-                         console.log("king on attack by rook or queen at ",x,i);
+                        // console.log("king on attack by rook or queen at ",x,i);
                          return true;
                     }
                     break;
@@ -119,7 +227,7 @@ export default class checkMove {
             for(let i=y-1;i>=0;i--){
                 if(this.isOccupied(x,i,newPieces)){
                     if(occupiedColor === opponentColor && ( occupiedType === "rook" || occupiedType === "queen")){
-                         console.log("king on attack by rook or queen at ",x,i);
+                         //console.log("king on attack by rook or queen at ",x,i);
                          return true;
                     }
                     break;
@@ -130,7 +238,7 @@ export default class checkMove {
             for(let i=x-1;i>=0;i--){
                 if(this.isOccupied(i,y,newPieces)){
                     if(occupiedColor === opponentColor && ( occupiedType === "rook" || occupiedType === "queen")){
-                         console.log("king on attack by rook or queen at ",i,y);
+                        // console.log("king on attack by rook or queen at ",i,y);
                          return true;
                     }
                     break;
@@ -141,7 +249,7 @@ export default class checkMove {
             for(let i=x+1;i<8;i++){
                 if(this.isOccupied(i,y,newPieces)){
                     if(occupiedColor === opponentColor && ( occupiedType === "rook" || occupiedType === "queen")){
-                         console.log("king on attack by rook or queen at ",i,y);
+                        // console.log("king on attack by rook or queen at ",i,y);
                          return true;
                     }
                     break;
@@ -156,7 +264,7 @@ export default class checkMove {
             while(i>=0 && j<8){
                 if(this.isOccupied(i,j,newPieces)){
                     if(occupiedColor === opponentColor && ( occupiedType === "bishop" || occupiedType === "queen")){
-                        console.log("king on attack by bishop or queen at ",i,j);
+                        //console.log("king on attack by bishop or queen at ",i,j);
                         return true;
                     }
                     break;
@@ -169,7 +277,7 @@ export default class checkMove {
             while(i>=0 && j>=0){
                 if(this.isOccupied(i,j,newPieces)){
                     if(occupiedColor === opponentColor && ( occupiedType === "bishop" || occupiedType === "queen")){
-                        console.log("king on attack by bishop or queen at ",i,j);
+                       // console.log("king on attack by bishop or queen at ",i,j);
                         return true;
                     }
                     break;
@@ -182,7 +290,7 @@ export default class checkMove {
             while(i<8 && j>=0){
                 if(this.isOccupied(i,j,newPieces)){
                     if(occupiedColor === opponentColor && ( occupiedType === "bishop" || occupiedType === "queen")){
-                        console.log("king on attack by bishop or queen at ",i,j);
+                       // console.log("king on attack by bishop or queen at ",i,j);
                         return true;
                     }
                     break;
@@ -195,7 +303,7 @@ export default class checkMove {
             while(i<8 && j<8){
                 if(this.isOccupied(i,j,newPieces)){
                     if(occupiedColor === opponentColor && ( occupiedType === "bishop" || occupiedType === "queen")){
-                        console.log("king on attack by bishop or queen at ",i,j);
+                       // console.log("king on attack by bishop or queen at ",i,j);
                         return true;
                     }
                     break;
@@ -253,7 +361,7 @@ export default class checkMove {
                     {
                         return false;
                     }
-                    console.log('valid')
+                    //console.log('valid')
                     return true && this.isKingNotOnCheck(px, py, x, y, opponentColor, pieces);
                 }
             }
@@ -267,7 +375,7 @@ export default class checkMove {
         else if (type === 'rook' ){
            
             if((px === x && py !== y) || (py === y && px !== x) ){
-                console.log('valid')
+               // console.log('valid')
                 if(py !== y){
                    
                     const dir = py < y ? 1 : -1;
@@ -285,7 +393,7 @@ export default class checkMove {
                     for( let i = px+dir;dir === 1 ? i<=x : i>=x; i+=dir){
                         if(this.isOccupied(i,y,pieces)){
                             // if same color than break 
-                            console.log(occupiedColor)
+                            //console.log(occupiedColor)
                             // different colors (i = x j =y ) attack
                             return occupiedColor !== color && i === x && this.isKingNotOnCheck(px, py, x, y, opponentColor, pieces);                             
                         }
@@ -297,11 +405,11 @@ export default class checkMove {
             }
             return false;
         }
-        else if( type == 'bishop')
+        else if( type === 'bishop')
         {
-            console.log(px,py,x,y);
+            //console.log(px,py,x,y);
             if((px - x === py - y) || (px - x === y - py )){
-                console.log('valid')
+               // console.log('valid')
                 if(px -x === py - y){
 
                     const dir = py < y ? 1 : -1;
@@ -334,7 +442,7 @@ export default class checkMove {
         {
             if((Math.abs(px-x) === 1 && Math.abs(py - y) === 2) || (Math.abs(px-x) === 2 && Math.abs(py - y) === 1))
             {
-                console.log('valid');
+               // console.log('valid');
                 if(this.isOccupied(x,y,pieces)){
                     return occupiedColor !== color; 
                 }
@@ -344,7 +452,7 @@ export default class checkMove {
         }
         else{
             if(Math.abs(px-x) <= 1 && Math.abs(py-y) <= 1){
-                console.log('valid');
+               // console.log('valid');
                 if(this.isOccupied(x,y,pieces)){
                     return occupiedColor !== color; 
                 }
