@@ -8,19 +8,23 @@ export default class checkMove {
 
     isThereAnyValidMove(color,pieces){
         const direction = color === 'white' ? 1 : -1;
+        let flag = false;
         
         pieces.forEach((p)=>{
             if(p.color===color){
                 if(p.type==="pawn"){
-                    return(this.isValidMove(p.x,p.y,p.x-direction,p.y,"pawn",p.color,pieces,p.color)||
+                    if(this.isValidMove(p.x,p.y,p.x-direction,p.y,"pawn",p.color,pieces,p.color)||
                     this.isValidMove(p.x,p.y,p.x-direction,p.y+1,"pawn",p.color,pieces,p.color)||
                     this.isValidMove(p.x,p.y,p.x-direction,p.y-1,"pawn",p.color,pieces,p.color)||
-                    this.isValidMove(p.x,p.y,p.x-direction*2,p.y,"pawn",p.color,pieces,p.color))
+                    this.isValidMove(p.x,p.y,p.x-direction*2,p.y,"pawn",p.color,pieces,p.color)) {
+                        // console.log("There is a valid move for pawn");
+                        flag = true;
+                    }
                     
                 }
 
                 else if(p.type==="knight"){
-                    return(
+                    if(
                     this.isValidMove(p.x,p.y,p.x+1,p.y+2,"knight",p.color,pieces,p.color)||
                     this.isValidMove(p.x,p.y,p.x-1,p.y+2,"knight",p.color,pieces,p.color)||
                     this.isValidMove(p.x,p.y,p.x+1,p.y-2,"knight",p.color,pieces,p.color)||
@@ -29,33 +33,40 @@ export default class checkMove {
                     this.isValidMove(p.x,p.y,p.x-2,p.y+1,"knight",p.color,pieces,p.color)||
                     this.isValidMove(p.x,p.y,p.x+2,p.y-1,"knight",p.color,pieces,p.color)||
                     this.isValidMove(p.x,p.y,p.x-2,p.y-1,"knight",p.color,pieces,p.color)
-                    )
+                    ) {
+                        // console.log("There is a valid move for knight");
+                        flag = true;
+                    }
                 }
 
                 else if(p.type==="king"){
-                    return(
-                        this.isValidMove(p.x,p.y,p.x+1,p.y+1,"king",p.color,pieces,p.color)||
-                        this.isValidMove(p.x,p.y,p.x-1,p.y+1,"king",p.color,pieces,p.color)||
-                        this.isValidMove(p.x,p.y,p.x+1,p.y-1,"king",p.color,pieces,p.color)||
-                        this.isValidMove(p.x,p.y,p.x-1,p.y-1,"king",p.color,pieces,p.color)||
-                        this.isValidMove(p.x,p.y,p.x,p.y+1,"king",p.color,pieces,p.color)||
-                        this.isValidMove(p.x,p.y,p.x,p.y-1,"king",p.color,pieces,p.color)||
-                        this.isValidMove(p.x,p.y,p.x+1,p.y,"king",p.color,pieces,p.color)||
-                        this.isValidMove(p.x,p.y,p.x-1,p.y,"king",p.color,pieces,p.color)
-                        )
+                    if(
+                        this.isValidMove(p.x,p.y,p.x+1,p.y+1,"king",p.color,pieces,p.color) ||
+                        this.isValidMove(p.x,p.y,p.x-1,p.y+1,"king",p.color,pieces,p.color) ||
+                        this.isValidMove(p.x,p.y,p.x+1,p.y-1,"king",p.color,pieces,p.color) ||
+                        this.isValidMove(p.x,p.y,p.x-1,p.y-1,"king",p.color,pieces,p.color) ||
+                        this.isValidMove(p.x,p.y,p.x,p.y+1,"king",p.color,pieces,p.color) ||
+                        this.isValidMove(p.x,p.y,p.x,p.y-1,"king",p.color,pieces,p.color) ||
+                        this.isValidMove(p.x,p.y,p.x+1,p.y,"king",p.color,pieces,p.color) ||
+                        this.isValidMove(p.x,p.y,p.x-1,p.y,"king",p.color,pieces,p.color) 
+                        ) {
+                            // console.log("There is a valid move for king");
+                            flag = true;
+                        }
                 }
 
                 else if(p.type==="rook"){
                     
                         for(let i=0;i<=7;i++){
                             if(this.isValidMove(p.x,p.y,i,p.y,"rook",p.color,pieces,p.color)){
-                                return true;
+                                // console.log("There is a valid move for rook");
+                                flag = true;
                             }
                             if(this.isValidMove(p.x,p.y,p.x,i,"rook",p.color,pieces,p.color)){
-                                return true;
+                                // console.log("There is a valid move for rook");
+                                flag = true;
                             }
                         }
-                        return false;
                         
                 }
 
@@ -63,19 +74,22 @@ export default class checkMove {
 
                     for(let i=0;i<=7;i++){
                         if(this.isValidMove(p.x,p.y,p.x-i,p.y+i,"bisop",p.color,pieces,p.color)){
-                            return true;
+                            // console.log("There is a valid move for bisop");
+                            flag = true;
                         }
                         if(this.isValidMove(p.x,p.y,p.x+i,p.y+i,"bisop",p.color,pieces,p.color)){
-                            return true;
+                            // console.log("There is a valid move for bisop");
+                            flag = true;
                         }
                         if(this.isValidMove(p.x,p.y,p.x-i,p.y-i,"bisop",p.color,pieces,p.color)){
-                            return true;
+                            // console.log("There is a valid move for bisop");
+                            flag = true;
                         }
                         if(this.isValidMove(p.x,p.y,p.x+i,p.y-i,"bisop",p.color,pieces,p.color)){
-                            return true;
+                            // console.log("There is a valid move for bisop");
+                            flag = true;
                         }
                     }
-                    return false;
 
                 }
 
@@ -83,10 +97,12 @@ export default class checkMove {
                     //rook
                     for(let i=0;i<=7;i++){
                         if(this.isValidMove(p.x,p.y,i,p.y,"rook",p.color,pieces,p.color)){
-                            return true;
+                            // console.log("There is a valid move for queen");
+                            flag = true;
                         }
                         if(this.isValidMove(p.x,p.y,p.x,i,"rook",p.color,pieces,p.color)){
-                            return true;
+                            // console.log("There is a valid move for queen");
+                            flag = true;
                         }
                     }
 
@@ -94,23 +110,28 @@ export default class checkMove {
 
                     for(let i=0;i<=7;i++){
                         if(this.isValidMove(p.x,p.y,p.x-i,p.y+i,"bisop",p.color,pieces,p.color)){
-                            return true;
+                            // console.log("There is a valid move for queen");
+                            flag = true;
                         }
                         if(this.isValidMove(p.x,p.y,p.x+i,p.y+i,"bisop",p.color,pieces,p.color)){
-                            return true;
+                            // console.log("There is a valid move for queen");
+                            flag = true;
                         }
                         if(this.isValidMove(p.x,p.y,p.x-i,p.y-i,"bisop",p.color,pieces,p.color)){
-                            return true;
+                            // console.log("There is a valid move for queen");
+                            flag = true;
                         }
                         if(this.isValidMove(p.x,p.y,p.x+i,p.y-i,"bisop",p.color,pieces,p.color)){
-                            return true;
+                            // console.log("There is a valid move for queen");
+                            flag = true;
                         }
                     }
-                    return false;
                 }
             }
 
         })
+        flag ? console.log(`${color} have a valid move`) : console.log(`${color} have no valid move`);
+        return flag;
     }
 
     isOccupied(x,y,pieces){
@@ -320,7 +341,7 @@ export default class checkMove {
     //  console.log(type);
     //  console.log(color);
     
-        if((px === x && py === y) || whoseChanceItIs !== color ){
+        if((px === x && py === y) || whoseChanceItIs !== color || x < 0 || y < 0 || x > 7 || y > 7){
             return false;
         }
         
@@ -444,7 +465,7 @@ export default class checkMove {
             {
                // console.log('valid');
                 if(this.isOccupied(x,y,pieces)){
-                    return occupiedColor !== color; 
+                    return occupiedColor !== color && this.isKingNotOnCheck(px, py, x, y, opponentColor, pieces); 
                 }
                 return true && this.isKingNotOnCheck(px, py, x, y, opponentColor, pieces); 
             }
@@ -454,7 +475,7 @@ export default class checkMove {
             if(Math.abs(px-x) <= 1 && Math.abs(py-y) <= 1){
                // console.log('valid');
                 if(this.isOccupied(x,y,pieces)){
-                    return occupiedColor !== color; 
+                    return occupiedColor !== color && this.isKingNotOnCheck(px, py, x, y, opponentColor, pieces); 
                 }
                 return true && this.isKingNotOnCheck(px, py, x, y, opponentColor, pieces); 
             }
