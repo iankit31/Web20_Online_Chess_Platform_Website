@@ -1,5 +1,10 @@
 .text-center {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+    display: grid;
+    place-content: center;
+}
+
+#connection{
+    height: 100px;
+    width: 560px;
+    background-color: yellowgreen;
 }
