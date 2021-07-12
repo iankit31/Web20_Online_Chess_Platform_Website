@@ -1,6 +1,6 @@
 import React from "react"
 import "./messagebox.css"
-import socket from "../../index"
+// import socket from "../../index"
 
 function MessageBox() {
     function displayMessage(message) {

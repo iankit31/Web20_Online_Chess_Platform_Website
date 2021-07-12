@@ -3,10 +3,11 @@ import { useState } from "react"
 import "./chessboard.css"
 import Tile from "../tile/tile"
 import CheckMove from "../../CheckMove/CheckMove"
-import socket from "../../index"
-
-let horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h"]
-let verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
+// import socket from "../../index"
+import {io} from 'socket.io-client'
+// let horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h"]
+// let verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
+const socket = io('http://localhost:3001');
 
 const initialBoard = [];
 
@@ -42,6 +43,18 @@ function Chessboard() {
 
     const checkMove = new CheckMove();
     // console.log(pieces);
+    socket.on('connect', ()=>{
+        socket.on('recieve-pieces',pieces =>{
+            setPieces(pieces);
+            setWhoseChanceItIs(prevwhoseChanceItIs=>{
+                if(prevwhoseChanceItIs === "white" ){
+                    return "black";
+                }else{
+                    return "white";
+                }
+            })
+        })
+    })
 
     let board = [];
     for (let row = 0; row <= 7; row++) {
@@ -87,26 +100,6 @@ function Chessboard() {
             const y = e.clientY - 35;
             activePiece.style.position = "absolute";
 
-            // if (x < minX) {
-            //     activePiece.style.left = `${minX}px`
-            // }
-            // else if (x > maxX) {
-            //     activePiece.style.left = `${maxX}px`
-            // }
-            // else {
-            //     activePiece.style.left = `${x}px`
-            // }
-
-            // if (y < minY) {
-            //     activePiece.style.top = `${minY}px`
-            // }
-            // else if (y > maxY) {
-            //     activePiece.style.top = `${maxY}px`
-            // }
-            // else {
-            //     activePiece.style.top = `${y}px`
-            // }
-
             activePiece.style.top = `${y}px`
             activePiece.style.left = `${x}px`
 
@@ -125,8 +118,6 @@ function Chessboard() {
         const maxY = chessboard.offsetTop + chessboard.clientHeight;
         // console.log(initialX, initialY);
         // console.log(row_num, col_num);
-
-
 
         if (activePiece) {
             if(e.clientX > maxX || e.clientX < minX || e.clientY > maxY || e.clientY < minY) {
@@ -184,14 +175,10 @@ function Chessboard() {
                                     console.log("stalemate")
                                 }
                             }
-                            
+                            socket.emit('send-pieces', newPieces);
                             return newPieces;
                         })
-                        // setPieces(prevPieces=>{
-                        //     const newPieces = prevPieces.filter(p=>!(p===attackedPiece))
-                        //     return newPieces;
-                        // })
-
+                        
                         setWhoseChanceItIs(prevwhoseChanceItIs=>{
                             if(prevwhoseChanceItIs === "white" ){
                                 return "black";
@@ -199,24 +186,7 @@ function Chessboard() {
                                 return "white";
                             }
                         })
-                        
-                        // setPieces(prevPieces=>{
-                        //     const newPieces = prevPieces.map(p=>{
-                        //         if(p.type === "pawn" )
-                        //         {  
-                        //             if(p.color === "white" && row_num === 0 ){
-                        //                 p.type = "queen";
-                        //                 p.image = "images/wq.png";
-                        //             }else if(p.color === "black" && row_num === 7){
-                        //                 p.type = "queen";
-                        //                 p.image = "images/bq.png";
-                        //             }
-                        //         }
-                        //         return p;
-                        //     })
-                        //     return newPieces;
-                        // })
-                        
+                       
                         
                     }else{
                         activePiece.style.position = 'relative';
