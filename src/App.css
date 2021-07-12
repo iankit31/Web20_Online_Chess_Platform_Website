@@ -1,4 +1,6 @@
 .container {
     display: grid;
-    place-content: center;
+    grid-template-rows: auto;
+    grid-template-columns: auto auto;
+    /* place-content: center; */
 }

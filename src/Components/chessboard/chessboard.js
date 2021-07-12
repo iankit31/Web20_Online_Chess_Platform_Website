@@ -3,6 +3,7 @@ import { useState } from "react"
 import "./chessboard.css"
 import Tile from "../tile/tile"
 import CheckMove from "../../CheckMove/CheckMove"
+import socket from "../../index"
 
 let horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h"]
 let verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
@@ -148,6 +149,7 @@ function Chessboard() {
                     else
                         validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, currentPiece.type, currentPiece.color,pieces,whoseChanceItIs);
                     if(validMove){
+                        socket.emit('send-piece-move', currentPiece, row_num, col_num, initialX, initialY);
                         // currentPiece.x = row_num;
                         // currentPiece.y = col_num;
                         setPieces(prevPieces=>{

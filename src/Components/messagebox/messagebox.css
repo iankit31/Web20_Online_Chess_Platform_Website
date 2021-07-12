@@ -1,0 +1,12 @@
+#display-box {
+    height: 560px;
+    width: 400px;
+    background-color: cornsilk;
+    font-size: 30px;
+    padding: 10px;
+}
+
+.btn {
+    padding: 10px;
+    font-size: 20px;
+}
