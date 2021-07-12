@@ -141,19 +141,6 @@ function Chessboard() {
 
                 
                 if(currentPiece) {
-                    
-                    let isThereVM = checkMove.isThereAnyValidMove(currentPiece.color,pieces)
-                    if(!isThereVM){
-                        console.log("we have found that we have no valid move")
-                        let opponentColor = currentPiece.color==="white" ? "black" : "white";
-                            
-                        if(!checkMove.isKingNotOnCheck(-1,-1,-1,-1,opponentColor,pieces)){
-                            console.log("checkmate")
-                        }
-                        else{
-                            console.log("stalemate")
-                        }
-                    }
 
                     let validMove = null;
                     if(currentPiece.type === 'queen')
@@ -164,19 +151,44 @@ function Chessboard() {
                         // currentPiece.x = row_num;
                         // currentPiece.y = col_num;
                         setPieces(prevPieces=>{
-                            const newPieces = prevPieces.map(p=>{
+                            prevPieces = prevPieces.filter(p=>!(p===attackedPiece))
+                            let newPieces = prevPieces.map(p=>{
                                 if(p===currentPiece) {
                                     p.x = row_num;
                                     p.y = col_num;
                                 }
+
+                                if(p.type === "pawn" )
+                                {  
+                                    if(p.color === "white" && p.x === 0 ){
+                                        p.type = "queen";
+                                        p.image = "images/wq.png";
+                                    }else if(p.color === "black" && p.x === 7){
+                                        p.type = "queen";
+                                        p.image = "images/bq.png";
+                                    }
+                                }
+
                                 return p;
                             })
+
+                            let opponentColor = currentPiece.color==="white" ? "black" : "white";
+                            if(!checkMove.isThereAnyValidMove(opponentColor,newPieces)){
+                                    
+                                if(!checkMove.isKingNotOnCheck(-1,-1,-1,-1,currentPiece.color,newPieces)){
+                                    console.log("checkmate")
+                                }
+                                else{
+                                    console.log("stalemate")
+                                }
+                            }
+                            
                             return newPieces;
                         })
-                        setPieces(prevPieces=>{
-                            const newPieces = prevPieces.filter(p=>!(p===attackedPiece))
-                            return newPieces;
-                        })
+                        // setPieces(prevPieces=>{
+                        //     const newPieces = prevPieces.filter(p=>!(p===attackedPiece))
+                        //     return newPieces;
+                        // })
 
                         setWhoseChanceItIs(prevwhoseChanceItIs=>{
                             if(prevwhoseChanceItIs === "white" ){
@@ -186,23 +198,22 @@ function Chessboard() {
                             }
                         })
                         
-                        setPieces(prevPieces=>{
-                            const newPieces = prevPieces.map(p=>{
-                                if(p.type === "pawn" )
-                                {  
-                                    if(p.color === "white" && row_num === 0 ){
-                                        p.type = "queen";
-                                        p.image = "images/wq.png";
-                                    }else if(p.color === "black" && row_num === 7){
-                                        p.type = "queen";
-                                        p.image = "images/bq.png";
-                                    }
-                                }
-                                return p;
-                            })
-                            return newPieces;
-                        })
-
+                        // setPieces(prevPieces=>{
+                        //     const newPieces = prevPieces.map(p=>{
+                        //         if(p.type === "pawn" )
+                        //         {  
+                        //             if(p.color === "white" && row_num === 0 ){
+                        //                 p.type = "queen";
+                        //                 p.image = "images/wq.png";
+                        //             }else if(p.color === "black" && row_num === 7){
+                        //                 p.type = "queen";
+                        //                 p.image = "images/bq.png";
+                        //             }
+                        //         }
+                        //         return p;
+                        //     })
+                        //     return newPieces;
+                        // })
                         
                         
                     }else{
