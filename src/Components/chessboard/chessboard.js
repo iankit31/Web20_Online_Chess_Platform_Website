@@ -3,11 +3,11 @@ import { useState } from "react"
 import "./chessboard.css"
 import Tile from "../tile/tile"
 import CheckMove from "../../CheckMove/CheckMove"
-// import socket from "../../index"
-import {io} from 'socket.io-client'
+import socket from "../../index"
+// import {io} from 'socket.io-client'
 // let horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h"]
 // let verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
-const socket = io('http://localhost:3001');
+// const socket = io('http://localhost:3001');
 
 const initialBoard = [];
 
