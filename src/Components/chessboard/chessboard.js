@@ -42,7 +42,8 @@ function Chessboard() {
     const [whoseChanceItIs, setWhoseChanceItIs] = useState("black");
 
     const [socket, setSocket] = useState(null);
-	const [userID, setUserID] = useState(null);
+	const [yourColor, setYourColor] = useState(null);
+    
 
     const {roomId} = useParams();
     const history = useHistory();
@@ -87,6 +88,15 @@ function Chessboard() {
         })
 
     },[pieces]);
+
+    useEffect(() => {
+        if(socket === null) {
+            return;
+        }
+        socket.on('player-color',(playerColor) =>{
+            setYourColor(playerColor);
+        })
+    },[socket])
 
     const checkMove = new CheckMove();
    
@@ -168,9 +178,9 @@ function Chessboard() {
 
                     let validMove = null;
                     if(currentPiece.type === 'queen')
-                        validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', currentPiece.color,pieces,whoseChanceItIs) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bishop', currentPiece.color,pieces,whoseChanceItIs);
+                        validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', currentPiece.color,pieces,whoseChanceItIs,yourColor) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bishop', currentPiece.color,pieces,whoseChanceItIs,yourColor);
                     else
-                        validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, currentPiece.type, currentPiece.color,pieces,whoseChanceItIs);
+                        validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, currentPiece.type, currentPiece.color,pieces,whoseChanceItIs,yourColor);
                     if(validMove){
                         // socket.emit('send-piece-move', currentPiece, row_num, col_num, initialX, initialY);
                         // currentPiece.x = row_num;

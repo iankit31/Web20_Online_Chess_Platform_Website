@@ -11,8 +11,14 @@ io.on('connection', socket => {
         console.log(`${socket.id} joined room ${roomId}`)
         socket.join(roomId)
         const size = io.sockets.adapter.rooms.get(roomId).size;
-        
-        if(size > 2) {
+        if(size === 1) {
+            socket.emit('player-color', "white")
+        }
+        else if(size === 2)
+        {
+            socket.emit('player-color', "black")
+        }
+        else if(size > 2) {
             // console.log(`room ${roomId} is full`);
             socket.emit('room-full', roomId,true);
         }

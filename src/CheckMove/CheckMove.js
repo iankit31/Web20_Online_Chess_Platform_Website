@@ -336,12 +336,12 @@ export default class checkMove {
         return false;
     }
 
-    isValidMove(px ,py , x, y, type, color,pieces,whoseChanceItIs){
+    isValidMove(px ,py , x, y, type, color,pieces,whoseChanceItIs , yourColor){
     //  console.log('checking');
     //  console.log(type);
     //  console.log(color);
     
-        if((px === x && py === y) || whoseChanceItIs !== color || x < 0 || y < 0 || x > 7 || y > 7){
+        if((px === x && py === y) || whoseChanceItIs !== color || x < 0 || y < 0 || x > 7 || y > 7 || yourColor !== whoseChanceItIs){
             return false;
         }
         
