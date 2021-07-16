@@ -3,4 +3,6 @@
     grid-template-rows: auto;
     grid-template-columns: auto auto;
     place-content: center;
+    background-color: rgb(116, 101, 101);
+    height: 100vh;
 }

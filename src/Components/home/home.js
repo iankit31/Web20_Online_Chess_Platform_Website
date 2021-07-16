@@ -1,7 +1,8 @@
 import React,{useState} from 'react'
 import { useHistory } from "react-router-dom";
+import "./home.css"
 
-export default function home() {
+export default function Home() {
     const historyRouter = useHistory();
     const [playerName,setPlayerName] = useState("")
     const [gameCode,setGameCode] = useState("")
@@ -13,18 +14,24 @@ export default function home() {
 
     return (
         <div className="homepage">
-            <h1 id="heading">Welcome to the Online ChessGame!</h1>
+            <h1 id="welcome-text">Welcome to the Online ChessGame!</h1>
             <div className="form">
                 <form onSubmit={(e)=>handleSubmit(e)}>
-                    <label>
-                        Player Name:
-                        <input type="text" value={playerName} placeholder="Enter Your Name" onChange={(e)=>{setPlayerName(e.target.value)}} />
-                    </label>
-                    <label>
-                        Game Code:
-                        <input type="text" value={gameCode}  placeholder="Enter game code"onChange={(e)=>{setGameCode(e.target.value)}} />
-                    </label>
-                    <input type="submit" value="Submit" />
+                    <div className="form-label">
+                        <label>
+                            Player Name: 	&nbsp; &nbsp;
+                            <input className="form-input" type="text" value={playerName} placeholder="Enter Your Name" onChange={(e)=>{setPlayerName(e.target.value)}} />
+                        </label>
+                    </div>
+                    <br />
+                    <div className="form-label">
+                        <label>
+                            Room Code: 	&nbsp; &nbsp;
+                            <input className="form-input" type="text" value={gameCode}  placeholder="Enter Room code"onChange={(e)=>{setGameCode(e.target.value)}} />
+                        </label>
+                    </div>
+                    <br />
+                    <input className="submit-btn" type="submit" value="Start Game" />
                  </form>
             </div>
         </div>

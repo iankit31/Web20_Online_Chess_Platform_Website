@@ -1,4 +1,6 @@
 .chessboard {
+    border: solid rgb(92, 34, 34) 15px;
+    border-radius: 15px;
     display: grid;
     grid-template-columns: repeat(8, 70px);
     grid-template-rows: repeat(8, 70px);

@@ -7,12 +7,12 @@
 
 .black-tile {
     /* background-color: rgb(114, 114, 114); */
-    background-color: #b58863;
+    background-color: #f0e2da;
 }
 
 .white-tile {
     /* background-color: rgb(218, 214, 214); */
-    background-color:#f0d9b5;
+    background-color:#e69c6a;
 }
 
 .black-tile .chess-piece {
