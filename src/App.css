@@ -2,5 +2,5 @@
     display: grid;
     grid-template-rows: auto;
     grid-template-columns: auto auto;
-    /* place-content: center; */
+    place-content: center;
 }

@@ -3,11 +3,11 @@ import { useState } from "react"
 import "./chessboard.css"
 import Tile from "../tile/tile"
 import CheckMove from "../../CheckMove/CheckMove"
-import socket from "../../index"
-// import {io} from 'socket.io-client'
-// let horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h"]
-// let verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
-// const socket = io('http://localhost:3001');
+import {io} from 'socket.io-client'
+import { useParams, useHistory } from "react-router-dom";
+
+let horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h"]
+let verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
 
 const initialBoard = [];
 
@@ -39,23 +39,57 @@ function Chessboard() {
     const [initialX, setInitialX] = useState(null);
     const [initialY, setInitialY] = useState(null);
     const [activePiece, setActivePiece] = useState(null);
-    const [whoseChanceItIs, setWhoseChanceItIs] = useState("white");
+    const [whoseChanceItIs, setWhoseChanceItIs] = useState("black");
+
+    const [socket, setSocket] = useState(null);
+	const [userID, setUserID] = useState(null);
+
+    const {roomId} = useParams();
+    const history = useHistory();
+
+    useEffect(() => {
+		const s = io("http://localhost:3001/");
+		setSocket(s);
+        s.emit('join',roomId);
+        s.on('room-full',(roomId)=>{
+           // window.alert(`room ${roomId} is full`)
+            console.log(roomId ,'is full ')
+            history.goBack();
+        })
+		return () => {
+			s.disconnect();
+		};
+	}, []);
+    
+    useEffect(() => {
+      
+       if(socket === null) {
+           return;
+       }
+        socket.on('recieve-pieces',recivedPieces =>{
+            if(recivedPieces !== pieces)
+            {
+                setPieces(recivedPieces);
+            }
+        })
+        
+
+    }, [pieces,socket]);
+   
+    useEffect(() => {
+        console.log('last useeffects')
+        setWhoseChanceItIs(prevwhoseChanceItIs=>{
+            if(prevwhoseChanceItIs === "white" ){
+                return "black";
+            }else{
+                return "white";
+            }
+        })
+
+    },[pieces]);
 
     const checkMove = new CheckMove();
-    // console.log(pieces);
-    socket.on('connect', ()=>{
-        socket.on('recieve-pieces',pieces =>{
-            setPieces(pieces);
-            setWhoseChanceItIs(prevwhoseChanceItIs=>{
-                if(prevwhoseChanceItIs === "white" ){
-                    return "black";
-                }else{
-                    return "white";
-                }
-            })
-        })
-    })
-
+   
     let board = [];
     for (let row = 0; row <= 7; row++) {
         for (let col = 0; col <= 7; col++) {
@@ -65,7 +99,7 @@ function Chessboard() {
                     pieces={pieces} 
                     row={row} 
                     col={col} 
-                    key={`horizontalAxis[row],verticalAxis[7 - row]`} /></span>)
+                    key={`${horizontalAxis[row]},${verticalAxis[7 - row]}`} /></span>)
         }
     }
 
@@ -75,8 +109,7 @@ function Chessboard() {
         if (element.classList.contains("chess-piece")) {
             setInitialY(Math.floor((e.clientX - chessboard.offsetLeft)/70));
             setInitialX(Math.floor((e.clientY - chessboard.offsetTop)/70));
-            // console.log(e);
-
+          
             const x = e.clientX - 35;
             const y = e.clientY - 35;
             element.style.position = "absolute";
@@ -84,7 +117,7 @@ function Chessboard() {
             element.style.top = `${y}px`
             setActivePiece(element);
         }
-        //console.log(e.target)
+       
     }
 
     function movePiece(e) {
@@ -105,7 +138,7 @@ function Chessboard() {
 
 
         }
-        //console.log(e.target)
+     
     }
 
     function dropPiece(e) {
@@ -116,8 +149,7 @@ function Chessboard() {
         const minY = chessboard.offsetTop;
         const maxX = chessboard.offsetLeft + chessboard.clientWidth;
         const maxY = chessboard.offsetTop + chessboard.clientHeight;
-        // console.log(initialX, initialY);
-        // console.log(row_num, col_num);
+       
 
         if (activePiece) {
             if(e.clientX > maxX || e.clientX < minX || e.clientY > maxY || e.clientY < minY) {
@@ -140,7 +172,7 @@ function Chessboard() {
                     else
                         validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, currentPiece.type, currentPiece.color,pieces,whoseChanceItIs);
                     if(validMove){
-                        socket.emit('send-piece-move', currentPiece, row_num, col_num, initialX, initialY);
+                        // socket.emit('send-piece-move', currentPiece, row_num, col_num, initialX, initialY);
                         // currentPiece.x = row_num;
                         // currentPiece.y = col_num;
                         setPieces(prevPieces=>{
@@ -175,18 +207,9 @@ function Chessboard() {
                                     console.log("stalemate")
                                 }
                             }
-                            socket.emit('send-pieces', newPieces);
+                             socket.emit('send-pieces', newPieces);
                             return newPieces;
                         })
-                        
-                        setWhoseChanceItIs(prevwhoseChanceItIs=>{
-                            if(prevwhoseChanceItIs === "white" ){
-                                return "black";
-                            }else{
-                                return "white";
-                            }
-                        })
-                       
                         
                     }else{
                         activePiece.style.position = 'relative';
@@ -212,7 +235,6 @@ function Chessboard() {
             onMouseUp={e => dropPiece(e)}
         >
             {board}
-            {/* {console.log(pieces)} */}
         </div>
     )
 }
