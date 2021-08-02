@@ -11,27 +11,26 @@ let verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
 
 const initialBoard = [];
 
-initialBoard.push({ image:"images/br.png", x:0, y:0,  type: "rook", color: "black"});
-initialBoard.push({ image:"images/br.png", x:0, y:7,  type: "rook", color: "black"});
-initialBoard.push({ image:"images/bn.png", x:0, y:1,  type: "knight", color: "black" });
-initialBoard.push({ image:"images/bn.png", x:0, y:6,  type: "knight", color: "black" });
-initialBoard.push({ image:"images/bb.png", x:0, y:2,  type: "bishop", color: "black"});
-initialBoard.push({ image:"images/bb.png", x:0, y:5,  type: "bishop", color: "black"});
-initialBoard.push({ image:"images/bq.png", x:0, y:3,  type: "queen", color: "black" });
-initialBoard.push({ image:"images/bk.png", x:0, y:4,  type: "king", color: "black"});
+initialBoard.push({ image:"/images/br.png", x:0, y:0,  type: "rook", color: "black"});
+initialBoard.push({ image:"/images/br.png", x:0, y:7,  type: "rook", color: "black"});
+initialBoard.push({ image:"/images/bn.png", x:0, y:1,  type: "knight", color: "black" });
+initialBoard.push({ image:"/images/bn.png", x:0, y:6,  type: "knight", color: "black" });
+initialBoard.push({ image:"/images/bb.png", x:0, y:2,  type: "bishop", color: "black"});
+initialBoard.push({ image:"/images/bb.png", x:0, y:5,  type: "bishop", color: "black"});
+initialBoard.push({ image:"/images/bq.png", x:0, y:3,  type: "queen", color: "black" });
+initialBoard.push({ image:"/images/bk.png", x:0, y:4,  type: "king", color: "black"});
 
-initialBoard.push({ image:"images/wr.png", x:7, y:0,  type: "rook", color: "white"});
-initialBoard.push({ image:"images/wr.png", x:7, y:7,  type: "rook", color: "white"});
-initialBoard.push({ image:"images/wn.png", x:7, y:1,  type: "knight", color: "white"});
-initialBoard.push({ image:"images/wn.png", x:7, y:6,  type: "knight", color: "white"});
-initialBoard.push({ image:"images/wb.png", x:7, y:2,  type: "bishop", color: "white"});
-initialBoard.push({ image:"images/wb.png", x:7, y:5,  type: "bishop", color: "white"});
-initialBoard.push({ image:"images/wq.png", x:7, y:3,  type: "queen", color: "white"});
-initialBoard.push({ image:"images/wk.png", x:7, y:4,  type: "king", color: "white"});
+initialBoard.push({ image:"/images/wr.png", x:7, y:0,  type: "rook", color: "white"});
+initialBoard.push({ image:"/images/wr.png", x:7, y:7,  type: "rook", color: "white"});
+initialBoard.push({ image:"/images/wn.png", x:7, y:1,  type: "knight", color: "white"});
+initialBoard.push({ image:"/images/wn.png", x:7, y:6,  type: "knight", color: "white"});
+initialBoard.push({ image:"/images/wb.png", x:7, y:2,  type: "bishop", color: "white"});
+initialBoard.push({ image:"/images/wb.png", x:7, y:5,  type: "bishop", color: "white"});
+initialBoard.push({ image:"/images/wq.png", x:7, y:3,  type: "queen", color: "white"});
+initialBoard.push({ image:"/images/wk.png", x:7, y:4,  type: "king", color: "white"});
 
-for (let i = 0; i < 8; i++) { initialBoard.push({ image:"images/bp.png", x:1, y:i,  type: "pawn", color: "black" }) };
-for (let i = 0; i < 8; i++) { initialBoard.push({ image:"images/wp.png", x:6, y:i, type: "pawn", color: "white" }) };
-
+for (let i = 0; i < 8; i++) { initialBoard.push({ image:"/images/bp.png", x:1, y:i,  type: "pawn", color: "black" }) };
+for (let i = 0; i < 8; i++) { initialBoard.push({ image:"/images/wp.png", x:6, y:i, type: "pawn", color: "white" }) };
 
 function Chessboard() {
     const chessBoardRef = useRef(null);
@@ -39,7 +38,7 @@ function Chessboard() {
     const [initialX, setInitialX] = useState(null);
     const [initialY, setInitialY] = useState(null);
     const [activePiece, setActivePiece] = useState(null);
-    const [whoseChanceItIs, setWhoseChanceItIs] = useState("black");
+    const [whoseChanceItIs, setWhoseChanceItIs] = useState("white");
 
     const [socket, setSocket] = useState(null);
 	const [yourColor, setYourColor] = useState(null);
@@ -51,7 +50,7 @@ function Chessboard() {
     useEffect(() => {
 		const s = io("http://localhost:3001/");
 		setSocket(s);
-        s.emit('join',roomId);
+        s.emit('join',roomId,pieces);
         s.on('room-full',(roomId)=>{
            // window.alert(`room ${roomId} is full`)
             console.log(roomId ,'is full ')
@@ -76,7 +75,34 @@ function Chessboard() {
         
 
     }, [pieces,socket]);
-   
+    
+    useEffect(() => {
+    
+        if(socket === null) {
+            return;
+        }
+        socket.once("load-chessboard",(data,color) => {
+            setPieces(data);
+            // setYourColor(plyColor);
+            // setWhoseChanceItIs(color);
+        })
+
+    }, [pieces,socket]);
+
+    // useEffect(() => {
+    //     if(socket === null) {
+    //         return;
+    //     }
+
+    //     const interval = setInterval(() => {
+            
+    //     } , 1000);
+
+    //     return () => {
+    //         clearInterval(interval);
+    //     }
+
+    // }, [pieces,socket]);
     useEffect(() => {
         console.log('last useeffects')
         setWhoseChanceItIs(prevwhoseChanceItIs=>{
@@ -217,7 +243,8 @@ function Chessboard() {
                                     console.log("stalemate")
                                 }
                             }
-                             socket.emit('send-pieces', newPieces);
+                            socket.emit('send-pieces', newPieces);
+                            socket.emit("save-chessboard", newPieces,opponentColor);
                             return newPieces;
                         })
                         
@@ -237,15 +264,23 @@ function Chessboard() {
     }
 
     return (
-        <div
-            className="chessboard"
-            ref={chessBoardRef}
-            onMouseDown={e => grabPiece(e)}
-            onMouseMove={e => movePiece(e)}
-            onMouseUp={e => dropPiece(e)}
-        >
-            {board}
-        </div>
+        <>
+            <div
+                className="chessboard"
+                ref={chessBoardRef}
+                onMouseDown={e => grabPiece(e)}
+                onMouseMove={e => movePiece(e)}
+                onMouseUp={e => dropPiece(e)}
+            >
+                {board}
+                
+            </div>
+            <div style={{backgroundColor:"white"}}>
+                `Player Color {yourColor}`
+                <br/>
+                `Color Chance {whoseChanceItIs}`
+            </div>
+        </>
     )
 }
 

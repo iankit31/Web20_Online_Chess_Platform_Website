@@ -13,7 +13,7 @@ function App(){
 				<Route path="/" exact>
 					<Home/>
 				</Route>
- 				<Route path="/:roomId" >
+ 				<Route path="/chess/:roomId" >
                     <div className="container">
                         {/* <MessageBox />  */}
                         <Chessboard />

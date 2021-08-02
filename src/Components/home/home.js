@@ -9,7 +9,7 @@ export default function Home() {
 
     const handleSubmit = (e) => {
 		e.preventDefault();
-		historyRouter.push(`/${gameCode}`);
+		historyRouter.push(`/chess/${gameCode}`);
 	};
 
     return (
