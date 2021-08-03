@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import { useHistory } from "react-router-dom";
 import "./home.css"
 
+
 export default function Home() {
     const historyRouter = useHistory();
     const [playerName,setPlayerName] = useState("")
@@ -15,6 +16,7 @@ export default function Home() {
     return (
         <div className="homepage">
             <h1 id="welcome-text">Welcome to the Online ChessGame!</h1>
+            
             <div className="form">
                 <form onSubmit={(e)=>handleSubmit(e)}>
                     <div className="form-label">
@@ -34,6 +36,8 @@ export default function Home() {
                     <input className="submit-btn" type="submit" value="Start Game" />
                  </form>
             </div>
+            <button className="submit-btn" onClick={(e) => { e.preventDefault();   historyRouter.push(`/register`);
+                }}>New User</button>
         </div>
     )
 }

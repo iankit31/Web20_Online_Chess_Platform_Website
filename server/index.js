@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Document = require('./Document');
+const Users = require('./Users');
 
 mongoose.connect('mongodb://localhost/my_database', {
   useNewUrlParser: true,
@@ -8,12 +9,48 @@ mongoose.connect('mongodb://localhost/my_database', {
   useCreateIndex: true
 });
 
+const path = require('path');
+const http = require('http');
+const express = require('express');
+// const socketio = require('socket.io');
+
+
+
+const app = express();
+const server = http.createServer(app);
+// const io = socketio(server);
+
+const PORT = 3002 || process.env.PORT;
+// app.post('/register/create_user',(req,res)=>{
+//     console.log(req);
+
+    // const user = new Users({
+    //     playerName: req.body.name,
+    //     playerId: req.body.id,
+    //     playerEmailId: req.body.email,
+    //     playerPassword: req.body.password
+    // });
+    // user.save((err,user)=>{
+    //     if (err) {
+    //         console.log(err);
+    //         return res.sendStatus(500);
+    //     }
+    //     return res.sendStatus(200);
+    // });
+// })
+
+
+
+server.listen(PORT, () => console.log(`Server Running on port ${PORT}`));
+
 const io = require('socket.io')(3001,{
     cors : {
         origin: ["http://localhost:3000"],
         methods: ["GET", "POST"]
     },
 })
+ 
+
 // let temp = true;
 io.on('connection', socket => {
     console.log(socket.id);
