@@ -8,10 +8,10 @@ export default function Registerform() {
     const [playerEmailId,setPlayerEmailId] = useState("")
     const [playerPassword,setPlayerPassword] = useState("")
 
-    const handleRegister = (e) => {
-		e.preventDefault();
-		// historyRouter.push(`/createuser`);
-	};
+    // const handleRegister = (e) => {
+	// 	e.preventDefault();
+	// 	// historyRouter.push(`/createuser`);
+	// };
 
     return (
         
@@ -20,32 +20,32 @@ export default function Registerform() {
         <h1 id="welcome-text">New User Register Here</h1>
 
         <div className="form">
-                <form onSubmit={(e)=>handleRegister(e)}>
+                <form method="POST" action="http://localhost:3002/users/register">
                     <div className="form-label">
                         <label>
                             Player Name: 	&nbsp; &nbsp;
-                            <input className="form-input" type="text" value={playerName} placeholder="Enter Your Name" onChange={(e)=>{setPlayerName(e.target.value)}} />
+                            <input name="name" className="form-input" type="text" value={playerName} placeholder="Enter Your Name" onChange={(e)=>{setPlayerName(e.target.value)}} />
                         </label>
                     </div>
                     <br/>
                     <div className="form-label">
                         <label>
                             Player Id: 	&nbsp; &nbsp;
-                            <input className="form-input" type="text" value={playerId} placeholder="Enter Your unique userId" onChange={(e)=>{setPlayerId(e.target.value)}} />
+                            <input name="id" className="form-input" type="text" value={playerId} placeholder="Enter Your unique userId" onChange={(e)=>{setPlayerId(e.target.value)}} />
                         </label>
                     </div>                    
                     <br/>
                     <div className="form-label">
                         <label>
                             Email Id: 	&nbsp; &nbsp;
-                            <input className="form-input" type="email" value={playerEmailId} placeholder="Enter Your Email Id" onChange={(e)=>{setPlayerEmailId(e.target.value)}} />
+                            <input name="email" className="form-input" type="email" value={playerEmailId} placeholder="Enter Your Email Id" onChange={(e)=>{setPlayerEmailId(e.target.value)}} />
                         </label>
                     </div>
                     <br />
                     <div className="form-label">
                         <label>
                             Password: 	&nbsp; &nbsp;
-                            <input className="form-input" type="password" value={playerPassword}  placeholder="Enter password"onChange={(e)=>{setPlayerPassword(e.target.value)}} />
+                            <input name="password" className="form-input" type="password" value={playerPassword}  placeholder="Enter password"onChange={(e)=>{setPlayerPassword(e.target.value)}} />
                         </label>
                     </div>
                     <br />

@@ -12,34 +12,54 @@ mongoose.connect('mongodb://localhost/my_database', {
 const path = require('path');
 const http = require('http');
 const express = require('express');
+const bcrypt = require('bcryptjs');
 // const socketio = require('socket.io');
 
 
 
 const app = express();
 const server = http.createServer(app);
+const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer();
 // const io = socketio(server);
 
-const PORT = 3002 || process.env.PORT;
-// app.post('/register/create_user',(req,res)=>{
-//     console.log(req);
+const PORT = 3002;
 
-    // const user = new Users({
-    //     playerName: req.body.name,
-    //     playerId: req.body.id,
-    //     playerEmailId: req.body.email,
-    //     playerPassword: req.body.password
-    // });
-    // user.save((err,user)=>{
-    //     if (err) {
-    //         console.log(err);
-    //         return res.sendStatus(500);
-    //     }
-    //     return res.sendStatus(200);
-    // });
-// })
+app.get('/', (req, res)=>{
+    res.status(200).send("Hello");
+})
+
+// for parsing application/json
+app.use(bodyParser.json()); 
+// for parsing application/xwww-
+app.use(bodyParser.urlencoded({ extended: true })); 
+// for parsing multipart/form-data
+app.use(upload.array()); 
+app.use(express.static('public'));
+
+app.use(express.json());
+
+app.post('/users/register', async (req, res) => {
+    // res.status(200).send(req.body);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
 
+    const user = new Users({
+        playerName: req.body.name,
+        playerId: req.body.id,
+        playerEmailId: req.body.email,
+        playerPassword: hashedPassword
+    });
+    try{
+        // res.status(200).send(user);
+        const savedUser = await user.save();
+        res.status(200).redirect("http://localhost:3000/");
+    }catch(err){
+        res.status(400).send(err);
+    }
+})
 
 server.listen(PORT, () => console.log(`Server Running on port ${PORT}`));
 

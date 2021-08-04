@@ -36,8 +36,11 @@ export default function Home() {
                     <input className="submit-btn" type="submit" value="Start Game" />
                  </form>
             </div>
-            <button className="submit-btn" onClick={(e) => { e.preventDefault();   historyRouter.push(`/register`);
-                }}>New User</button>
+            <div style={{fontSize:23}}>
+                If you are a new user, &nbsp;
+                <button className="submit-btn" onClick={(e) => { e.preventDefault();   historyRouter.push(`/register`);
+                    }}>Register Here</button>
+            </div>    
         </div>
     )
 }
