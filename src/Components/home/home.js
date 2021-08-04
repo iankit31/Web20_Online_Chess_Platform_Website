@@ -40,7 +40,12 @@ export default function Home() {
                 If you are a new user, &nbsp;
                 <button className="submit-btn" onClick={(e) => { e.preventDefault();   historyRouter.push(`/register`);
                     }}>Register Here</button>
-            </div>    
+            </div> 
+            <div style={{fontSize:23}}>
+                If you already registered then login here, &nbsp;
+                <button className="submit-btn" onClick={(e) => { e.preventDefault();   historyRouter.push(`/login`);
+                    }}>Login Here</button>
+            </div>      
         </div>
     )
 }

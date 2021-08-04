@@ -121,6 +121,7 @@ function Chessboard() {
         }
         socket.on('player-color',(playerColor) =>{
             setYourColor(playerColor);
+            
         })
     },[socket])
 

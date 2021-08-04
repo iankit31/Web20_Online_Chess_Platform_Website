@@ -78,6 +78,7 @@ app.post('/users/register', async (req, res) => {
     try{
         // res.status(200).send(user);
         const savedUser = await user.save();
+        console.log(savedUser)
         res.status(200).redirect("http://localhost:3000/");
     }catch(err){
         res.status(400).send(err);
@@ -105,8 +106,10 @@ app.post('/users/login', async (req, res) => {
         });
     }
 
-    const token = jwt.sign({_id: user._id}, secret);
-    res.header('auth-token', token).send(token);     
+    res.send("You are logged in");
+
+    // const token = jwt.sign({_id: user._id}, secret);
+    // res.header('auth-token', token).send(token);     
 
 })
 
