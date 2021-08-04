@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const Document = require('./Document');
 const Users = require('./Users');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
+const jwt = require('jsonwebtoken');
+const secret = process.env.TOKEN;
 mongoose.connect('mongodb://localhost/my_database', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -25,8 +30,8 @@ const upload = multer();
 // const io = socketio(server);
 
 const PORT = 3002;
-
-app.get('/', (req, res)=>{
+const verify = require('./verifyToken');
+app.get('/', verify, (req, res)=>{
     res.status(200).send("Hello");
 })
 
@@ -40,11 +45,29 @@ app.use(express.static('public'));
 
 app.use(express.json());
 
+// Register
 app.post('/users/register', async (req, res) => {
     // res.status(200).send(req.body);
+
+    // Validation 
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
+
+    const emailExist = await Users.findOne({playerEmailId: req.body.email});
+    if(emailExist) {
+        return res.status(400).send({
+            message: 'User with this email already exists'
+        });
+    }
+
+    const playerIdExist = await Users.findOne({playerId: req.body.id});
+    if(playerIdExist) {
+        return res.status(400).send({
+            message: 'User with this userid already exists type unique userid'
+        });
+    }
 
     const user = new Users({
         playerName: req.body.name,
@@ -59,6 +82,32 @@ app.post('/users/register', async (req, res) => {
     }catch(err){
         res.status(400).send(err);
     }
+})
+
+
+// login 
+app.post('/users/login', async (req, res) => {
+
+    // Validation
+    const user = await Users.findOne({playerId: req.body.id});
+
+    if(!user) {
+        return res.status(400).send({
+            message: 'Player is does not exist'
+        });
+    }
+
+    // password
+    const validPassword = await bcrypt.compare(req.body.password, user.playerPassword);
+    if(!validPassword) {
+        return res.status(400).send({
+            message: 'Password is incorrect'
+        });
+    }
+
+    const token = jwt.sign({_id: user._id}, secret);
+    res.header('auth-token', token).send(token);     
+
 })
 
 server.listen(PORT, () => console.log(`Server Running on port ${PORT}`));
