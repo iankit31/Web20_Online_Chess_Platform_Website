@@ -140,6 +140,7 @@ app.post('/users/login', async (req, res) => {
 })
 
 app.get('/users/logout', (req, res) => {
+    console.log('logout done');
     
     res.cookie('jwt','',{maxAge: 1});
     res.redirect('http://localhost:3000/')

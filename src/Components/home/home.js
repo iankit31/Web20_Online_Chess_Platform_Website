@@ -37,12 +37,12 @@ export default function Home() {
                     <input className="submit-btn" type="submit" value="Start Game" />
                  </form>
             </div>  
-            {/* <div style={{fontSize:23}}>
-                <button className="submit-btn" onClick={(e) => { e.preventDefault(); 
-                  method="GET",
-                  action="http://localhost:3002/users/logout",
-                }}> Logout </button> 
-            </div>  */}
+            <div style={{fontSize:23}}>
+                <form 
+                  method="GET"
+                  action="http://localhost:3002/users/logout"
+                > <button className="submit-btn"  >Logout</button> </form> 
+            </div> 
         </div>  
        </div>    
         

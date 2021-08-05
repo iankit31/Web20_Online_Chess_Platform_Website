@@ -1,6 +1,5 @@
 import React,{useState} from 'react'
 import { useHistory } from "react-router-dom";
-import axios from 'axios';
 export default function Loginform() {
     // return (<h1>Hello</h1>)
     const historyRouter = useHistory();
