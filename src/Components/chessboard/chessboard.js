@@ -253,10 +253,10 @@ function Chessboard() {
                                 {  
                                     if(p.color === "white" && p.x === 0 ){
                                         p.type = "queen";
-                                        p.image = "images/wq.png";
+                                        p.image = "/images/wq.png";
                                     }else if(p.color === "black" && p.x === 7){
                                         p.type = "queen";
-                                        p.image = "images/bq.png";
+                                        p.image = "/images/bq.png";
                                     }
                                 }
 
