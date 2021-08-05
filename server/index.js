@@ -204,9 +204,10 @@ io.on('connection', socket => {
         }
         socket.on('save-my-color', async (p_email, p_color) => {
             let doc = await Document.findById(roomId);
+            console.log(p_email, p_color);
             if(p_color === "black" && doc.black === null) {doc.black = p_email;}
             if(p_color === "white" && doc.white === null) {doc.white = p_email;}
-            doc.save();
+            await doc.save();
         })
         socket.on('send-pieces', pieces => {
             
@@ -234,6 +235,6 @@ async function findorCreateDocument(id,pieces) {
     // console.log("ok");
     // console.log(document);
     if (document)
-             return document;
+        return document;
     return Document.create({ _id: id, data: pieces, chance: "white", black: null, white: null});
 }

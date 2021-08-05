@@ -147,14 +147,11 @@ function Chessboard() {
         if(socket === null) {
             return;
         }
-        if(pieces !== initialBoard) {
-            return;
-        }
         socket.on('player-color',(playerColor) =>{
             setYourColor(playerColor);
-            socket.emit('save-my-color', user.email, playerColor);
+            socket.emit('save-my-color', user.playerEmailId, playerColor);
         })
-    },[socket])
+    },[user, socket])
 
     const checkMove = new CheckMove();
    
