@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import { useHistory } from "react-router-dom";
+import "./registration.css";
 
 export default function Registerform() {
     const historyRouter = useHistory();
@@ -15,7 +16,7 @@ export default function Registerform() {
 
     return (
         
-        <div>
+        <div className="registrationForm">
         
         <h1 id="welcome-text">New User Register Here</h1>
 
@@ -30,7 +31,7 @@ export default function Registerform() {
                     <br/>
                     <div className="form-label">
                         <label>
-                            Player Id: 	&nbsp; &nbsp;
+                            User Id: 	&nbsp; &nbsp;
                             <input name="id" className="form-input" type="text" value={playerId} placeholder="Enter Your unique userId" onChange={(e)=>{setPlayerId(e.target.value)}} />
                         </label>
                     </div>                    
@@ -54,7 +55,7 @@ export default function Registerform() {
        </div>
 
        <div style={{fontSize:23}}>
-                If you already registered then login here, &nbsp;
+                 already registered, &nbsp;
                 <button className="submit-btn" onClick={(e) => { e.preventDefault();   historyRouter.push(`/login`);
                     }}>Login Here</button>
             </div>

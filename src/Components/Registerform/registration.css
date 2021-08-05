@@ -1,0 +1,48 @@
+.registrationForm {
+    background-color: rgb(172, 230, 161);
+    height: 80vh;
+    text-align: center;
+    padding: 10vh;
+}
+
+#welcome-text {
+    color: rgb(43, 70, 0);
+    font-family: cursive;
+    padding: 25px;
+}
+
+.form {
+    background-color: rgb(201, 250, 191);
+    margin: auto;
+    padding: 25px;
+    border: solid rgb(0, 71, 10) 2px;
+    border-radius: 25px;
+    width: 50%;
+    height: auto !important;
+    font-size: 20px;
+}
+
+.form-label {
+    margin-top: 10px;
+}
+
+.form-input {
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.submit-btn {
+    padding: 8px;
+    margin-top: 15px;
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: white;
+    color: rgb(31, 87, 151);
+    border: solid rgb(31, 87, 151) 2px;
+}
+
+.submit-btn:hover {
+    background-color: rgb(31, 87, 151);
+    color: white;
+    cursor:pointer;
+}

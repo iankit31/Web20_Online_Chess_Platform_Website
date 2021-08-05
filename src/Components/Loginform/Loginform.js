@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import { useHistory } from "react-router-dom";
+import "./loginForm.css";
 export default function Loginform() {
     // return (<h1>Hello</h1>)
     const historyRouter = useHistory();
@@ -9,15 +10,16 @@ export default function Loginform() {
 
     return (
         
-        <div>
-        
-        <h1 id="welcome-text">Already Registered, Login Here</h1>
+        <div className="loginForm">
+        <h1 id="welcome-text">Welcome to online chessgame</h1>
+        <br/>
+        <h1 id="welcome-text">Login Here</h1>
 
         <div className="form">
                 <form method="POST" action="http://localhost:3002/users/login">
                     <div className="form-label">
                         <label>
-                            Player Id: 	&nbsp; &nbsp;
+                            User Id: 	&nbsp; &nbsp;
                             <input name="id" className="form-input" type="text" value={playerId} placeholder="Enter Your unique userId" onChange={(e)=>{setPlayerId(e.target.value)}} />
                         </label>
                     </div>                    
@@ -33,7 +35,7 @@ export default function Loginform() {
                  </form>
        </div>
        
-       <div style={{fontSize:23}}>
+       <div id="regbtn">
                 If you are a new user, &nbsp;
                 <button className="submit-btn" onClick={(e) => { e.preventDefault();   historyRouter.push(`/register`);
                     }}>Register Here</button>
