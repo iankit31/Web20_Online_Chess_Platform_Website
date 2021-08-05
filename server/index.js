@@ -209,9 +209,8 @@ io.on('connection', socket => {
             if(p_color === "white" && doc.white === null) {doc.white = p_email;}
             await doc.save();
         })
-        socket.on('send-pieces', pieces => {
-            
-            socket.to(roomId).emit('recieve-pieces', pieces)
+        socket.on('send-pieces', (pieces, opponentColor) => {
+            socket.to(roomId).emit('recieve-pieces', pieces, opponentColor)
         })
         // console.log(document.data);
         socket.on('save-chessboard', async (newData, newChance, playeremail) => {

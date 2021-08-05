@@ -87,9 +87,10 @@ function Chessboard() {
        if(socket === null) {
            return;
        }
-        socket.on('recieve-pieces',recivedPieces =>{
+        socket.on('recieve-pieces', (recivedPieces, opponentColor) =>{
             if(recivedPieces !== pieces)
             {
+                setWhoseChanceItIs(opponentColor);
                 setPieces(recivedPieces);
             }
         })
@@ -133,15 +134,15 @@ function Chessboard() {
 
     // }, [pieces,socket]);
 
-    useEffect(() => {
-        setWhoseChanceItIs(prevwhoseChanceItIs=>{
-            if(prevwhoseChanceItIs === "white" ){
-                return "black";
-            }else{
-                return "white";
-            }
-        })
-    },[pieces]);
+    // useEffect(() => {
+    //     setWhoseChanceItIs(prevwhoseChanceItIs=>{
+    //         if(prevwhoseChanceItIs === "white" ){
+    //             return "black";
+    //         }else{
+    //             return "white";
+    //         }
+    //     })
+    // },[pieces]);
 
     useEffect(() => {
         if(socket === null) {
@@ -272,9 +273,17 @@ function Chessboard() {
                                     console.log("stalemate")
                                 }
                             }
-                            socket.emit('send-pieces', newPieces);
+                            socket.emit('send-pieces', newPieces, opponentColor);
                             socket.emit('save-chessboard', newPieces, opponentColor, user.playerEmailId);
                             return newPieces;
+                        })
+
+                        setWhoseChanceItIs(prevwhoseChanceItIs=>{
+                            if(prevwhoseChanceItIs === "white" ){
+                                return "black";
+                            }else{
+                                return "white";
+                            }
                         })
                         
                     }else{
