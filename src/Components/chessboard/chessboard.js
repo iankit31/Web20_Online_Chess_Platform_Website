@@ -5,6 +5,7 @@ import Tile from "../tile/tile"
 import CheckMove from "../../CheckMove/CheckMove"
 import {io} from 'socket.io-client'
 import { useParams, useHistory } from "react-router-dom";
+import Axios from "axios"
 
 let horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h"]
 let verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
@@ -43,9 +44,25 @@ function Chessboard() {
     const [socket, setSocket] = useState(null);
 	const [yourColor, setYourColor] = useState(null);
     
-
+    const [user, setUser] = useState("");
+    
     const {roomId} = useParams();
     const history = useHistory();
+
+    
+
+    Axios.defaults.withCredentials = true;
+    useEffect(() => {
+    Axios.get("http://localhost:3002/getuser").then((response) => {
+        if (response.data.loggedIn == true) {
+        setUser(response.data.player);
+        }
+    });
+    // if(user === "null")
+    // {
+    //   historyRouter.push("/login");
+    // }
+    }, []);
 
     useEffect(() => {
 		const s = io("http://localhost:3001/");
@@ -120,8 +137,8 @@ function Chessboard() {
             return;
         }
         socket.on('player-color',(playerColor) =>{
+
             setYourColor(playerColor);
-            
         })
     },[socket])
 

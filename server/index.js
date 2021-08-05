@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Document = require('./Document');
+const Document = require('./models/Document');
 const Users = require('./models/Users');
 
 const dotenv = require('dotenv');
@@ -33,7 +33,7 @@ const upload = multer();
 // const io = socketio(server);
 
 const PORT = 3002;
-const {requireAuth} = require('./verifyToken');
+const {requireAuth,checkUser} = require('./verifyToken');
 app.get('/', (req, res)=>{
     res.status(200).send("Hello");
 })
@@ -48,14 +48,28 @@ app.use(express.static('public'));
 
 app.use(express.json());
 
-var corsOptions = {
-    origin: 'http://localhost:3000/login',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
+// var corsOptions = {
+//     origin: 'http://localhost:3000/login',
+//     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+//   }
 // cookies
 app.use(cookieParser());
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(
+    cors({
+      origin: ["http://localhost:3000"],
+      methods: ["GET", "POST"],
+      credentials: true,
+    })
+  );
 
+app.get('/getuser', checkUser ,(req,res) => {
+    if (res.locals.user) {
+        res.send({ loggedIn: true, player: res.locals.user });
+      } else {
+        res.send({ loggedIn: false, player: null });
+      }
+})
 
 // token 
 const maxAge = 3 * 24 * 60 *60;
@@ -107,7 +121,7 @@ app.post('/users/register', async (req, res) => {
 
 
 // login 
-app.post('/users/login', async (req, res) => {
+app.post('/users/login', checkUser, async (req, res) => {
 
     // Validation
     // console.log(req.body,req.body.id);
@@ -130,7 +144,7 @@ app.post('/users/login', async (req, res) => {
 
     const token = createToken(user._id);
     res.cookie('jwt',token, { httpOnly: true, maxAge: maxAge*1000 });
-
+    console.log(user);
     console.log('working ');
     res.status(201).redirect("http://localhost:3000/chessgame");
 
@@ -139,7 +153,7 @@ app.post('/users/login', async (req, res) => {
 
 })
 
-app.get('/users/logout', (req, res) => {
+app.get('/users/logout', checkUser, (req, res) => {
     console.log('logout done');
     
     res.cookie('jwt','',{maxAge: 1});
