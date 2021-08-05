@@ -1,6 +1,5 @@
 import React from "react"
 import Chessboard from "./Components/chessboard/chessboard"
-import MessageBox from "./Components/messagebox/messagebox"
 import Home from "./Components/home/home"
 import './App.css'
 import Registerform from './Components/Registerform/Registerform'

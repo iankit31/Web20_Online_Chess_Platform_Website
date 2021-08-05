@@ -125,7 +125,7 @@ app.post('/users/login', checkUser, async (req, res) => {
 
     // Validation
     // console.log(req.body,req.body.id);
-   const {id , password } = req.body;
+    const {id , password } = req.body;
     const user = await Users.findOne({playerId: id});
 
     if(!user) {
@@ -180,30 +180,46 @@ io.on('connection', socket => {
 
         const document = await findorCreateDocument(roomId,pieces)
         // console.log(document);
-        socket.emit('load-chessboard', document.data,document.chance);
+        socket.emit('load-chessboard', document.data, document.chance, document.black, document.white);
         const size = io.sockets.adapter.rooms.get(roomId).size;
         // console.log(size);
          
         if(size === 1) {
-            socket.emit('player-color', "white")
+            if(document.white === null)
+            {
+                socket.emit('player-color', "white")
+            }
         }
         else if(size === 2)
         {
-            socket.emit('player-color', "black")
-            temp = false
+            if(document.black === null)
+            {
+                socket.emit('player-color', "black")
+            }
         }
      
         if(size > 2) {
             // console.log(`room ${roomId} is full`);
             socket.emit('room-full', roomId,true);
         }
+        socket.on('save-my-color', async (p_email, p_color) => {
+            let doc = await Document.findById(roomId);
+            if(p_color === "black" && doc.black === null) {doc.black = p_email;}
+            if(p_color === "white" && doc.white === null) {doc.white = p_email;}
+            doc.save();
+        })
         socket.on('send-pieces', pieces => {
             
             socket.to(roomId).emit('recieve-pieces', pieces)
         })
         // console.log(document.data);
-        socket.on("save-chessboard", async (data,chance) => {
-            await Document.findByIdAndUpdate(roomId,{data},{chance});
+        socket.on('save-chessboard', async (newData, newChance, playeremail) => {
+            let doc = await Document.findById(roomId);
+            doc.data = newData;
+            doc.chance = newChance;
+            if(newChance === "white" && doc.black === null) {doc.black = playeremail;}
+            if(newChance === "black" && doc.white === null) {doc.white = playeremail;}
+            doc.save();
         })
     })
  
@@ -219,5 +235,5 @@ async function findorCreateDocument(id,pieces) {
     // console.log(document);
     if (document)
              return document;
-    return Document.create({ _id: id, data: pieces,chance: "white"});
+    return Document.create({ _id: id, data: pieces, chance: "white", black: null, white: null});
 }

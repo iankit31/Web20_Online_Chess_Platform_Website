@@ -39,12 +39,14 @@ function Chessboard() {
     const [initialX, setInitialX] = useState(null);
     const [initialY, setInitialY] = useState(null);
     const [activePiece, setActivePiece] = useState(null);
-    const [whoseChanceItIs, setWhoseChanceItIs] = useState("white");
+    const [whoseChanceItIs, setWhoseChanceItIs] = useState(null);
 
     const [socket, setSocket] = useState(null);
 	const [yourColor, setYourColor] = useState(null);
     
     const [user, setUser] = useState("");
+    const [b_mail, setB_mail] = useState("");
+    const [w_mail, setW_mail] = useState("");
     
     const {roomId} = useParams();
     const history = useHistory();
@@ -55,8 +57,10 @@ function Chessboard() {
     useEffect(() => {
     Axios.get("http://localhost:3002/getuser").then((response) => {
         if (response.data.loggedIn == true) {
-        setUser(response.data.player);
+            setUser(response.data.player);
+            console.log("API request");
         }
+        
     });
     // if(user === "null")
     // {
@@ -98,13 +102,21 @@ function Chessboard() {
         if(socket === null) {
             return;
         }
-        socket.once("load-chessboard",(data,color) => {
+        socket.on('load-chessboard', (data, chance, blackemail, whiteemail) => {
+            console.log(user.playerEmailId);
             setPieces(data);
-            // setYourColor(plyColor);
-            // setWhoseChanceItIs(color);
+            setWhoseChanceItIs(chance);
+            setB_mail(blackemail);
+            setW_mail(whiteemail);
         })
 
-    }, [pieces,socket]);
+    }, [pieces, socket]);
+
+    useEffect(()=>{
+        if(b_mail === user.playerEmailId) {setYourColor("black");}
+        if(w_mail === user.playerEmailId) {setYourColor("white");}
+    }, [b_mail, w_mail, user])
+
 
     // useEffect(() => {
     //     if(socket === null) {
@@ -120,8 +132,8 @@ function Chessboard() {
     //     }
 
     // }, [pieces,socket]);
+
     useEffect(() => {
-        console.log('last useeffects')
         setWhoseChanceItIs(prevwhoseChanceItIs=>{
             if(prevwhoseChanceItIs === "white" ){
                 return "black";
@@ -129,16 +141,18 @@ function Chessboard() {
                 return "white";
             }
         })
-
     },[pieces]);
 
     useEffect(() => {
         if(socket === null) {
             return;
         }
+        if(pieces !== initialBoard) {
+            return;
+        }
         socket.on('player-color',(playerColor) =>{
-
             setYourColor(playerColor);
+            socket.emit('save-my-color', user.email, playerColor);
         })
     },[socket])
 
@@ -262,7 +276,7 @@ function Chessboard() {
                                 }
                             }
                             socket.emit('send-pieces', newPieces);
-                            socket.emit("save-chessboard", newPieces,opponentColor);
+                            socket.emit('save-chessboard', newPieces, opponentColor, user.playerEmailId);
                             return newPieces;
                         })
                         
@@ -294,9 +308,13 @@ function Chessboard() {
                 
             </div>
             <div style={{backgroundColor:"white"}}>
-                `Player Color {yourColor}`
-                <br/>
-                `Color Chance {whoseChanceItIs}`
+                <h5>Your Color {yourColor}</h5>
+                <h5>It's {whoseChanceItIs}'s Chance</h5>
+                <h5>{user.playerName}</h5>
+                <h5>{user.playerId}</h5>
+                <h5>{user.playerEmailId}</h5>
+                {/* <h5>Black Email: {b_mail}</h5>
+                <h5>White Email: {w_mail}</h5> */}
             </div>
         </>
     )
