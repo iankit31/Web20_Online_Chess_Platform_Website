@@ -6,14 +6,14 @@ import './App.css'
 import Registerform from './Components/Registerform/Registerform'
 import Loginform from './Components/Loginform/Loginform'
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route,Redirect } from "react-router-dom";
 function App(){
     
     return(
         <Router>
 			<Switch>
-				<Route path="/" exact>
-					<Home/>
+				<Route  exact path="/">
+					<Redirect to="/login" />
 				</Route>
 
 				<Route path="/register">
@@ -24,6 +24,10 @@ function App(){
 					<Loginform/>
 				</Route>
 				
+				<Route  exact path="/chessgame">
+					<Home/>
+				</Route>
+
  				<Route path="/chess/:roomId" >
                     <div className="container">
                         {/* <MessageBox />  */}

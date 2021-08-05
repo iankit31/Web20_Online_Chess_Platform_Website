@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Document = require('./Document');
-const Users = require('./Users');
+const Users = require('./models/Users');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -18,7 +18,10 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const cookieParser = require('cookie-parser');
 // const socketio = require('socket.io');
+const cors = require('cors');
+
 
 
 
@@ -30,11 +33,11 @@ const upload = multer();
 // const io = socketio(server);
 
 const PORT = 3002;
-const verify = require('./verifyToken');
-app.get('/', verify, (req, res)=>{
+const {requireAuth} = require('./verifyToken');
+app.get('/', (req, res)=>{
     res.status(200).send("Hello");
 })
-
+ 
 // for parsing application/json
 app.use(bodyParser.json()); 
 // for parsing application/xwww-
@@ -44,6 +47,23 @@ app.use(upload.array());
 app.use(express.static('public'));
 
 app.use(express.json());
+
+var corsOptions = {
+    origin: 'http://localhost:3000/login',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+// cookies
+app.use(cookieParser());
+app.use(cors(corsOptions));
+
+
+// token 
+const maxAge = 3 * 24 * 60 *60;
+const createToken = (id) =>{
+    return jwt.sign({id }, 'onlinechessgame', {
+        expiresIn: maxAge
+    });
+}
 
 // Register
 app.post('/users/register', async (req, res) => {
@@ -90,7 +110,9 @@ app.post('/users/register', async (req, res) => {
 app.post('/users/login', async (req, res) => {
 
     // Validation
-    const user = await Users.findOne({playerId: req.body.id});
+    // console.log(req.body,req.body.id);
+   const {id , password } = req.body;
+    const user = await Users.findOne({playerId: id});
 
     if(!user) {
         return res.status(400).send({
@@ -99,22 +121,34 @@ app.post('/users/login', async (req, res) => {
     }
 
     // password
-    const validPassword = await bcrypt.compare(req.body.password, user.playerPassword);
+    const validPassword = await bcrypt.compare(password, user.playerPassword);
     if(!validPassword) {
         return res.status(400).send({
             message: 'Password is incorrect'
         });
     }
 
-    res.send("You are logged in");
+    const token = createToken(user._id);
+    res.cookie('jwt',token, { httpOnly: true, maxAge: maxAge*1000 });
+
+    console.log('working ');
+    res.status(201).redirect("http://localhost:3000/chessgame");
 
     // const token = jwt.sign({_id: user._id}, secret);
     // res.header('auth-token', token).send(token);     
 
 })
 
+app.get('/users/logout', (req, res) => {
+    
+    res.cookie('jwt','',{maxAge: 1});
+    res.redirect('http://localhost:3000/')
+})
 server.listen(PORT, () => console.log(`Server Running on port ${PORT}`));
 
+
+
+// socket connection 
 const io = require('socket.io')(3001,{
     cors : {
         origin: ["http://localhost:3000"],
@@ -122,8 +156,6 @@ const io = require('socket.io')(3001,{
     },
 })
  
-
-// let temp = true;
 io.on('connection', socket => {
     console.log(socket.id);
     socket.on('join',async (roomId,pieces) =>{

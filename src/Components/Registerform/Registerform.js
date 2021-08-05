@@ -52,6 +52,12 @@ export default function Registerform() {
                     <input className="submit-btn" type="submit" value="Register User" />
                  </form>
        </div>
+
+       <div style={{fontSize:23}}>
+                If you already registered then login here, &nbsp;
+                <button className="submit-btn" onClick={(e) => { e.preventDefault();   historyRouter.push(`/login`);
+                    }}>Login Here</button>
+            </div>
        </div>
     )
 }

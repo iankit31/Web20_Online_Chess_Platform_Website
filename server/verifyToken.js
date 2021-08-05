@@ -1,19 +1,24 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = function(req, res, next) {
+const requireAuth = (req, res, next) => {
 
-    const token = req.header('auth-token');
+    const token = req.cookie.jwt;
+
     if (!token) {
-        return res.status(401).send('Access Denied');
-        
+        res.redirect('http://localhost:3000/login'); 
     }
 
-    try{
-        const verified = jwt.verify(token, process.env.TOKEN);
-        req.user = verified;
-        next();
-    }
-    catch(err) {
-        return res.status(400).send('Invalid Token');
-    }
-}
+    const verified = jwt.verify(token,'onlinechessgame',(err, decodedToken) => {
+        if(err) {
+            console.log(err.message);
+            res.redirect('http://localhost:3000/login');
+        }
+        else {
+            console.log(decodedToken);
+            next();
+        }
+    })
+    
+};
+
+module.exports = {requireAuth};

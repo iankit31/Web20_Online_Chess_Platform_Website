@@ -12,9 +12,10 @@ export default function Home() {
 		e.preventDefault();
 		historyRouter.push(`/chess/${gameCode}`);
 	};
-
     return (
+        
         <div className="homepage">
+            <div className="homepage">
             <h1 id="welcome-text">Welcome to the Online ChessGame!</h1>
             
             <div className="form">
@@ -35,17 +36,15 @@ export default function Home() {
                     <br />
                     <input className="submit-btn" type="submit" value="Start Game" />
                  </form>
-            </div>
+            </div>  
             <div style={{fontSize:23}}>
-                If you are a new user, &nbsp;
-                <button className="submit-btn" onClick={(e) => { e.preventDefault();   historyRouter.push(`/register`);
-                    }}>Register Here</button>
-            </div> 
-            <div style={{fontSize:23}}>
-                If you already registered then login here, &nbsp;
-                <button className="submit-btn" onClick={(e) => { e.preventDefault();   historyRouter.push(`/login`);
-                    }}>Login Here</button>
-            </div>      
-        </div>
+                <button className="submit-btn" onClick={(e) => { e.preventDefault(); 
+                  method="GET",
+                  action="http://localhost:3002/users/logout",
+                }}> Logout </button>
+        </div> 
+        </div>  
+       </div>    
+        
     )
 }

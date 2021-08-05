@@ -1,11 +1,12 @@
 import React,{useState} from 'react'
 import { useHistory } from "react-router-dom";
-
+import axios from 'axios';
 export default function Loginform() {
     // return (<h1>Hello</h1>)
     const historyRouter = useHistory();
     const [playerId,setPlayerId] = useState("")
     const [playerPassword,setPlayerPassword] = useState("")
+    
 
     return (
         
@@ -32,6 +33,12 @@ export default function Loginform() {
                     <input className="submit-btn" type="submit" value="Login" />
                  </form>
        </div>
+       
+       <div style={{fontSize:23}}>
+                If you are a new user, &nbsp;
+                <button className="submit-btn" onClick={(e) => { e.preventDefault();   historyRouter.push(`/register`);
+                    }}>Register Here</button>
+            </div> 
        </div>
     )
 }
