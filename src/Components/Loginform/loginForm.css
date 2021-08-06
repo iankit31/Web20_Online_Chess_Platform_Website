@@ -10,9 +10,9 @@
     flex-direction: row;
     border: none;
     border-radius: 25px;
-    box-shadow: 4px 3px 8px 1px #ffffff;
-  	-webkit-box-shadow: 4px 3px 8px 1px #ffffff;
-      background-color: white;
+    box-shadow: 2px 2px 2px 2px #ffffff;
+  	-webkit-box-shadow: 2px 2px 2px 2px #ffffff;
+      background-color: crimson;
 }
 .shadow-inner{
     width: 50%;
@@ -81,7 +81,7 @@
     padding: 20px;
     border-bottom-right-radius: 25px;
     border-top-right-radius: 25px ;
-    background-image: linear-gradient(to right,#ee7220, #ed3b37, #cb1915);
+    background-image: linear-gradient(to right,#ed3b37, #cb1915);
     opacity: .7;
 }
 .Chessname{
@@ -98,6 +98,7 @@
     color:white ;
 }
 .king-img{
-    width: auto;
-    height: auto;
+    width: 80px;
+    height: 160px;
+    opacity: .3;
 }

@@ -42,7 +42,12 @@ export default function Loginform() {
                 <div className="imgbox">
                     <h1 className="Chessname">Chess</h1>
                     <h1 className="infinity">∞</h1>
-                    <img src="/src/king.jpg" className="king-img"></img>
+                    <img 
+                        src="/src/kingmodified.png" 
+                        alt="chess-piece" 
+                        className="king-img" 
+                        width="50" height="100"
+                    />
                 </div>
             </div>
         </div>
