@@ -34,7 +34,6 @@ const multer = require('multer');
 const upload = multer();
 // const io = socketio(server);
 
-const PORT = 3002;
 const { requireAuth, checkUser } = require('./verifyToken');
 app.get('/', (req, res) => {
     res.status(200).send("Hello");
@@ -155,7 +154,7 @@ app.get('/users/logout', checkUser, (req, res) => {
     res.cookie('jwt', '', { maxAge: 1 });
     res.redirect('http://localhost:3000/')
 })
-server.listen(PORT, () => console.log(`Server Running on port ${PORT}`));
+server.listen(process.env.PORT, () => console.log(`Server Running on port ${process.env.PORT}`));
 
 
 
