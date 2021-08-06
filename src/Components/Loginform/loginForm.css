@@ -1,23 +1,40 @@
 .loginForm {
-    background-color: rgb(172, 230, 161);
-    height: 80vh;
+    background-image: url("/src/loginbg.png");
+    background-size: cover;
     text-align: center;
     padding: 10vh;
+    
+}
+.main-div{
+    display: flex;
+    flex-direction: row;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 4px 3px 8px 1px #ffffff;
+  	-webkit-box-shadow: 4px 3px 8px 1px #ffffff;
+      background-color: white;
+}
+.shadow-inner{
+    width: 50%;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px ;
+    background-color: white;
+    padding: 20px;
 }
 
 #welcome-text {
-
-    color: rgb(43, 70, 0);
-    font-family: cursive;
-    padding: 25px;
+    margin-top: 20px;
+    color:crimson;
+    font-family: "Bree-Serif";
+    padding: 10px;
     text-align: center;
 }
 
 .form {
-    background-color: rgb(201, 250, 191);
+    background-color: white;
     margin: auto;
     padding: 25px;
-    border: solid rgb(0, 71, 10) 2px;
+    border-width: 0px;
     border-radius: 25px;
     width: 50%;
     height: 225px;
@@ -25,31 +42,62 @@
 }
 
 .form-label {
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .form-input {
     padding: 12px;
-    border-radius: 10px;
+    border-radius: 15px;
 }
 
 .submit-btn {
     padding: 8px;
     margin-top: 15px;
-    font-size: 20px;
-    border-radius: 10px;
-    background-color: white;
-    color: rgb(31, 87, 151);
-    border: solid rgb(31, 87, 151) 2px;
+    font-size: 15px;
+    width: 80%;
+    border-radius: 15px;
+    background-color: crimson;
+    color: white;
+    border-width: 0px;
 }
 
 .submit-btn:hover {
-    background-color: rgb(31, 87, 151);
+    background-color: firebrick;
     color: white;
     cursor:pointer;
+    border-width: 0px;
 }
-
+.register-text{
+    font-size: 15px;
+}
 #regbtn {
     font-size: 24px;
     text-align: center;
+    border-width: 0px;
+}
+.imgbox{
+    width: 50%;
+    text-align: center;
+    padding: 20px;
+    border-bottom-right-radius: 25px;
+    border-top-right-radius: 25px ;
+    background-image: linear-gradient(to right,#ee7220, #ed3b37, #cb1915);
+    opacity: .7;
+}
+.Chessname{
+    font-family: "Roboto";
+    margin-top: 50px;
+    font-size: 50px;
+    font-weight: bold;
+    color:white ;
+}
+.infinity{
+    font-family: "Roboto";
+    font-size: 80px;
+    font-weight: 900;
+    color:white ;
+}
+.king-img{
+    width: auto;
+    height: auto;
 }
