@@ -160,7 +160,7 @@ server.listen(process.env.PORT, () => console.log(`Server Running on port ${proc
 
 
 // socket connection 
-const io = require('socket.io')(3001, {
+const io = require('socket.io')(server, {
     cors: {
         origin: [process.env.FRONTEND],
         methods: ["GET", "POST"]
