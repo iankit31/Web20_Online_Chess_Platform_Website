@@ -141,7 +141,7 @@ app.post('/users/login', checkUser, async (req, res) => {
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
     console.log(user);
     console.log('working ');
-    res.status(201).redirect("http://localhost:3000/chessgame");
+    res.status(201).redirect(`${process.env.FRONTEND}/chessgame`);
 
     // const token = jwt.sign({_id: user._id}, secret);
     // res.header('auth-token', token).send(token);     
@@ -152,7 +152,7 @@ app.get('/users/logout', checkUser, (req, res) => {
     console.log('logout done');
 
     res.cookie('jwt', '', { maxAge: 1 });
-    res.redirect('http://localhost:3000/')
+    res.redirect(process.env.FRONTEND)
 })
 server.listen(process.env.PORT, () => console.log(`Server Running on port ${process.env.PORT}`));
 

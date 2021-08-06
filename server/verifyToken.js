@@ -5,13 +5,13 @@ const requireAuth = (req, res, next) => {
     const token = req.cookies.jwt;
 
     if (!token) {
-        res.redirect('http://localhost:3000/login');
+        res.redirect(`${process.env.FRONTEND}/login`);
     }
 
     const verified = jwt.verify(token, process.env.TOKEN, (err, decodedToken) => {
         if (err) {
             console.log(err.message);
-            res.redirect('http://localhost:3000/login');
+            res.redirect(`${process.env.FRONTEND}/login`);
         }
         else {
             console.log(decodedToken);
