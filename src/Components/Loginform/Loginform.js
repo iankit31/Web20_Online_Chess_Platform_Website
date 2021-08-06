@@ -3,9 +3,14 @@ import { useHistory } from "react-router-dom";
 import "./loginForm.css";
 export default function Loginform() {
     const historyRouter = useHistory();
+
     const [playerId, setPlayerId] = useState("")
     const [playerPassword, setPlayerPassword] = useState("")
+    const [playerName, setPlayerName] = useState("")
+    const [playerEmail, setPlayerEmail] = useState("")
 
+    const [loginPlayerId, setLoginPlayerId] = useState("")
+    const [loginPlayerPassword, setLoginPlayerPassword] = useState("")
     useEffect(() => {
         const signUpButton = document.getElementById('signUp');
         const signInButton = document.getElementById('signIn');
@@ -23,19 +28,20 @@ export default function Loginform() {
     return (
         <div className="container" id="container">
             <div className="form-container sign-up-container">
-                <form action="#">
+                <form method="POST" action="https://ocwa.herokuapp.com/users/register">
                     <h1>Create Account</h1>
-                    <input type="text" placeholder="Name" />
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
+                    <input type="text" name="name" placeholder="Name"  value={playerName} onChange={(e) => { setPlayerName(e.target.value) }}/>
+                    <input type="text" name="id" placeholder="Username"  value={playerId}  onChange={(e) => { setPlayerId(e.target.value) }}/>
+                    <input type="email" name="email" placeholder="Email"  value={playerEmail} onChange={(e) => { setPlayerEmail(e.target.value) }}/>
+                    <input type="password" name="password" placeholder="Password"  value={playerPassword} onChange={(e) => { setPlayerPassword(e.target.value) }}/>
                     <button>Sign Up</button>
                 </form>
             </div>
             <div className="form-container sign-in-container">
-                <form action="#">
+                <form method="POST" action="https://ocwa.herokuapp.com/users/login">
                     <h1>Sign in</h1>
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
+                    <input type="text" name="id" placeholder="Username"  value={loginPlayerId} onChange={(e) => { setLoginPlayerId(e.target.value) }} />
+                    <input type="password" name="password" placeholder="Password" value={loginPlayerPassword} onChange={(e) => { setLoginPlayerPassword(e.target.value) }}/>
                     <a href="#">Forgot your password?</a>
                     <button>Sign In</button>
                 </form>

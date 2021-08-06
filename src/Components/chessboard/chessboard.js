@@ -48,6 +48,8 @@ function Chessboard() {
     const [b_mail, setB_mail] = useState("");
     const [w_mail, setW_mail] = useState("");
 
+    const [message, setMessage] = useState("");
+
     const { roomId } = useParams();
     const history = useHistory();
 
@@ -55,7 +57,7 @@ function Chessboard() {
 
     Axios.defaults.withCredentials = true;
     useEffect(() => {
-        Axios.get("https://ocwa.herokuapp.com/getuser").then((response) => {
+        Axios.get(`${process.env.BACKENDSERVER}/getuser`).then((response) => {
             if (response.data.loggedIn === true) {
                 setUser(response.data.player);
                 console.log("API request");
@@ -66,7 +68,7 @@ function Chessboard() {
     }, []);
 
     useEffect(() => {
-        const s = io("https://ocwa.herokuapp.com/");
+        const s = io(`${process.env.BACKENDSERVER}`);
         setSocket(s);
         s.emit('join', roomId, pieces);
         s.on('room-full', (roomId) => {
@@ -78,6 +80,24 @@ function Chessboard() {
             s.disconnect();
         };
     }, []);
+
+    useEffect(() => {
+
+        if (socket === null) {
+            return;
+        }
+        socket.on('receive-updates', (event, loseColor) => {
+            const winColor = loseColor ? "white" : "black";
+            if(event==="checkmate") {
+                setMessage(`It's checkmate !! Player with ${winColor} Wins Game`);
+            }
+            else if(event==="stalemate") {
+                setMessage("It's a stalemate");
+            }
+            
+        })
+
+    }, [pieces, socket]);
 
     useEffect(() => {
 
@@ -115,31 +135,7 @@ function Chessboard() {
     }, [b_mail, w_mail, user])
 
 
-    // useEffect(() => {
-    //     if(socket === null) {
-    //         return;
-    //     }
-
-    //     const interval = setInterval(() => {
-
-    //     } , 1000);
-
-    //     return () => {
-    //         clearInterval(interval);
-    //     }
-
-    // }, [pieces,socket]);
-
-    // useEffect(() => {
-    //     setWhoseChanceItIs(prevwhoseChanceItIs=>{
-    //         if(prevwhoseChanceItIs === "white" ){
-    //             return "black";
-    //         }else{
-    //             return "white";
-    //         }
-    //     })
-    // },[pieces]);
-
+    
     useEffect(() => {
         if (socket === null) {
             return;
@@ -233,7 +229,8 @@ function Chessboard() {
                         validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', currentPiece.color, pieces, whoseChanceItIs, yourColor) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bishop', currentPiece.color, pieces, whoseChanceItIs, yourColor);
                     else
                         validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, currentPiece.type, currentPiece.color, pieces, whoseChanceItIs, yourColor);
-                    if (validMove) {
+                    
+                    if (yourColor === currentPiece.color && validMove) {
                         // socket.emit('send-piece-move', currentPiece, row_num, col_num, initialX, initialY);
                         // currentPiece.x = row_num;
                         // currentPiece.y = col_num;
@@ -259,17 +256,25 @@ function Chessboard() {
                             })
 
                             let opponentColor = currentPiece.color === "white" ? "black" : "white";
-                            if (!checkMove.isThereAnyValidMove(opponentColor, newPieces)) {
 
-                                if (!checkMove.isKingNotOnCheck(-1, -1, -1, -1, currentPiece.color, newPieces)) {
-                                    console.log("checkmate")
-                                }
-                                else {
-                                    console.log("stalemate")
-                                }
-                            }
                             socket.emit('send-pieces', newPieces, opponentColor);
                             socket.emit('save-chessboard', newPieces, opponentColor, user.playerEmailId);
+
+                           
+                            if (!checkMove.isThereAnyValidMove(opponentColor, newPieces)) {
+
+                                if(!checkMove.isKingNotOnCheck(-1,-1,-1,-1,currentPiece.color,newPieces)){
+                                    console.log("checkmate");
+                                    socket.emit("game-end", "checkmate", opponentColor);
+                                    setMessage(`It's checkmate !! Player with ${currentPiece.color} Wins Game`);
+                                }
+                                else {
+                                    console.log("stalemate");
+                                    socket.emit("game-end", "stalemate", opponentColor);
+                                    setMessage(`It's stalemate!!`);
+                                }
+                            }
+                            
                             return newPieces;
                         })
 
@@ -314,8 +319,8 @@ function Chessboard() {
                 <h5>{user.playerName}</h5>
                 <h5>{user.playerId}</h5>
                 <h5>{user.playerEmailId}</h5>
-                {/* <h5>Black Email: {b_mail}</h5>
-                <h5>White Email: {w_mail}</h5> */}
+                <h5>{message}</h5>
+                <button onClick={()=>{window.location.href=`${process.env.FRONTEND}/chessgame`}}>Exit</button>
             </div>
         </>
     )

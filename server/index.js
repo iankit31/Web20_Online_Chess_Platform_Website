@@ -75,6 +75,7 @@ const createToken = (id) => {
 
 // Register
 app.post('/users/register', async (req, res) => {
+
     console.log(req.body)
     // res.status(200).send(req.body);
 
@@ -213,6 +214,30 @@ io.on('connection', socket => {
             if (newChance === "white" && doc.black === null) { doc.black = playeremail; }
             if (newChance === "black" && doc.white === null) { doc.white = playeremail; }
             doc.save();
+        })
+        
+        socket.on("game-end", async (event,loseColor) => {
+
+            console.log(event,loseColor);
+            let doc = await Document.findById(roomId);
+            let blackUserInfo = await Users.findOne({playerEmailId: doc.black});
+            let whiteUserInfo = await Users.findOne({playerEmailId: doc.white});
+            
+            if (loseColor === "white") {
+                whiteUserInfo.playerRating = whiteUserInfo.playerRating - 50;
+                blackUserInfo.playerRating = blackUserInfo.playerRating + 50;
+            }
+            else {
+                whiteUserInfo.playerRating = whiteUserInfo.playerRating + 50;
+                blackUserInfo.playerRating = blackUserInfo.playerRating - 50;
+            }
+            await whiteUserInfo.save();
+            await blackUserInfo.save();
+            doc.delete();
+
+            socket.to(roomId).emit("receive-updates", event, loseColor);
+			// RemoveRoom(roomId);
+			// socket.leave(roomId);
         })
     })
 

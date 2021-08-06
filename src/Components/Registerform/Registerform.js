@@ -9,11 +9,6 @@ export default function Registerform() {
     const [playerEmailId, setPlayerEmailId] = useState("")
     const [playerPassword, setPlayerPassword] = useState("")
 
-    // const handleRegister = (e) => {
-    // 	e.preventDefault();
-    // 	// historyRouter.push(`/createuser`);
-    // };
-
     return (
 
         <div className="registrationForm">
@@ -21,7 +16,7 @@ export default function Registerform() {
             <h1 id="welcome-text">New User Register Here</h1>
 
             <div className="form">
-                <form method="POST" action="https://ocwa.herokuapp.com/users/register">
+                <form method="POST" action="http://localhost:5000/users/register">
                     <div className="form-label">
                         <label>
                             Player Name: 	&nbsp; &nbsp;

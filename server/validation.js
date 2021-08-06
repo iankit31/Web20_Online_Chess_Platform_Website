@@ -8,10 +8,10 @@ const registerValidation = (data)=>{
         name: Joi.string().required(),
         email: Joi.string().email().required(),
         password: Joi.string().min(6).required(),
-        // userId: Joi.string().required(),
+        userId: Joi.string().required(),
     };
 
-    // return Joi.validate(data,schema)
+    return Joi.validate(data,schema)
 }
 
 const loginValidation = (data)=>{

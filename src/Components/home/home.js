@@ -17,9 +17,10 @@ export default function Home() {
 
   Axios.defaults.withCredentials = true;
   useEffect(() => {
-    Axios.get("https://ocwa.herokuapp.com/getuser").then((response) => {
+    Axios.get(`${process.env.BACKENDSERVER}/getuser`).then((response) => {
       if (response.data.loggedIn === true) {
         setUser(response.data.player);
+        
       }
     });
     // if(user === "null")

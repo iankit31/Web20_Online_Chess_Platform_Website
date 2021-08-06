@@ -337,25 +337,14 @@ export default class checkMove {
     }
 
     isValidMove(px ,py , x, y, type, color,pieces,whoseChanceItIs , yourColor){
-    //  console.log('checking');
-    //  console.log(type);
-    //  console.log(color);
     
-        if((px === x && py === y) || whoseChanceItIs !== color || x < 0 || y < 0 || x > 7 || y > 7 || yourColor !== whoseChanceItIs){
+        if((px === x && py === y) || whoseChanceItIs !== color || x < 0 || y < 0 || x > 7 || y > 7 ){
             return false;
         }
         
         let opponentColor = whoseChanceItIs === "white" ? "black" : "white";
 
-        // console.log(x,y);
-
-        // if(this.isSquareAttacked(kx,ky,opponentColor,pieces)){
-        //     console.log("king on attack");
-        //     //return false;
-        // }
-        // else{
-        //     console.log("not on attack");
-        // }
+       
         const direction = color === 'white' ? 1 : -1;
         const sppos = color === 'white' ? 6 : 1;
         

@@ -14,6 +14,7 @@ const Users = new Schema({
     playerEmailId: {
         type: String,
         required: true,
+        lowercase: true,
         validate: [isEmail ,'Email is not valid'], 
     },
     playerPassword: {
