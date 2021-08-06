@@ -46,7 +46,7 @@ export default function Registerform() {
                     <div className="form-label">
                         <label>
                             Password: 	&nbsp; &nbsp;
-                            <input name="password" className="form-input" type="password" value={playerPassword} placeholder="Enter password" onChange={(e) => { setPlayerPassword(e.target.value) }} />
+                            <input name="password" className="form-input" type="password" autoComplete="on"  value={playerPassword} placeholder="Enter password" onChange={(e) => { setPlayerPassword(e.target.value) }} />
                         </label>
                     </div>
                     <br />
