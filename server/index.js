@@ -36,7 +36,7 @@ const upload = multer();
 
 const { requireAuth, checkUser } = require('./verifyToken');
 app.get('/', (req, res) => {
-    res.status(200).send("Hello");
+    res.status(200).send("Server Running ...");
 })
 
 // for parsing application/json
@@ -76,6 +76,7 @@ const createToken = (id) => {
 
 // Register
 app.post('/users/register', async (req, res) => {
+    console.log(req.body)
     // res.status(200).send(req.body);
 
     // Validation 
@@ -160,7 +161,7 @@ server.listen(process.env.PORT, () => console.log(`Server Running on port ${proc
 
 
 // socket connection 
-const io = require('socket.io')(server, {
+const io = require('socket.io')(3001, {
     cors: {
         origin: [process.env.FRONTEND],
         methods: ["GET", "POST"]

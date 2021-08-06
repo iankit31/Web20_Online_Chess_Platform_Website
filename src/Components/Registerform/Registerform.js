@@ -21,7 +21,7 @@ export default function Registerform() {
             <h1 id="welcome-text">New User Register Here</h1>
 
             <div className="form">
-                <form method="POST" action="https://ocwa.herokuapp.com/users/register">
+                <form method="POST" action="http://localhost:5000/users/register">
                     <div className="form-label">
                         <label>
                             Player Name: 	&nbsp; &nbsp;
@@ -46,7 +46,7 @@ export default function Registerform() {
                     <div className="form-label">
                         <label>
                             Password: 	&nbsp; &nbsp;
-                            <input name="password" className="form-input" type="password" autoComplete="on"  value={playerPassword} placeholder="Enter password" onChange={(e) => { setPlayerPassword(e.target.value) }} />
+                            <input name="password" className="form-input" type="password" autoComplete="on" value={playerPassword} placeholder="Enter password" onChange={(e) => { setPlayerPassword(e.target.value) }} />
                         </label>
                     </div>
                     <br />

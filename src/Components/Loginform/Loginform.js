@@ -16,7 +16,7 @@ export default function Loginform() {
             <h1 id="welcome-text">Login Here</h1>
 
             <div className="form">
-                <form method="POST" action="https://ocwa.herokuapp.com/users/login">
+                <form method="POST" action="http://localhost:5000/users/login">
                     <div className="form-label">
                         <label>
                             User Id: 	&nbsp; &nbsp;

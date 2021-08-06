@@ -55,14 +55,14 @@ function Chessboard() {
 
     Axios.defaults.withCredentials = true;
     useEffect(() => {
-        Axios.get("https://ocwa.herokuapp.com/getuser").then((response) => {
+        Axios.get("http://localhost:5000/getuser").then((response) => {
             if (response.data.loggedIn === true) {
                 setUser(response.data.player);
                 console.log("API request");
             }
 
         });
-        
+
     }, []);
 
     useEffect(() => {
@@ -156,7 +156,7 @@ function Chessboard() {
     for (let row = 0; row <= 7; row++) {
         for (let col = 0; col <= 7; col++) {
             board.push(<span>
-                
+
                 <Tile
                     pieces={pieces}
                     row={row}
