@@ -110,7 +110,8 @@ app.post('/users/register', async (req, res) => {
         console.log(savedUser)
         res.status(200).redirect(process.env.FRONTEND);
     } catch (err) {
-        res.status(400).send(err);
+        console.log(err)
+        res.status(400).send("Something went wrong");
     }
 })
 
