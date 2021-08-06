@@ -4,6 +4,7 @@ import Home from "./Components/home/home"
 import './App.css'
 import Registerform from './Components/Registerform/Registerform'
 import Loginform from './Components/Loginform/Loginform'
+import AccessDenied from "./Components/AccessDenied/AccessDenied"
 
 import { BrowserRouter as Router, Switch, Route,Redirect } from "react-router-dom";
 function App(){
@@ -29,9 +30,12 @@ function App(){
 
  				<Route path="/chess/:roomId" >
                     <div className="container">
-                        {/* <MessageBox />  */}
                         <Chessboard />
                      </div> 
+				</Route>
+				
+				<Route path="/*">
+					<AccessDenied/>
 				</Route>
 			</Switch>
 		</Router>
