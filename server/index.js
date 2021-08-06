@@ -17,8 +17,9 @@ mongoose.connect(process.env.DB_CONNECT, {
 });
 
 const path = require('path');
-const http = require('http');
 const express = require('express');
+const app = express();
+const http = require('http').createServer(app);
 const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser');
 // const socketio = require('socket.io');
@@ -27,8 +28,6 @@ const cors = require('cors');
 
 
 
-const app = express();
-const server = http.createServer(app);
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer();
@@ -156,12 +155,12 @@ app.get('/users/logout', checkUser, (req, res) => {
     res.cookie('jwt', '', { maxAge: 1 });
     res.redirect(process.env.FRONTEND)
 })
-server.listen(process.env.PORT, () => console.log(`Server Running on port ${process.env.PORT}`));
+http.listen(process.env.PORT, () => console.log(`Server Running on port ${process.env.PORT}`));
 
 
 
 // socket connection 
-const io = require('socket.io')(3001, {
+const io = require('socket.io')(http, {
     cors: {
         origin: [process.env.FRONTEND],
         methods: ["GET", "POST"]

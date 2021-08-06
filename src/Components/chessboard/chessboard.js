@@ -66,7 +66,7 @@ function Chessboard() {
     }, []);
 
     useEffect(() => {
-        const s = io("http://localhost:3001/");
+        const s = io("http://localhost:5000/");
         setSocket(s);
         s.emit('join', roomId, pieces);
         s.on('room-full', (roomId) => {
