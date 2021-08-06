@@ -27,7 +27,7 @@ export default function Loginform() {
                     <div className="form-label">
                         <label>
                             Password: 	&nbsp; &nbsp;
-                            <input name="password" className="form-input" type="password" value={playerPassword} placeholder="Enter password" onChange={(e) => { setPlayerPassword(e.target.value) }} />
+                            <input name="password" className="form-input" type="password" value={playerPassword} autoComplete="on" placeholder="Enter password" onChange={(e) => { setPlayerPassword(e.target.value) }} />
                         </label>
                     </div>
                     <br />

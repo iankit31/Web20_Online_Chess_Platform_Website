@@ -56,16 +56,13 @@ function Chessboard() {
     Axios.defaults.withCredentials = true;
     useEffect(() => {
         Axios.get("https://ocwa.herokuapp.com/getuser").then((response) => {
-            if (response.data.loggedIn == true) {
+            if (response.data.loggedIn === true) {
                 setUser(response.data.player);
                 console.log("API request");
             }
 
         });
-        // if(user === "null")
-        // {
-        //   historyRouter.push("/login");
-        // }
+        
     }, []);
 
     useEffect(() => {
@@ -159,7 +156,7 @@ function Chessboard() {
     for (let row = 0; row <= 7; row++) {
         for (let col = 0; col <= 7; col++) {
             board.push(<span>
-                {/* {horizontalAxis[row]} {verticalAxis[7-col]}  */}
+                
                 <Tile
                     pieces={pieces}
                     row={row}
@@ -190,10 +187,10 @@ function Chessboard() {
         const chessboard = chessBoardRef.current;
 
         if (activePiece) {
-            const minX = chessboard.offsetLeft - 15;
-            const minY = chessboard.offsetTop - 15;
-            const maxX = chessboard.offsetLeft + chessboard.clientWidth - 60;
-            const maxY = chessboard.offsetTop + chessboard.clientHeight - 60;
+            // const minX = chessboard.offsetLeft - 15;
+            // const minY = chessboard.offsetTop - 15;
+            // const maxX = chessboard.offsetLeft + chessboard.clientWidth - 60;
+            // const maxY = chessboard.offsetTop + chessboard.clientHeight - 60;
             const x = e.clientX - 35;
             const y = e.clientY - 35;
             activePiece.style.position = "absolute";
