@@ -56,3 +56,21 @@
     cursor:pointer;
     border-width: 0px;
 }
+
+.back-btn{
+    padding: 8px;
+    margin-top: 25px;
+    font-size: 15px;
+    width: 50%;
+    border-radius: 15px;
+    background-color: crimson;
+    color: white;
+    border-width: 0px;
+    text-align: center;
+}
+.back-btn:hover {
+    background-color: firebrick;
+    color: white;
+    cursor:pointer;
+    border-width: 0px;
+}

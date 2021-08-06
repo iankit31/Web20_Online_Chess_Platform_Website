@@ -52,7 +52,7 @@ export default function Registerform() {
             </div>
 
             <div className="go-back-btn">
-                <button className="submit-btn" onClick={(e) => {
+                <button className="back-btn" onClick={(e) => {
                     e.preventDefault(); historyRouter.push(`/login`);
                 }}>Go Back to Login Page</button>
             </div>
