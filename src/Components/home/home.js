@@ -17,7 +17,7 @@ export default function Home() {
 
   Axios.defaults.withCredentials = true;
   useEffect(() => {
-    Axios.get("http://localhost:5000/getuser").then((response) => {
+    Axios.get("https://ocwa.herokuapp.com/getuser").then((response) => {
       if (response.data.loggedIn === true) {
         setUser(response.data.player);
       }
@@ -56,7 +56,7 @@ export default function Home() {
         <div style={{ fontSize: 23 }}>
           <form
             method="GET"
-            action="http://localhost:5000/users/logout"
+            action="https://ocwa.herokuapp.com/users/logout"
           > <button className="submit-btn"  >Logout</button> </form>
         </div>
       </div>

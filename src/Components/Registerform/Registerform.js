@@ -21,7 +21,7 @@ export default function Registerform() {
             <h1 id="welcome-text">New User Register Here</h1>
 
             <div className="form">
-                <form method="POST" action="http://localhost:5000/users/register">
+                <form method="POST" action="https://ocwa.herokuapp.com/users/register">
                     <div className="form-label">
                         <label>
                             Player Name: 	&nbsp; &nbsp;

@@ -55,7 +55,7 @@ function Chessboard() {
 
     Axios.defaults.withCredentials = true;
     useEffect(() => {
-        Axios.get("http://localhost:5000/getuser").then((response) => {
+        Axios.get("https://ocwa.herokuapp.com/getuser").then((response) => {
             if (response.data.loggedIn === true) {
                 setUser(response.data.player);
                 console.log("API request");
@@ -66,7 +66,7 @@ function Chessboard() {
     }, []);
 
     useEffect(() => {
-        const s = io("http://localhost:5000/");
+        const s = io("https://ocwa.herokuapp.com/");
         setSocket(s);
         s.emit('join', roomId, pieces);
         s.on('room-full', (roomId) => {
