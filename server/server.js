@@ -1,6 +1,6 @@
-const io = require('socket.io')(3001,{
-    cors : {
-        origin: ["http://localhost:3000"],
+const io = require('socket.io')(3001, {
+    cors: {
+        origin: [process.env.FRONTEND],
     },
 })
 
@@ -8,7 +8,7 @@ io.on('connection', socket => {
     console.log(socket.id);
     socket.on('send-message', message => {
         console.log(message)
-        socket.broadcast.emit('recieve-message',message)
+        socket.broadcast.emit('recieve-message', message)
     })
     socket.on('send-pieces', pieces => {
         // console.log(pieces)
@@ -20,7 +20,7 @@ io.on('connection', socket => {
         socket.to('abc').emit('recieve-message', piece_move)
     })
 
-    socket.on('joinRoom',roomId=>{
+    socket.on('joinRoom', roomId => {
         socket.join(roomId)
-       })
-}) 
+    })
+})
