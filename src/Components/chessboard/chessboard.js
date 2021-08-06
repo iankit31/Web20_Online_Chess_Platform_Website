@@ -62,11 +62,11 @@ function Chessboard() {
             }
 
         });
-        
+
     }, []);
 
     useEffect(() => {
-        const s = io("http://localhost:3001/");
+        const s = io("https://ocwa.herokuapp.com/");
         setSocket(s);
         s.emit('join', roomId, pieces);
         s.on('room-full', (roomId) => {
@@ -156,7 +156,7 @@ function Chessboard() {
     for (let row = 0; row <= 7; row++) {
         for (let col = 0; col <= 7; col++) {
             board.push(<span>
-                
+
                 <Tile
                     pieces={pieces}
                     row={row}
