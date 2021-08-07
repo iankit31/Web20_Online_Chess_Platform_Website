@@ -24,8 +24,8 @@ export default function Home() {
     console.log('in logout handle');
     Axios.get("https://ocwa.herokuapp.com/users/logout/").then(() => {
       
-      window.location.href = "https://chessiiti.netlify.app/";
     });
+    window.location.href = "https://chessiiti.netlify.app/";
   };
 
   const [user, setUser] = useState("");
