@@ -140,7 +140,13 @@ app.post('/users/login', checkUser, async (req, res) => {
     }
 
     const token = createToken(user._id);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.cookie('jwt', token, { 
+        httpOnly: true, maxAge: maxAge * 1000,
+        domain: `${process.env.FRONTEND}`,
+        secure: true,
+        sameSite:'false',
+     });
+
     console.log(user);
     console.log('working ');
     res.status(201).redirect(`${process.env.FRONTEND}/chessgame`);
@@ -169,7 +175,6 @@ const io = require('socket.io')(http, {
 })
 
 io.on('connection', socket => {
-    console.log(socket.id);
     socket.on('join', async (roomId, pieces) => {
 
         console.log(`${socket.id} joined room ${roomId}`)
@@ -215,29 +220,33 @@ io.on('connection', socket => {
             if (newChance === "black" && doc.white === null) { doc.white = playeremail; }
             doc.save();
         })
-        
-        socket.on("game-end", async (event,loseColor) => {
 
-            console.log(event,loseColor);
-            let doc = await Document.findById(roomId);
-            let blackUserInfo = await Users.findOne({playerEmailId: doc.black});
-            let whiteUserInfo = await Users.findOne({playerEmailId: doc.white});
+        socket.on("game-end", async (event, loseColor) => {
+
+            console.log(event, loseColor);
             
+            let doc = await Document.findById(roomId);
+            if(event === "stalemate") {
+                doc.delete();
+                socket.to(roomId).emit("receive-updates", event, loseColor);
+                return;
+            }
+            let blackUserInfo = await Users.findOne({ playerEmailId: doc.black });
+            let whiteUserInfo = await Users.findOne({ playerEmailId: doc.white });
+           
             if (loseColor === "white") {
-                whiteUserInfo.playerRating = whiteUserInfo.playerRating - 50;
-                blackUserInfo.playerRating = blackUserInfo.playerRating + 50;
+                whiteUserInfo.playerRating = whiteUserInfo.playerRating - 10;
+                blackUserInfo.playerRating = blackUserInfo.playerRating + 10;
             }
             else {
-                whiteUserInfo.playerRating = whiteUserInfo.playerRating + 50;
-                blackUserInfo.playerRating = blackUserInfo.playerRating - 50;
+                whiteUserInfo.playerRating = whiteUserInfo.playerRating + 10;
+                blackUserInfo.playerRating = blackUserInfo.playerRating - 10;
             }
             await whiteUserInfo.save();
             await blackUserInfo.save();
             doc.delete();
 
             socket.to(roomId).emit("receive-updates", event, loseColor);
-			// RemoveRoom(roomId);
-			// socket.leave(roomId);
         })
     })
 
