@@ -50,9 +50,10 @@ export default function Loginform() {
                 Cookies.set('jwt', res.data.token)
                 console.log(Cookies.get());
               }
+            //    window.location.href = "https://chessiiti.netlify.app/chessgame/";
             })
 
-            window.location.href = "https://chessiiti.netlify.app/chessgame/";
+           
       };
     
     return (
