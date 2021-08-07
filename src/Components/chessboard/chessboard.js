@@ -44,7 +44,14 @@ function Chessboard() {
     const [socket, setSocket] = useState(null);
     const [yourColor, setYourColor] = useState(null);
 
-    const [user, setUser] = useState("");
+    const [user, setUser] = useState({
+        playerName: "",
+        playerId: "",
+        playerEmailId: "",
+        playerPassword: "",
+        playerRating: "",
+    });
+    
     const [b_mail, setB_mail] = useState("");
     const [w_mail, setW_mail] = useState("");
 
@@ -54,18 +61,20 @@ function Chessboard() {
     const history = useHistory();
 
 
-
-    Axios.defaults.withCredentials = true;
     useEffect(() => {
-        Axios.get(`https://ocwa.herokuapp.com/getuser`).then((response) => {
-            if (response.data.loggedIn === true) {
-                setUser(response.data.player);
-                console.log("API request");
-            }
-
-        });
-
-    }, []);
+        Axios.post(
+         "https://ocwa.herokuapp.com/getuser",
+         {
+           jwtToken: Cookies.get('jwt'),
+         } )
+         .then((res)=>{
+           if(res.data.msg === 'verified')
+           {
+             setUser(res.data.user);
+           }
+     })
+     
+     }, []);
 
     useEffect(() => {
         const s = io(`https://ocwa.herokuapp.com`);
@@ -319,6 +328,7 @@ function Chessboard() {
                 <h5>{user.playerName}</h5>
                 <h5>{user.playerId}</h5>
                 <h5>{user.playerEmailId}</h5>
+                <h5>{user.playerRating}</h5>
                 <h5>{message}</h5>
                 <button onClick={()=>{window.location.href=`https://chessiiti.netlify.app/chessgame`}}>Exit</button>
             </div>
