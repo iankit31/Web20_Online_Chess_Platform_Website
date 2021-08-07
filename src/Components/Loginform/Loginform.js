@@ -36,7 +36,7 @@ export default function Loginform() {
              {
               id: loginPlayerId,
               password: loginPlayerPassword,
-            }
+             }
             )
             .then((res)=>{
               if(res.data.msg === 'logsuc')

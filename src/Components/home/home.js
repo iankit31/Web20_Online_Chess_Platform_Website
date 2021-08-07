@@ -41,10 +41,11 @@ export default function Home() {
   useEffect(() => {
 
 
-    Axios.get(
-      "https://ocwa.herokuapp.com/getuser"
-       
-      )
+     Axios.post(
+      "https://ocwa.herokuapp.com/getuser",
+      {
+        jwtToken: Cookies.get('jwt'),
+      } )
       .then((res)=>{
         if(res.data.msg === 'verified')
         {
