@@ -51,7 +51,9 @@ export default function Loginform() {
                 console.log(Cookies.get());
               }
             //    window.location.href = "https://chessiiti.netlify.app/chessgame/";
-            })
+            
+            historyRouter.push('/chessgame');
+        })
 
            
       };
