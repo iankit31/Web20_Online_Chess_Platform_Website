@@ -51,8 +51,8 @@ app.use(cookieParser());
 // app.use(cors(corsOptions));
 app.use(
     cors({
-        origin: [process.env.FRONTEND],
-        methods: ["GET", "POST"],
+        origin: [process.env.FRONTEND,"https://chessiiti.netlify.app/login"],
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
         credentials: true,
     })
 );
