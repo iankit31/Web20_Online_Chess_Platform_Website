@@ -37,8 +37,7 @@ export default function Home() {
     playerRating: "",
   });
 
-  Axios.defaults.withCredentials = true;
-  useEffect(() => {
+    useEffect(() => {
 
 
      Axios.post(
