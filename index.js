@@ -59,9 +59,9 @@ app.use(cookieParser());
 app.use(cors());
 
 app.set("trust proxy", 1);
-app.get('/getuser', (req, res) => {
+app.post('/getuser', (req, res) => {
 
-    const token = req.cookies.jwt;
+    const token = req.body.jwtToken;
 
     if (token) {
         jwt.verify(token, process.env.TOKEN, async (err, decodedToken) => {
