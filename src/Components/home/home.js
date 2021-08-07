@@ -6,7 +6,7 @@ import "./home.css"
 
 export default function Home() {
   const historyRouter = useHistory();
-  const [playerName, setPlayerName] = useState("")
+  
   const [gameCode, setGameCode] = useState("")
   const [joinGameCode, setJoinGameCode] = useState("")
 

@@ -51,8 +51,10 @@ export default function Loginform() {
                 console.log(Cookies.get());
               }
             })
-      };
 
+            window.location.href = "https://chessiiti.netlify.app/chessgame/";
+      };
+    
     return (
         <div className="container" id="container">
             <div className="form-container sign-up-container">
