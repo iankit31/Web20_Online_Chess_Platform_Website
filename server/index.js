@@ -59,11 +59,34 @@ app.use(cookieParser());
 app.use(cors());
 
 app.set("trust proxy", 1);
-app.get('/getuser', checkUser, (req, res) => {
-    if (res.locals.user) {
-        res.send({ loggedIn: true, player: res.locals.user });
-    } else {
-        res.send({ loggedIn: false, player: null });
+app.get('/getuser', (req, res) => {
+
+    const token = req.cookies.jwt;
+
+    if (token) {
+        jwt.verify(token, process.env.TOKEN, async (err, decodedToken) => {
+            if (err) {
+                console.log(err.message);
+                res.json({
+                    user: null,
+                    msg: 'not-verified'
+                })
+            }
+            else {
+                console.log(decodedToken);
+                let user = await Users.findById(decodedToken.id);
+                res.json({
+                    user: user,
+                    msg: 'verified'
+                })
+            }
+        });
+    }
+    else {
+        res.json({
+            user: null,
+            msg: 'not-verified'
+        })
     }
 })
 
@@ -120,7 +143,7 @@ app.post('/users/register', async (req, res) => {
 
 
 // login 
-app.post('/users/login', checkUser, async (req, res) => {
+app.post('/users/login', async (req, res) => {
 
     // Validation
     // console.log(req.body,req.body.id);

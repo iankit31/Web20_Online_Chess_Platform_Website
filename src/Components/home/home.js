@@ -29,15 +29,28 @@ export default function Home() {
     // window.location.href = "https://chessiiti.netlify.app/";
   };
 
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(null);
 
   Axios.defaults.withCredentials = true;
   useEffect(() => {
+
     Axios.get(`https://ocwa.herokuapp.com/getuser`).then((response) => {
       if (response.data.loggedIn === true) {
         setUser(response.data.player);
       }
     });
+
+    Axios.get(
+      "https://ocwa.herokuapp.com/users/getuser"
+       
+      )
+      .then((res)=>{
+        if(res.data.msg === 'verified')
+        {
+          setUser(res.data.user);
+        }
+  })
+  
   }, []);
 
   useEffect(() => {

@@ -31,12 +31,6 @@ export default function Loginform() {
     const handleLoginSubmit = (e) => {
         e.preventDefault();
         
-        // console.log('in logout handle');
-        // Axios.post("https://ocwa.herokuapp.com/users/login",
-        // { 
-        //     id: loginPlayerId,
-        //     password: loginPlayerPassword,  
-        // },{withCredentials:true})
         Axios.post(
             "https://ocwa.herokuapp.com/users/login",
              {
