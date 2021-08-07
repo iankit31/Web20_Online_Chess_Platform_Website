@@ -49,13 +49,15 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 // app.use(cors(corsOptions));
-app.use(
-    cors({
-        origin: [process.env.FRONTEND],
-        methods: ["GET", "POST"],
-        credentials: true,
-    })
-);
+// app.use(
+//     cors({
+//         origin: [process.env.FRONTEND,"https://chessiiti.netlify.app/login"],
+//         methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+//         credentials: true,
+//     })
+// );
+app.use(cors());
+
 app.set("trust proxy", 1);
 app.get('/getuser', checkUser, (req, res) => {
     if (res.locals.user) {
@@ -126,18 +128,19 @@ app.post('/users/login', checkUser, async (req, res) => {
     const user = await Users.findOne({ playerId: id });
 
     if (!user) {
-        return res.status(400).send({
-            message: 'Player is does not exist'
-        });
+        return res.json({
+            msg: 'nologsuc'
+        })
     }
 
     // password
     const validPassword = await bcrypt.compare(password, user.playerPassword);
     if (!validPassword) {
-        return res.status(400).send({
-            message: 'Password is incorrect'
+        return res.status(400).json({
+            msg: 'Password is incorrect'
         });
     }
+
 
     const token = createToken(user._id);
     res.cookie('jwt', token, { 
@@ -148,8 +151,12 @@ app.post('/users/login', checkUser, async (req, res) => {
 
     console.log(user);
     console.log('working ');
-    res.status(201).redirect(`${process.env.FRONTEND}/chessgame`);
-
+    // res.status(201).redirect(`${process.env.FRONTEND}/chessgame`);
+    res.json({
+        token,
+        user,
+        msg: 'logsuc'
+    })
     // const token = jwt.sign({_id: user._id}, secret);
     // res.header('auth-token', token).send(token);     
 

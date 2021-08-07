@@ -30,13 +30,26 @@ export default function Loginform() {
     const handleLoginSubmit = (e) => {
         e.preventDefault();
         
-        console.log('in logout handle');
-        Axios.post("https://ocwa.herokuapp.com/users/login",
-        { 
-            id: loginPlayerId,
-            password: loginPlayerPassword,  
-        },{withCredentials:true})
-        
+        // console.log('in logout handle');
+        // Axios.post("https://ocwa.herokuapp.com/users/login",
+        // { 
+        //     id: loginPlayerId,
+        //     password: loginPlayerPassword,  
+        // },{withCredentials:true})
+        Axios.post(
+            "https://ocwa.herokuapp.com/users/login",
+             {
+              id: loginPlayerId,
+              password: loginPlayerPassword,
+            }
+            )
+            .then((res)=>{
+              if(res.data.msg === 'logsuc')
+              {
+                Cookies.set('jwt', res.data.token)
+                console.log(Cookies.get());
+              }
+            })
       };
 
     return (
