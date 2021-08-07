@@ -320,7 +320,7 @@ function Chessboard() {
                 <h5>{user.playerId}</h5>
                 <h5>{user.playerEmailId}</h5>
                 <h5>{message}</h5>
-                <button onClick={()=>{window.location.href=`https://ocwa.herokuapp.com/chessgame`}}>Exit</button>
+                <button onClick={()=>{window.location.href=`https://chessiiti.netlify.app/chessgame`}}>Exit</button>
             </div>
         </>
     )
