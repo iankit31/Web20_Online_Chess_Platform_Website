@@ -90,7 +90,7 @@ export default function Home() {
                         <button className="ghost" id="signUp">Profile</button>
                         <br/>
                         
-                         <button className="ghost" id="signUp" onClick={(e) => handleLogout(e)}>Logout</button>
+                         <button className="ghost" id="logOut" onClick={(e) => handleLogout(e)}>Logout</button>
                        
                     </div>
                 </div>

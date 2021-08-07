@@ -140,7 +140,13 @@ app.post('/users/login', checkUser, async (req, res) => {
     }
 
     const token = createToken(user._id);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.cookie('jwt', token, { 
+        httpOnly: true, maxAge: maxAge * 1000,
+        domain: `${process.env.FRONTEND}`,
+        secure: true,
+        sameSite:'none',
+     });
+     
     console.log(user);
     console.log('working ');
     res.status(201).redirect(`${process.env.FRONTEND}/chessgame`);
