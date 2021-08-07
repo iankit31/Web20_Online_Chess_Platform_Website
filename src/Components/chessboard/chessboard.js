@@ -57,7 +57,7 @@ function Chessboard() {
 
     Axios.defaults.withCredentials = true;
     useEffect(() => {
-        Axios.get(`${process.env.BACKENDSERVER}/getuser`).then((response) => {
+        Axios.get(`https://ocwa.herokuapp.com/getuser`).then((response) => {
             if (response.data.loggedIn === true) {
                 setUser(response.data.player);
                 console.log("API request");
@@ -68,7 +68,7 @@ function Chessboard() {
     }, []);
 
     useEffect(() => {
-        const s = io(`${process.env.BACKENDSERVER}`);
+        const s = io(`https://ocwa.herokuapp.com`);
         setSocket(s);
         s.emit('join', roomId, pieces);
         s.on('room-full', (roomId) => {
@@ -320,7 +320,7 @@ function Chessboard() {
                 <h5>{user.playerId}</h5>
                 <h5>{user.playerEmailId}</h5>
                 <h5>{message}</h5>
-                <button onClick={()=>{window.location.href=`${process.env.FRONTEND}/chessgame`}}>Exit</button>
+                <button onClick={()=>{window.location.href=`https://ocwa.herokuapp.com/chessgame`}}>Exit</button>
             </div>
         </>
     )

@@ -24,7 +24,7 @@ export default function Home() {
     console.log('in logout handle');
     Axios.get("https://ocwa.herokuapp.com/users/logout/").then(() => {
       
-      window.location.href = process.env.FRONTEND;
+      window.location.href = "https://chessiiti.netlify.app/";
     });
   };
 
@@ -32,7 +32,7 @@ export default function Home() {
 
   Axios.defaults.withCredentials = true;
   useEffect(() => {
-    Axios.get(`${process.env.BACKENDSERVER}/getuser`).then((response) => {
+    Axios.get(`https://ocwa.herokuapp.com/getuser`).then((response) => {
       if (response.data.loggedIn === true) {
         setUser(response.data.player);
       }
