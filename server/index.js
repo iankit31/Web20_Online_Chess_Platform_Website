@@ -169,7 +169,6 @@ const io = require('socket.io')(http, {
 })
 
 io.on('connection', socket => {
-    console.log(socket.id);
     socket.on('join', async (roomId, pieces) => {
 
         console.log(`${socket.id} joined room ${roomId}`)
@@ -215,14 +214,14 @@ io.on('connection', socket => {
             if (newChance === "black" && doc.white === null) { doc.white = playeremail; }
             doc.save();
         })
-        
-        socket.on("game-end", async (event,loseColor) => {
 
-            console.log(event,loseColor);
+        socket.on("game-end", async (event, loseColor) => {
+
+            console.log(event, loseColor);
             let doc = await Document.findById(roomId);
-            let blackUserInfo = await Users.findOne({playerEmailId: doc.black});
-            let whiteUserInfo = await Users.findOne({playerEmailId: doc.white});
-            
+            let blackUserInfo = await Users.findOne({ playerEmailId: doc.black });
+            let whiteUserInfo = await Users.findOne({ playerEmailId: doc.white });
+
             if (loseColor === "white") {
                 whiteUserInfo.playerRating = whiteUserInfo.playerRating - 50;
                 blackUserInfo.playerRating = blackUserInfo.playerRating + 50;
@@ -236,8 +235,8 @@ io.on('connection', socket => {
             doc.delete();
 
             socket.to(roomId).emit("receive-updates", event, loseColor);
-			// RemoveRoom(roomId);
-			// socket.leave(roomId);
+            // RemoveRoom(roomId);
+            // socket.leave(roomId);
         })
     })
 
