@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { useHistory } from "react-router-dom";
 import Axios from "axios"
 import "./home.css"
+import Cookies from 'js-cookie';
 
 
 export default function Home() {
   const historyRouter = useHistory();
-  
+
   const [gameCode, setGameCode] = useState("")
   const [joinGameCode, setJoinGameCode] = useState("")
 
@@ -22,10 +23,10 @@ export default function Home() {
   const handleLogout = (e) => {
     e.preventDefault();
     console.log('in logout handle');
-    Axios.get("https://ocwa.herokuapp.com/users/logout/").then(() => {
-      
-    });
-    window.location.href = "https://chessiiti.netlify.app/";
+    Cookies.remove('jwt');
+
+    historyRouter.push('/');
+    // window.location.href = "https://chessiiti.netlify.app/";
   };
 
   const [user, setUser] = useState("");
