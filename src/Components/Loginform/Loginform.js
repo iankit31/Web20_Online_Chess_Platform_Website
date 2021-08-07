@@ -25,6 +25,18 @@ export default function Loginform() {
         });
     }, [])
 
+    const handleLoginSubmit = (e) => {
+        e.preventDefault();
+        
+        console.log('in logout handle');
+        Axios.post("https://ocwa.herokuapp.com/users/login",
+        { 
+            id: loginPlayerId,
+            password: loginPlayerPassword,  
+        },{withCredentials:true})
+        
+      };
+
     return (
         <div className="container" id="container">
             <div className="form-container sign-up-container">
@@ -38,7 +50,7 @@ export default function Loginform() {
                 </form>
             </div>
             <div className="form-container sign-in-container">
-                <form method="POST" action="https://ocwa.herokuapp.com/users/login">
+                <form onSubmit={(e) => { handleLoginSubmit(e)}} >
                     <h1>Sign in</h1>
                     <input type="text" name="id" placeholder="Username"  value={loginPlayerId} onChange={(e) => { setLoginPlayerId(e.target.value) }}  required/>
                     <input type="password" name="password" placeholder="Password" value={loginPlayerPassword} onChange={(e) => { setLoginPlayerPassword(e.target.value) }} required/>
