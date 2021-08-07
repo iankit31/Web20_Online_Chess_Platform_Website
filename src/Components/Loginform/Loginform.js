@@ -30,18 +30,18 @@ export default function Loginform() {
             <div className="form-container sign-up-container">
                 <form method="POST" action="https://ocwa.herokuapp.com/users/register">
                     <h1>Create Account</h1>
-                    <input type="text" name="name" placeholder="Name"  value={playerName} onChange={(e) => { setPlayerName(e.target.value) }}/>
-                    <input type="text" name="id" placeholder="Username"  value={playerId}  onChange={(e) => { setPlayerId(e.target.value) }}/>
-                    <input type="email" name="email" placeholder="Email"  value={playerEmail} onChange={(e) => { setPlayerEmail(e.target.value) }}/>
-                    <input type="password" name="password" placeholder="Password"  value={playerPassword} onChange={(e) => { setPlayerPassword(e.target.value) }}/>
+                    <input type="text" name="name" placeholder="Name"  value={playerName} onChange={(e) => { setPlayerName(e.target.value) }} required/>
+                    <input type="text" name="id" placeholder="Username"  value={playerId}  onChange={(e) => { setPlayerId(e.target.value) }} required/>
+                    <input type="email" name="email" placeholder="Email"  value={playerEmail} onChange={(e) => { setPlayerEmail(e.target.value) }} required/>
+                    <input type="password" name="password" placeholder="Password"  value={playerPassword} onChange={(e) => { setPlayerPassword(e.target.value) }} required/>
                     <button>Sign Up</button>
                 </form>
             </div>
             <div className="form-container sign-in-container">
                 <form method="POST" action="https://ocwa.herokuapp.com/users/login">
                     <h1>Sign in</h1>
-                    <input type="text" name="id" placeholder="Username"  value={loginPlayerId} onChange={(e) => { setLoginPlayerId(e.target.value) }} />
-                    <input type="password" name="password" placeholder="Password" value={loginPlayerPassword} onChange={(e) => { setLoginPlayerPassword(e.target.value) }}/>
+                    <input type="text" name="id" placeholder="Username"  value={loginPlayerId} onChange={(e) => { setLoginPlayerId(e.target.value) }}  required/>
+                    <input type="password" name="password" placeholder="Password" value={loginPlayerPassword} onChange={(e) => { setLoginPlayerPassword(e.target.value) }} required/>
                     <a href="#">Forgot your password?</a>
                     <button>Sign In</button>
                 </form>

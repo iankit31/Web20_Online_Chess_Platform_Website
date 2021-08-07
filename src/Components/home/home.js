@@ -8,11 +8,26 @@ export default function Home() {
   const historyRouter = useHistory();
   const [playerName, setPlayerName] = useState("")
   const [gameCode, setGameCode] = useState("")
+  const [joinGameCode, setJoinGameCode] = useState("")
 
-  const handleSubmit = (e) => {
+  const handleStartClick = (e) => {
     e.preventDefault();
     historyRouter.push(`/chess/${gameCode}`);
   };
+
+  const handleJoinClick = (e) => {
+    e.preventDefault();
+    historyRouter.push(`/chess/${joinGameCode}`);
+  };
+  const handleLogout = (e) => {
+    e.preventDefault();
+    console.log('in logout handle');
+    Axios.get("https://ocwa.herokuapp.com/users/logout/").then(() => {
+      
+      window.location.href = process.env.FRONTEND;
+    });
+  };
+
   const [user, setUser] = useState("");
 
   Axios.defaults.withCredentials = true;
@@ -20,48 +35,66 @@ export default function Home() {
     Axios.get(`${process.env.BACKENDSERVER}/getuser`).then((response) => {
       if (response.data.loggedIn === true) {
         setUser(response.data.player);
-        
       }
     });
-    // if(user === "null")
-    // {
-    //   historyRouter.push("/login");
-    // }
   }, []);
+
+  useEffect(() => {
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+    });
+}, [])
+
   return (
-
-    <div className="homepage">
-      {console.log(user)}
-      <div className="homepage">
-        <h1 id="welcome-text">Welcome to the Online ChessGame!</h1>
-
-        <div className="form">
-          <form onSubmit={(e) => handleSubmit(e)}>
-            <div className="form-label">
-              <label>
-                Player Name: 	&nbsp; &nbsp;
-                <input className="form-input" type="text" value={playerName} placeholder="Enter Your Name" onChange={(e) => { setPlayerName(e.target.value) }} />
-              </label>
+    <div className="container" id="container">
+            <div className="form-container sign-up-container">
+                <form >
+                    <h1>Account Detail</h1>
+                    <h2>Player Name : {`${user.name}`}</h2>
+                    <h2>UserName : {`${user.username}`}</h2>
+                    <h2>Email : {`${user.email}`}</h2>
+                    <h2>Rating : {`${user.rating}`}</h2>
+                </form>
             </div>
-            <br />
-            <div className="form-label">
-              <label>
-                Room Code: 	&nbsp; &nbsp;
-                <input className="form-input" type="text" value={gameCode} placeholder="Enter Room code" onChange={(e) => { setGameCode(e.target.value) }} />
-              </label>
+            <div className="form-container sign-in-container">
+                <form >
+                    <h1>Start Game</h1>
+                    <input type="text" value={gameCode} placeholder="Enter New Room code" onChange={(e) => { setGameCode(e.target.value) }} required/>
+                    <br/>
+                    <button onClick={(e) => handleStartClick(e)}>Start New Game</button>
+                    <br/>
+                    <input type="text" value={joinGameCode} placeholder="Enter Friend's Room code" onChange={(e) => { setJoinGameCode(e.target.value) }} required/>
+                    <br/>
+                    <button onClick={(e) => handleJoinClick(e)}>Join Friend's Game</button>
+                    <br/>
+                </form>
             </div>
-            <br />
-            <input className="submit-btn" type="submit" value="Start Game" />
-          </form>
+            <div className="overlay-container">
+                <div className="overlay">
+                    <div className="overlay-panel overlay-left">
+                        <h1>Join Battle</h1>
+                        <p>Enter unique Code to start New Game or Join Friend's Game with Game code</p>
+                        <button className="ghost" id="signIn">Start Game</button>
+                    </div>
+                    <div className="overlay-panel overlay-right">
+                        <h1>Start Game</h1>
+                        <p>Enter your personal details and start journey with us</p>
+                        <button className="ghost" id="signUp">Profile</button>
+                        <br/>
+                        
+                         <button className="ghost" id="signUp" onClick={(e) => handleLogout(e)}>Logout</button>
+                       
+                    </div>
+                </div>
+            </div>
         </div>
-        <div style={{ fontSize: 23 }}>
-          <form
-            method="GET"
-            action="https://ocwa.herokuapp.com/users/logout"
-          > <button className="submit-btn"  >Logout</button> </form>
-        </div>
-      </div>
-    </div>
-
   )
 }

@@ -32,7 +32,7 @@ export default function AccessDenied() {
             <img className="foregroundimg" src="https://www.blissfullemon.com/wp-content/uploads/2018/09/HauntedHouseForeground.png" alt="haunted house"/>
             
             </div>
-            <h1 className="errorcode">ERROR 403</h1>
+            <h1 className="errorcode">ERROR 404</h1>
         <div className="errortext">This area is forbidden. Turn back now!</div>
 </div>
 
