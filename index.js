@@ -56,7 +56,7 @@ app.use(
         credentials: true,
     })
 );
-
+app.set("trust proxy", 1);
 app.get('/getuser', checkUser, (req, res) => {
     if (res.locals.user) {
         res.send({ loggedIn: true, player: res.locals.user });
@@ -142,9 +142,8 @@ app.post('/users/login', checkUser, async (req, res) => {
     const token = createToken(user._id);
     res.cookie('jwt', token, { 
         httpOnly: true, maxAge: maxAge * 1000,
-        domain: `${process.env.FRONTEND}`,
         secure: true,
-        sameSite:'false',
+        sameSite:'none',
      });
 
     console.log(user);
