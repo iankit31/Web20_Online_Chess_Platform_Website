@@ -26,4 +26,4 @@ HTML, CSS, React.js (JavaScript), Express.js, MongoDB, Socket.io
 - Live 2-player games with the help of socket-client connection using socket.io
 - ELO Rating System, user's rating is stored in the database
 - All rules of chess validated at the backend before making any move
-- The web application is deployed using heroku & nectify
+- The web application is deployed using heroku & netlify
