@@ -42,7 +42,7 @@ export default function Home() {
 
 
     Axios.get(
-      "https://ocwa.herokuapp.com/users/getuser"
+      "https://ocwa.herokuapp.com/getuser"
        
       )
       .then((res)=>{
