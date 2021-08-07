@@ -6,6 +6,7 @@ import CheckMove from "../../CheckMove/CheckMove"
 import { io } from 'socket.io-client'
 import { useParams, useHistory } from "react-router-dom";
 import Axios from "axios"
+import Cookies from 'js-cookie';
 
 let horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h"]
 let verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
@@ -51,7 +52,7 @@ function Chessboard() {
         playerPassword: "",
         playerRating: "",
     });
-    
+
     const [b_mail, setB_mail] = useState("");
     const [w_mail, setW_mail] = useState("");
 
