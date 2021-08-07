@@ -29,16 +29,17 @@ export default function Home() {
     // window.location.href = "https://chessiiti.netlify.app/";
   };
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    playerName: "",
+    playerId: "",
+    playerEmailId: "",
+    playerPassword: "",
+    playerRating: "",
+  });
 
   Axios.defaults.withCredentials = true;
   useEffect(() => {
 
-    Axios.get(`https://ocwa.herokuapp.com/getuser`).then((response) => {
-      if (response.data.loggedIn === true) {
-        setUser(response.data.player);
-      }
-    });
 
     Axios.get(
       "https://ocwa.herokuapp.com/users/getuser"
@@ -72,10 +73,10 @@ export default function Home() {
             <div className="form-container sign-up-container">
                 <form >
                     <h1>Account Detail</h1>
-                    <h2>Player Name : {`${user.name}`}</h2>
-                    <h2>UserName : {`${user.username}`}</h2>
-                    <h2>Email : {`${user.email}`}</h2>
-                    <h2>Rating : {`${user.rating}`}</h2>
+                    <h2>Player Name : {`${user.playerName}`}</h2>
+                    <h2>UserName : {`${user.playerId}`}</h2>
+                    <h2>Email : {`${user.playerEmailId}`}</h2>
+                    <h2>Rating : {`${user.playerRating}`}</h2>
                 </form>
             </div>
             <div className="form-container sign-in-container">
