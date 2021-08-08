@@ -413,7 +413,7 @@ function Chessboard() {
         if(checkMove.isThereAnyValidMove("black", pieces) && checkMove.isThereAnyValidMove("white",pieces) )
         {
             console.log("both players have valid moves");
-             socket.emit( "game-end","player-left", yourColor);
+             socket.emit("game-end","checkmate", yourColor);
             // socket.emit("game-end", "checkmate", opponentColor);
         }
         else
