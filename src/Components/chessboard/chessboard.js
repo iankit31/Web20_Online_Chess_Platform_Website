@@ -442,17 +442,18 @@ function Chessboard() {
                 <h5>{user.playerEmailId}</h5>
                 <h5>{user.playerRating}</h5>
                 <h5>{message}</h5>
-                <button onClick={(e) => { handleExit(e) 
+                <button onClick={(e) => { 
                    
                    
-                    // Axios.post(
-                    //     "https://ocwa.herokuapp.com/deleteboard",
-                    //     {   
-                    //         jwtToken: Cookies.get('jwt'),
-                    //         roomId: roomId,
-                    //     })
+                    Axios.post(
+                        "https://ocwa.herokuapp.com/deleteboard",
+                        {   
+                            jwtToken: Cookies.get('jwt'),
+                            roomId: roomId,
+                            
+                        })
                     //  history.push("/chessgame");
-                    // window.location.href = "https://chessiiti.netlify.app/chessgame/";
+                    window.location.href = "https://chessiiti.netlify.app/chessgame/";
                 }}>Exit</button>
                 {/* <Timer /> */}
             </div>
