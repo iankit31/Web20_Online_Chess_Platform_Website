@@ -407,6 +407,20 @@ function Chessboard() {
         }
 
     }
+    function handleExit(e){
+
+        e.preventDefault();
+        if(checkMove.isThereAnyValidMove("black", pieces) && checkMove.isThereAnyValidMove("white",pieces) )
+        {
+            console.log("both players have valid moves");
+             socket.emit( "game-end","player-left", yourColor);
+            // socket.emit("game-end", "checkmate", opponentColor);
+        }
+        else
+        {
+            console.log("one player has no valid move");
+        }
+    };
 
     return (
         <div className="chessboard_wrapper">
@@ -428,19 +442,9 @@ function Chessboard() {
                 <h5>{user.playerEmailId}</h5>
                 <h5>{user.playerRating}</h5>
                 <h5>{message}</h5>
-                <button onClick={(e) => { 
+                <button onClick={(e) => { handleExit(e) 
                    
-                    e.preventDefault();
-                    if(checkMove.isThereAnyValidMove("black", pieces) && checkMove.isThereAnyValidMove("white",pieces) )
-                    {
-                        console.log("both players have valid moves");
-                        socket.emit("game-end","player-left", yourColor);
-                        // socket.emit("game-end", "checkmate", opponentColor);
-                    }
-                    else
-                    {
-                        console.log("one player has no valid move");
-                    }
+                   
                     // Axios.post(
                     //     "https://ocwa.herokuapp.com/deleteboard",
                     //     {   
