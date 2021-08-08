@@ -206,7 +206,6 @@ app.post('/deleteboard', (req, res) => {
             else {
                 console.log(decodedToken);
                 const room = req.body.roomId;
-                
                 let board = await Document.findById(room);
                 board.delete();
                 res.status(200);
@@ -277,8 +276,10 @@ io.on('connection', socket => {
             doc.save();
         })
 
-        socket.on("game-end", async (event, loseColor) => {  
+        socket.on("game-end", async (event, loseColor) => {
+
             console.log(event, loseColor);
+
             let doc = await Document.findById(roomId);
             if (event === "stalemate") {
                 doc.delete();
