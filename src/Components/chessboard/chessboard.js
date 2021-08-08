@@ -42,7 +42,7 @@ function Chessboard() {
     const [initialX, setInitialX] = useState(null);
     const [initialY, setInitialY] = useState(null);
     const [activePiece, setActivePiece] = useState(null);
-    const [whoseChanceItIs, setWhoseChanceItIs] = useState("black");
+    const [whoseChanceItIs, setWhoseChanceItIs] = useState(null);
 
     const [socket, setSocket] = useState(null);
     const [yourColor, setYourColor] = useState(null);
@@ -149,8 +149,6 @@ function Chessboard() {
     useEffect(() => {
         if (b_mail === user.playerEmailId) { setYourColor("black"); }
         if (w_mail === user.playerEmailId) { setYourColor("white"); }
-
-        setYourColor("black");
     }, [b_mail, w_mail, user])
 
 
@@ -245,6 +243,10 @@ function Chessboard() {
                 
                 if(yourColor === "black")
                 {
+                    if(aType === "queen" )
+                    {
+                        validMove = checkMove.isValidMove(activePieceY, activePieceX,7-row, col, "bishop", aColor, pieces, whoseChanceItIs, yourColor) || checkMove.isValidMove(activePieceY, activePieceX,7-row, col, "rook", aColor, pieces, whoseChanceItIs, yourColor);
+                    }
                     validMove = checkMove.isValidMove(activePieceY, activePieceX,7-row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
                     // console.log(validMove);
                     if(validMove){
