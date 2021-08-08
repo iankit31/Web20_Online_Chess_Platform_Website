@@ -247,7 +247,10 @@ function Chessboard() {
                     {
                         validMove = checkMove.isValidMove(activePieceY, activePieceX,7-row, col, "bishop", aColor, pieces, whoseChanceItIs, yourColor) || checkMove.isValidMove(activePieceY, activePieceX,7-row, col, "rook", aColor, pieces, whoseChanceItIs, yourColor);
                     }
-                    validMove = checkMove.isValidMove(activePieceY, activePieceX,7-row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
+                    else
+                    {
+                        validMove = checkMove.isValidMove(activePieceY, activePieceX,7-row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
+                    }
                     // console.log(validMove);
                     if(validMove){
                         console.log(7-row,col);
@@ -256,7 +259,14 @@ function Chessboard() {
                 }
                 else
                 {
-                    validMove = checkMove.isValidMove(activePieceY, activePieceX, row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
+                    if(aType === "queen" )
+                    {
+                        validMove = checkMove.isValidMove(activePieceY, activePieceX,row, col, "bishop", aColor, pieces, whoseChanceItIs, yourColor) || checkMove.isValidMove(activePieceY, activePieceX, row, col, "rook", aColor, pieces, whoseChanceItIs, yourColor);
+                    }
+                    else
+                    {
+                         validMove = checkMove.isValidMove(activePieceY, activePieceX, row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
+                    }
                     // console.log(validMove);
                     if(validMove){
                         console.log(row,col);

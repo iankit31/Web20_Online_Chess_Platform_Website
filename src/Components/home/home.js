@@ -13,11 +13,17 @@ export default function Home() {
 
   const handleStartClick = (e) => {
     e.preventDefault();
+
+    if(gameCode === "" )
+      return;
     historyRouter.push(`/chess/${gameCode}`);
   };
 
   const handleJoinClick = (e) => {
     e.preventDefault();
+
+    if(joinGameCode === "")
+      return;
     historyRouter.push(`/chess/${joinGameCode}`);
   };
   const handleLogout = (e) => {
