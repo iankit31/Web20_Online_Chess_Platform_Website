@@ -164,15 +164,30 @@ function Chessboard() {
     const checkMove = new CheckMove();
 
     let board = [];
-    for (let row = 0; row <= 7; row++) {
+    
+    if(yourColor==="black")
+    {for (let row = 7; row >= 0; row--) {
         for (let col = 0; col <= 7; col++) {
             board.push(<span>
-
-                <Tile
-                    pieces={pieces}
-                    row={row}
-                    col={col}
+               
+                <Tile 
+                    pieces={pieces} 
+                    row={row} 
+                    col={col} 
                     key={`${horizontalAxis[row]},${verticalAxis[7 - row]}`} /></span>)
+        }
+    }}
+    else {
+        for (let row = 0; row <= 7; row++) {
+            for (let col = 0; col <= 7; col++) {
+                board.push(<span>
+                
+                    <Tile 
+                        pieces={pieces} 
+                        row={row} 
+                        col={col} 
+                        key={`${horizontalAxis[row]},${verticalAxis[7 - row]}`} /></span>)
+            }
         }
     }
 
@@ -181,7 +196,12 @@ function Chessboard() {
         const element = e.target
         if (element.classList.contains("chess-piece")) {
             setInitialY(Math.floor((e.clientX - chessboard.offsetLeft) / 70));
-            setInitialX(Math.floor((e.clientY - chessboard.offsetTop) / 70));
+            
+            if(yourColor==="black") {
+                setInitialX(Math.floor(8-((e.clientY - chessboard.offsetTop)/70)));
+            } else {
+                setInitialX(Math.floor((e.clientY - chessboard.offsetTop)/70));
+            }
             
             const x = e.clientX - 35;
             const y = e.clientY - 35;
@@ -252,7 +272,7 @@ function Chessboard() {
     function dropPiece(e) {
         const chessboard = chessBoardRef.current;
         const col_num = Math.floor((e.clientX - chessboard.offsetLeft) / 70);
-        const row_num = Math.floor((e.clientY - chessboard.offsetTop) / 70);
+        const row_num = yourColor === "white" ? Math.floor((e.clientY - chessboard.offsetTop)/70) : Math.floor(8-((e.clientY - chessboard.offsetTop)/70));
         const minX = chessboard.offsetLeft;
         const minY = chessboard.offsetTop;
         const maxX = chessboard.offsetLeft + chessboard.clientWidth;
