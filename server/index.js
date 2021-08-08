@@ -307,6 +307,10 @@ io.on('connection', socket => {
         socket.on('user-left', () => {
             socket.to(roomId).emit('opponent-left');
         })
+
+        socket.on('send-opponent-info',(user) => {
+            socket.to(roomId).emit('recieve-opponent-info', user);
+        })
     })
 
 })

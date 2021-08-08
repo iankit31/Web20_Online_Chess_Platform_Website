@@ -1,12 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;700&display=swap');
+
 .chessboard_wrapper {
     display: flex;
     overflow: auto;
-}
-
-.chessboard-container{
-    display: grid;
-    grid-template-columns: auto auto auto;
-    grid-template-rows: auto;
 }
 
 .chessboard {
@@ -23,17 +19,22 @@
     position: fixed;
     bottom: 40px;
     right: 40px;
-    padding : 20px;
-    font-size : 22px;
-    
+    border: 5px solid rgb(63, 9, 9);
+    background: rgb(210,187,109);
+    box-shadow: 0px 0px 15px black;
+    background: linear-gradient(90deg, rgba(210,187,109,1) 0%, rgba(255,255,255,1) 100%, rgba(0,212,255,1) 100%);
+    /* background: #ffffff;
+background: radial-gradient(circle, rgb(185, 72, 20) 100%,0%,rgb(238, 237, 237) 0%); */
 }
 
 .opponentinfo{
     position: fixed;
     top: 40px;
     left: 40px;
-    padding : 20px;
-    font-size : 22px;
+    border: 5px solid rgb(63, 9, 9);
+    box-shadow: 0px 0px 15px white;
+    background: rgb(162,93,90);
+    background: linear-gradient(90deg, rgba(162,93,90,1) 22%, rgba(255,255,255,1) 100%);
 }
 
 .button{
@@ -42,7 +43,6 @@
     bottom: 40px;
     left: 40px;   
     border: 1px solid white;
-    /* color : #330505; */
 }
 
 .messagebox{
@@ -51,5 +51,110 @@
     position: fixed;
     top: 40px;
     right: 40px;
-    
+    border-radius: 10px;
+    background-color: white;
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 32%, rgba(137,199,105,1) 74%);
+    box-shadow: 0px 0px 10px white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
 }
+
+img {
+    max-width: 100%;
+    display: block;
+  }
+  ul {
+    list-style: none;
+  }
+  
+  /* Utilities */
+  .card::after,
+  .card img {
+    border-radius: 50%;
+  }
+  
+  .card {
+    
+    border-radius: 10px;
+    max-width: 300px;
+    max-height: 300px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .15);
+    margin: 1rem;
+    display: flex;
+    transform-style: preserve-3d;
+    overflow: hidden;
+  }
+
+  
+  .card img {
+    width: 70px;
+    min-width: 70px;
+    padding : 2px;
+   
+  }
+  
+  .infos {
+    margin-left: 1.5rem;
+  }
+  
+  .name {
+    margin-bottom: 1rem;
+  }
+  .name h2 {
+    font-size: 1.3rem;
+  }
+  .name h4 {
+    font-size: .8rem;
+    color: #333
+  }
+  
+  .text {
+    font-size: .9rem;
+    margin-bottom: 1rem;
+  }
+  
+  
+  .h3 {
+      font-size: 50px;
+    text-align: left;
+}
+
+
+@media screen and (max-width: 1200px) {
+    .card {
+      display: none;
+    }
+    .infos {
+      margin-left: 0;
+      margin-top: 1.5rem;
+    }
+    .links button {
+      min-width: 100px;
+    }
+  }
+
+  
+@media screen and (max-width: 900px) {
+    .card {
+      display: none;
+    }
+    .button{
+        position: fixed;
+        bottom: 5px;
+        left: 5px;   
+        border: 1px solid white;
+    }
+    .messagebox{
+        padding: 5px;
+        position: fixed;
+        top: 5px;
+        right: 5px;
+        
+        background-color: white;
+       
+  }
+}
+  

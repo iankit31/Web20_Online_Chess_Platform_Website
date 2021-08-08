@@ -57,6 +57,14 @@ function Chessboard() {
         playerRating: "",
     });
 
+    const [opponentUser, setOpponentUser] = useState({
+        playerName: "",
+        playerId: "",
+        playerEmailId: "",
+        playerPassword: "",
+        playerRating: "",
+    });
+
 
     const [b_mail, setB_mail] = useState("");
     const [w_mail, setW_mail] = useState("");
@@ -67,7 +75,8 @@ function Chessboard() {
 
     const { roomId } = useParams();
     const history = useHistory();
-
+    const whitepawn = "/images/wp.png";
+    const blackpawn = "/images/bp.png";
 
     useEffect(() => {
         Axios.post(
@@ -85,6 +94,26 @@ function Chessboard() {
             })
 
     }, []);
+
+    useEffect(() => {
+        if (socket === null) {
+            return;
+        }
+        if(user !== null) {
+            socket.emit("send-opponent-info",user);
+        }
+    }, [user,socket])
+
+    useEffect(() => {
+        
+        if (socket === null) {
+            return;
+        }
+        socket.on("recieve-opponent-info",(oppo)=>{
+            setOpponentUser(oppo);
+        });
+       
+    }, [socket])
 
     useEffect(() => {
         const s = io(`https://ocwa.herokuapp.com`);
@@ -411,16 +440,31 @@ function Chessboard() {
 
 
             <div className="chessboard_wrapper">
-                <div className="chessboard-container">
+                
 
                     <div className="opponentinfo" style={{ backgroundColor: "white" }}>
-
-                        <h5>
+                    <div   div className="card">
+                            <div className="img">
+                            <img src={yourColor === "black" ? whitepawn : blackpawn}/>
+                            </div>
+                            <div className="infos">
+                            <div className="name">
+                                <h1>{opponentUser.playerName}</h1>
+                                <h3>@{opponentUser.playerId}</h3>
+                            </div>
+                            
+                            <h2>
+                                Rating: {opponentUser.playerRating}
+                            </h2>
+                            </div>
+                           
+                        </div>
+                        {/* <h5>
                             UserName: {user.playerId}  <br/>
                             Your Color {yourColor} <br/>
                             It's {whoseChanceItIs}'s Chance <br/>
                             Rating: {user.playerRating}
-                        </h5>
+                        </h5> */}
                     </div>
 
 
@@ -437,13 +481,28 @@ function Chessboard() {
 
 
                     <div className="myinfo" style={{ backgroundColor: "white" }}>
-
-                        <h5>
+                    <div   div className="card">
+                            <div className="img">
+                            <img src={yourColor === "white" ? whitepawn : blackpawn}/>
+                            </div>
+                            <div className="infos">
+                            <div className="name">
+                                <h1>{user.playerName}</h1>
+                                <h3>@{user.playerId}</h3>
+                            </div>
+                            
+                            <h2>
+                                Rating: {user.playerRating}
+                            </h2>
+                            </div>
+                           
+                    </div>
+                        {/* <h5>
                             UserName: {user.playerId}  <br/>
                             Your Color {yourColor} <br/>
                             It's {whoseChanceItIs}'s Chance <br/>
-                            Rating: {user.playerRating}
-                        </h5>
+                            
+                        </h5> */}
                         <button className="button" onClick={(e) => {
 
                             e.preventDefault();
@@ -461,9 +520,10 @@ function Chessboard() {
                     </div>
 
                     <div className="messagebox" style={{ backgroundColor: "white" }}>
-                        Dummy message box{message}
+                        Its {whoseChanceItIs}'s Turn <br/>
+                        {message}
                     </div>
-                </div>
+                
 
 
             </div>
