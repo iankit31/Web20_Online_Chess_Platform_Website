@@ -115,6 +115,7 @@ function Chessboard() {
             else if (event === "player-left") {
                 setMessage("Other Player Left the Game");
             }
+            setWhoseChanceItIs(null);
         })
 
     }, [pieces, socket]);
