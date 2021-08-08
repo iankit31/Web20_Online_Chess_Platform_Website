@@ -61,6 +61,8 @@ function Chessboard() {
 
     const [message, setMessage] = useState("");
 
+    const [activeTile,setActiveTile] = useState(null);
+
     const { roomId } = useParams();
     const history = useHistory();
 
@@ -174,7 +176,10 @@ function Chessboard() {
                     pieces={pieces} 
                     row={row} 
                     col={col} 
-                    key={`${horizontalAxis[row]},${verticalAxis[7 - row]}`} /></span>)
+                    key={`${horizontalAxis[row]},${verticalAxis[7 - row]}`}
+                    activeTile={activeTile}
+                />
+            </span>)
         }
     }}
     else {
@@ -186,7 +191,9 @@ function Chessboard() {
                         pieces={pieces} 
                         row={row} 
                         col={col} 
-                        key={`${horizontalAxis[row]},${verticalAxis[7 - row]}`} /></span>)
+                        key={`${horizontalAxis[row]},${verticalAxis[7 - row]}`}
+                        activeTile={activeTile} />
+                </span>)
             }
         }
     }
@@ -230,6 +237,7 @@ function Chessboard() {
 
         console.log(aColor, aType);
         let validMove = null;
+        let array = [];
         for (let row = 0; row <= 7; row++) {
             for (let col = 0; col <= 7; col++) {
                 
@@ -238,14 +246,12 @@ function Chessboard() {
                 if(validMove){
                     console.log(row,col);
                     // <HighLightTile/>
+                    array.push({x:row, y:col});
                 }
             }
         }
 
-        // HighLightTile
-        
-
-
+        setActiveTile(array);
     }
 
     function movePiece(e) {
@@ -277,7 +283,8 @@ function Chessboard() {
         const minY = chessboard.offsetTop;
         const maxX = chessboard.offsetLeft + chessboard.clientWidth;
         const maxY = chessboard.offsetTop + chessboard.clientHeight;
-
+        
+        setActiveTile(null);
 
         if (activePiece) {
             if (e.clientX > maxX || e.clientX < minX || e.clientY > maxY || e.clientY < minY) {

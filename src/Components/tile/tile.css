@@ -5,6 +5,10 @@
     width: 70px;
 }
 
+.highlighted{
+   border: 5px solid hsl(56, 100%, 50%);
+}
+
 .black-tile {
     background-color: #b58863;
     /* background-color: #f0e2da; */
@@ -14,6 +18,7 @@
     background-color: #f0d9b5;
     /* background-color:#e69c6a; */
 }
+
 
 .black-tile .chess-piece {
     height: 70px;
