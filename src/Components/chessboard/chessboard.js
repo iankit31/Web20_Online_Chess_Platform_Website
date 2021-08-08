@@ -64,18 +64,17 @@ function Chessboard() {
 
     useEffect(() => {
         Axios.post(
-         "https://ocwa.herokuapp.com/getuser",
-         {
-           jwtToken: Cookies.get('jwt'),
-         } )
-         .then((res)=>{
-           if(res.data.msg === 'verified')
-           {
-             setUser(res.data.user);
-           }
-     })
-     
-     }, []);
+            "https://ocwa.herokuapp.com/getuser",
+            {
+                jwtToken: Cookies.get('jwt'),
+            })
+            .then((res) => {
+                if (res.data.msg === 'verified') {
+                    setUser(res.data.user);
+                }
+            })
+
+    }, []);
 
     useEffect(() => {
         const s = io(`https://ocwa.herokuapp.com`);
@@ -98,13 +97,13 @@ function Chessboard() {
         }
         socket.on('receive-updates', (event, loseColor) => {
             const winColor = loseColor ? "white" : "black";
-            if(event==="checkmate") {
+            if (event === "checkmate") {
                 setMessage(`It's checkmate !! Player with ${winColor} Wins Game`);
             }
-            else if(event==="stalemate") {
+            else if (event === "stalemate") {
                 setMessage("It's a stalemate");
             }
-            
+
         })
 
     }, [pieces, socket]);
@@ -145,7 +144,7 @@ function Chessboard() {
     }, [b_mail, w_mail, user])
 
 
-    
+
     useEffect(() => {
         if (socket === null) {
             return;
@@ -239,7 +238,7 @@ function Chessboard() {
                         validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, 'rook', currentPiece.color, pieces, whoseChanceItIs, yourColor) || checkMove.isValidMove(initialX, initialY, row_num, col_num, 'bishop', currentPiece.color, pieces, whoseChanceItIs, yourColor);
                     else
                         validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, currentPiece.type, currentPiece.color, pieces, whoseChanceItIs, yourColor);
-                    
+
                     if (yourColor === currentPiece.color && validMove) {
                         // socket.emit('send-piece-move', currentPiece, row_num, col_num, initialX, initialY);
                         // currentPiece.x = row_num;
@@ -270,10 +269,10 @@ function Chessboard() {
                             socket.emit('send-pieces', newPieces, opponentColor);
                             socket.emit('save-chessboard', newPieces, opponentColor, user.playerEmailId);
 
-                           
+
                             if (!checkMove.isThereAnyValidMove(opponentColor, newPieces)) {
 
-                                if(!checkMove.isKingNotOnCheck(-1,-1,-1,-1,currentPiece.color,newPieces)){
+                                if (!checkMove.isKingNotOnCheck(-1, -1, -1, -1, currentPiece.color, newPieces)) {
                                     console.log("checkmate");
                                     socket.emit("game-end", "checkmate", opponentColor);
                                     setMessage(`It's checkmate !! Player with ${currentPiece.color} Wins Game`);
@@ -284,7 +283,7 @@ function Chessboard() {
                                     setMessage(`It's stalemate!!`);
                                 }
                             }
-                            
+
                             return newPieces;
                         })
 
@@ -312,7 +311,7 @@ function Chessboard() {
     }
 
     return (
-        <>
+        <div className="chessboard_wrapper">
             <div
                 className="chessboard"
                 ref={chessBoardRef}
@@ -331,9 +330,9 @@ function Chessboard() {
                 <h5>{user.playerEmailId}</h5>
                 <h5>{user.playerRating}</h5>
                 <h5>{message}</h5>
-                <button onClick={()=>{window.location.href=`https://chessiiti.netlify.app/chessgame`}}>Exit</button>
+                <button onClick={() => { window.location.href = `https://chessiiti.netlify.app/chessgame` }}>Exit</button>
             </div>
-        </>
+        </div>
     )
 }
 

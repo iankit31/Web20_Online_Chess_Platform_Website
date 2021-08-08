@@ -3,6 +3,13 @@
     grid-template-rows: auto;
     grid-template-columns: auto auto;
     place-content: center;
-    background-color: rgb(116, 101, 101);
-    height: 100vh;
+    /* background-color: rgb(116, 101, 101); */
+    background: red;
+    height: 1800px;
+}
+
+body {
+    background-image: url(./images/1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }

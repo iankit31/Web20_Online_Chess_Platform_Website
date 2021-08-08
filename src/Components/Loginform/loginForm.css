@@ -13,7 +13,7 @@ body {
     margin: 0;
 }
 
-body {
+.login_screen {
     background: #f6f5f7;
     display: flex;
     justify-content: center;
@@ -94,12 +94,6 @@ input {
     padding: 12px 15px;
     margin: 8px 0;
     width: 100%;
-}
-
-body {
-    background-image: url(../../images/1.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
 .container {

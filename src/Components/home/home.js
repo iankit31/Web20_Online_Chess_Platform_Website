@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import Axios from "axios"
 import "./home.css"
 import Cookies from 'js-cookie';
-
+import bg from '../../images/1.jpg'
 
 export default function Home() {
   const historyRouter = useHistory();
@@ -37,21 +37,20 @@ export default function Home() {
     playerRating: "",
   });
 
-    useEffect(() => {
+  useEffect(() => {
 
 
-     Axios.post(
+    Axios.post(
       "https://ocwa.herokuapp.com/getuser",
       {
         jwtToken: Cookies.get('jwt'),
-      } )
-      .then((res)=>{
-        if(res.data.msg === 'verified')
-        {
+      })
+      .then((res) => {
+        if (res.data.msg === 'verified') {
           setUser(res.data.user);
         }
-  })
-  
+      })
+
   }, []);
 
   useEffect(() => {
@@ -60,56 +59,58 @@ export default function Home() {
     const container = document.getElementById('container');
 
     signUpButton.addEventListener('click', () => {
-        container.classList.add("right-panel-active");
+      container.classList.add("right-panel-active");
     });
 
     signInButton.addEventListener('click', () => {
-        container.classList.remove("right-panel-active");
+      container.classList.remove("right-panel-active");
     });
-}, [])
+  }, [])
 
   return (
-    <div className="container" id="container">
-            <div className="form-container sign-up-container">
-                <form >
-                    <h1>Account Detail</h1>
-                    <h2>Player Name : {`${user.playerName}`}</h2>
-                    <h2>UserName : {`${user.playerId}`}</h2>
-                    <h2>Email : {`${user.playerEmailId}`}</h2>
-                    <h2>Rating : {`${user.playerRating}`}</h2>
-                </form>
-            </div>
-            <div className="form-container sign-in-container">
-                <form >
-                    <h1>Start Game</h1>
-                    <input type="text" value={gameCode} placeholder="Enter New Room code" onChange={(e) => { setGameCode(e.target.value) }} required/>
-                    <br/>
-                    <button onClick={(e) => handleStartClick(e)}>Start New Game</button>
-                    <br/>
-                    <input type="text" value={joinGameCode} placeholder="Enter Friend's Room code" onChange={(e) => { setJoinGameCode(e.target.value) }} required/>
-                    <br/>
-                    <button onClick={(e) => handleJoinClick(e)}>Join Friend's Game</button>
-                    <br/>
-                </form>
-            </div>
-            <div className="overlay-container">
-                <div className="overlay">
-                    <div className="overlay-panel overlay-left">
-                        <h1>Join Battle</h1>
-                        <p>Enter unique Code to start New Game or Join Friend's Game with Game code</p>
-                        <button className="ghost" id="signIn">Start Game</button>
-                    </div>
-                    <div className="overlay-panel overlay-right">
-                        <h1>Start Game</h1>
-                        <p>Enter your personal details and start journey with us</p>
-                        <button className="ghost" id="signUp">Profile</button>
-                        <br/>
-                        
-                         <button className="ghost" id="logOut" onClick={(e) => handleLogout(e)}>Logout</button>
-                       
-                    </div>
-                </div>
-            </div>
+    <div className="home_screen" style={{ backgroundImage: `url(${bg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+      <div id="container">
+        <div className="form-container sign-up-container">
+          <form >
+            <h1>Account Detail</h1>
+            <h2>Player Name : {`${user.playerName}`}</h2>
+            <h2>UserName : {`${user.playerId}`}</h2>
+            <h2>Email : {`${user.playerEmailId}`}</h2>
+            <h2>Rating : {`${user.playerRating}`}</h2>
+          </form>
         </div>
+        <div className="form-container sign-in-container">
+          <form >
+            <h1>Start Game</h1>
+            <input type="text" value={gameCode} placeholder="Enter New Room code" onChange={(e) => { setGameCode(e.target.value) }} required />
+            <br />
+            <button onClick={(e) => handleStartClick(e)}>Start New Game</button>
+            <br />
+            <input type="text" value={joinGameCode} placeholder="Enter Friend's Room code" onChange={(e) => { setJoinGameCode(e.target.value) }} required />
+            <br />
+            <button onClick={(e) => handleJoinClick(e)}>Join Friend's Game</button>
+            <br />
+          </form>
+        </div>
+        <div className="overlay-container">
+          <div className="overlay">
+            <div className="overlay-panel overlay-left">
+              <h1>Join Battle</h1>
+              <p>Enter unique Code to start New Game or Join Friend's Game with Game code</p>
+              <button className="ghost" id="signIn">Start Game</button>
+            </div>
+            <div className="overlay-panel overlay-right">
+              <h1>Start Game</h1>
+              <p>Enter your personal details and start journey with us</p>
+              <button className="ghost" id="signUp">Profile</button>
+              <br />
+
+              <button className="ghost" id="logOut" onClick={(e) => handleLogout(e)}>Logout</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
