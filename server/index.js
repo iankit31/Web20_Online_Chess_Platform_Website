@@ -276,17 +276,14 @@ io.on('connection', socket => {
             doc.save();
         })
 
-        socket.on("game-end", async (event, loseColor) => {
-
+        socket.on("game-end", async (event, loseColor) => {  
             console.log(event, loseColor);
-            
             let doc = await Document.findById(roomId);
             if (event === "stalemate") {
                 doc.delete();
                 socket.to(roomId).emit("receive-updates", event, loseColor);
                 return;
             }
-
             let blackUserInfo = await Users.findOne({ playerEmailId: doc.black });
             let whiteUserInfo = await Users.findOne({ playerEmailId: doc.white });
 

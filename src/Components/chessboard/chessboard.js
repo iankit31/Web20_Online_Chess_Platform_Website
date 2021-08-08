@@ -435,7 +435,11 @@ function Chessboard() {
                     {
                         console.log("both players have valid moves");
                         socket.emit("game-end","player-left", yourColor);
-                        
+                        // socket.emit("game-end", "checkmate", opponentColor);
+                    }
+                    else
+                    {
+                        console.log("one player has no valid move");
                     }
                     // Axios.post(
                     //     "https://ocwa.herokuapp.com/deleteboard",
