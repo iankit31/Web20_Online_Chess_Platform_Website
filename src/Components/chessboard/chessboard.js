@@ -113,6 +113,7 @@ function Chessboard() {
                 setMessage("It's a stalemate");
             }
             else if (event === "player-left") {
+                console.log("It's a player-left");
                 setMessage("Other Player Left the Game");
             }
             setWhoseChanceItIs(null);
@@ -433,7 +434,9 @@ function Chessboard() {
                     e.preventDefault();
                     if(checkMove.isThereAnyValidMove("black", pieces) && checkMove.isThereAnyValidMove("white",pieces) )
                     {
+                        console.log("both players have valid moves");
                         socket.emit("game-end","player-left", yourColor);
+                        
                     }
                     // Axios.post(
                     //     "https://ocwa.herokuapp.com/deleteboard",

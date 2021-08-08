@@ -279,7 +279,7 @@ io.on('connection', socket => {
         socket.on("game-end", async (event, loseColor) => {
 
             console.log(event, loseColor);
-
+            
             let doc = await Document.findById(roomId);
             if (event === "stalemate") {
                 doc.delete();
