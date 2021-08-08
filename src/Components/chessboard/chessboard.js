@@ -220,7 +220,7 @@ function Chessboard() {
         }
         
         const activePieceX = Math.floor((e.clientX - chessboard.offsetLeft) / 70);
-        const activePieceY = Math.floor((e.clientY - chessboard.offsetTop) / 70);
+        const activePieceY = yourColor === "white" ? Math.floor((e.clientY - chessboard.offsetTop) / 70) : Math.floor(8-((e.clientY - chessboard.offsetTop)/70));
         
         console.log(activePieceX, activePieceY);
         // console.log(pieces);
@@ -245,12 +245,7 @@ function Chessboard() {
                 // console.log(validMove);
                 if(validMove){
                     console.log(row,col);
-                    // <HighLightTile/>
-                    if(yourColor === "black"){
-                        array.push({x: 7-row, y:col});
-                    }
-                    else
-                        array.push({x:row, y:col});
+                    array.push({x:row, y:col});
                 }
             }
         }
