@@ -191,6 +191,32 @@ app.get('/users/logout', checkUser, (req, res) => {
     res.cookie('jwt', '', { maxAge: 1 });
     res.redirect(process.env.FRONTEND)
 })
+
+// Delete Chessboard
+app.post('/deleteboard', (req, res) => {
+
+    const token = req.body.jwtToken;
+
+    if (token) {
+        jwt.verify(token, process.env.TOKEN, async (err, decodedToken) => {
+            if (err) {
+                console.log(err.message);
+                res.status(400);
+            }
+            else {
+                console.log(decodedToken);
+                const room = req.body.roomId;
+                let board = await Document.findById(room);
+                board.delete();
+                res.status(200);
+            }
+        });
+    }
+    else {
+        res.status(400);
+    }
+})
+
 http.listen(process.env.PORT, () => console.log(`Server Running on port ${process.env.PORT}`));
 
 

@@ -6,12 +6,18 @@ import './App.css'
 import Loginform from './Components/Loginform/Loginform'
 import AccessDenied from "./Components/AccessDenied/AccessDenied"
 
+
+import ReactNotification from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 function App() {
 
 	return (
+		<>
 		<Router>
 			<Switch>
+
 				<Route exact path="/">
 					<Redirect to="/login" />
 				</Route>
@@ -35,7 +41,8 @@ function App() {
 				</Route>
 			</Switch>
 		</Router>
-
+		<ReactNotification />
+		</>
 
 	)
 }

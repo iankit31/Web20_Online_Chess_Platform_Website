@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react"
 import { useState } from "react"
 import "./chessboard.css"
 
-import CheckMove from "../../CheckMove/CheckMove"
+import CheckMove from "../../Functions/CheckMove"
 import { io } from 'socket.io-client'
 import { useParams, useHistory } from "react-router-dom";
 import Axios from "axios"
@@ -425,7 +425,19 @@ function Chessboard() {
                 <h5>{user.playerEmailId}</h5>
                 <h5>{user.playerRating}</h5>
                 <h5>{message}</h5>
-                <button onClick={() => { window.location.href = `https://chessiiti.netlify.app/chessgame` }}>Exit</button>
+                <button onClick={(e) => { 
+                   
+                    e.preventDefault();
+                    Axios.post(
+                        "https://ocwa.herokuapp.com/deleteboard",
+                        {   
+                            jwtToken: Cookies.get('jwt'),
+                            roomId: roomId,
+                        })
+                        .then((res) => {
+                             history.push("/chessgame");
+                        })
+                }}>Exit</button>
                 {/* <Timer /> */}
             </div>
         </div>

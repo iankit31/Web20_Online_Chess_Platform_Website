@@ -4,6 +4,7 @@ import Axios from "axios"
 import "./home.css"
 import Cookies from 'js-cookie';
 import bg from '../../images/1.jpg'
+import CreateNotification from  '../../Functions/Notification'
 
 export default function Home() {
   const historyRouter = useHistory();
@@ -28,10 +29,11 @@ export default function Home() {
   };
   const handleLogout = (e) => {
     // e.preventDefault();
+   
     console.log('in logout handle');
     Cookies.remove('jwt');
     historyRouter.push('/');
-    // window.location.href = "https://chessiiti.netlify.app/";
+    
   };
 
   const [user, setUser] = useState({
@@ -53,6 +55,12 @@ export default function Home() {
       .then((res) => {
         if (res.data.msg === 'verified') {
           setUser(res.data.user);
+          // CreateNotification({
+          //   title:  "Successful signin",
+          //   message: "TEST",
+          //   type: "success",
+          //   time : 5000,
+          // }) 
         }
         else
         {
