@@ -434,9 +434,7 @@ function Chessboard() {
                             jwtToken: Cookies.get('jwt'),
                             roomId: roomId,
                         })
-                        .then((res) => {
-                             history.push("/chessgame");
-                        })
+                    history.push("/chessgame");
                 }}>Exit</button>
                 {/* <Timer /> */}
             </div>
