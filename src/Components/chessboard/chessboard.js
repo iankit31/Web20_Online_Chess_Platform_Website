@@ -42,7 +42,7 @@ function Chessboard() {
     const [initialX, setInitialX] = useState(null);
     const [initialY, setInitialY] = useState(null);
     const [activePiece, setActivePiece] = useState(null);
-    const [whoseChanceItIs, setWhoseChanceItIs] = useState(null);
+    const [whoseChanceItIs, setWhoseChanceItIs] = useState("black");
 
     const [socket, setSocket] = useState(null);
     const [yourColor, setYourColor] = useState(null);
@@ -149,6 +149,8 @@ function Chessboard() {
     useEffect(() => {
         if (b_mail === user.playerEmailId) { setYourColor("black"); }
         if (w_mail === user.playerEmailId) { setYourColor("white"); }
+
+        setYourColor("black");
     }, [b_mail, w_mail, user])
 
 
@@ -241,12 +243,25 @@ function Chessboard() {
         for (let row = 0; row <= 7; row++) {
             for (let col = 0; col <= 7; col++) {
                 
-                validMove = checkMove.isValidMove(activePieceY, activePieceX, row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
-                // console.log(validMove);
-                if(validMove){
-                    console.log(row,col);
-                    array.push({x:row, y:col});
+                if(yourColor === "black")
+                {
+                    validMove = checkMove.isValidMove(activePieceY, activePieceX,7-row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
+                    // console.log(validMove);
+                    if(validMove){
+                        console.log(7-row,col);
+                        array.push({x:7-row, y:col});
+                    }
                 }
+                else
+                {
+                    validMove = checkMove.isValidMove(activePieceY, activePieceX, row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
+                    // console.log(validMove);
+                    if(validMove){
+                        console.log(row,col);
+                        array.push({x:row, y:col});
+                    }
+                }
+                
             }
         }
 
