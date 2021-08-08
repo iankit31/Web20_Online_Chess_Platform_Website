@@ -72,6 +72,9 @@ function Chessboard() {
                 if (res.data.msg === 'verified') {
                     setUser(res.data.user);
                 }
+                else {
+                    history.push("/");
+                }
             })
 
     }, []);
