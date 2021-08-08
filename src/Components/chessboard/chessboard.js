@@ -113,7 +113,7 @@ function Chessboard() {
             setOpponentUser(oppo);
         });
        
-    }, [socket])
+    }, [user,socket])
 
     useEffect(() => {
         const s = io(`https://ocwa.herokuapp.com`);
