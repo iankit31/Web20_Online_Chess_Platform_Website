@@ -78,9 +78,9 @@ function Chessboard() {
                 if (res.data.msg === 'verified') {
                     setUser(res.data.user);
                 }
-                // else {
-                //     history.push("/");
-                // }
+                else {
+                    history.push("/");
+                }
             })
 
     }, []);
@@ -426,7 +426,7 @@ function Chessboard() {
                 <h5>{user.playerRating}</h5>
                 <h5>{message}</h5>
                 <button onClick={() => { window.location.href = `https://chessiiti.netlify.app/chessgame` }}>Exit</button>
-                <Timer />
+                {/* <Timer /> */}
             </div>
         </div>
     )

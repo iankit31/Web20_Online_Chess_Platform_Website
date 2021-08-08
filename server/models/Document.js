@@ -6,7 +6,7 @@ const Document = new Schema({
     data: Object,
     chance: String,
     black: String,
-    white: String
+    white: String,
 })
 
 module.exports = model('Document', Document);

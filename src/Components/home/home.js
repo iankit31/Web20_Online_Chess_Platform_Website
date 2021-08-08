@@ -54,10 +54,10 @@ export default function Home() {
         if (res.data.msg === 'verified') {
           setUser(res.data.user);
         }
-        // else
-        // {
-        //   historyRouter.push('/');
-        // }
+        else
+        {
+          historyRouter.push('/');
+        }
       })
 
   }, []);
