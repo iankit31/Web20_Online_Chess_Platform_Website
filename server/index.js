@@ -206,23 +206,7 @@ app.post('/deleteboard', (req, res) => {
             else {
                 console.log(decodedToken);
                 const room = req.body.roomId;
-                let user = await Users.findById(decodedToken.id);
                 let board = await Document.findById(room);
-
-                let blackUserInfo = await Users.findOne({ playerEmailId: doc.black });
-                let whiteUserInfo = await Users.findOne({ playerEmailId: doc.white });
-
-                const loseColor = board.black === user.playerEmailId ? "black" : "white";
-                if (loseColor === "white") {
-                    whiteUserInfo.playerRating = whiteUserInfo.playerRating - 10;
-                    blackUserInfo.playerRating = blackUserInfo.playerRating + 10;
-                }
-                else {
-                    whiteUserInfo.playerRating = whiteUserInfo.playerRating + 10;
-                    blackUserInfo.playerRating = blackUserInfo.playerRating - 10;
-                }
-                await whiteUserInfo.save();
-                await blackUserInfo.save();
                 board.delete();
                 res.status(200);
             }
@@ -292,8 +276,10 @@ io.on('connection', socket => {
             doc.save();
         })
 
-        socket.on("game-end", async (event, loseColor) => {  
+        socket.on("game-end", async (event, loseColor) => {
+
             console.log(event, loseColor);
+
             let doc = await Document.findById(roomId);
             if (event === "stalemate") {
                 doc.delete();
