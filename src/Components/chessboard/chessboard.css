@@ -3,12 +3,53 @@
     overflow: auto;
 }
 
+.chessboard-container{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto;
+}
+
 .chessboard {
-    border: solid rgb(92, 34, 34);
+    border: 20px solid rgb(63, 9, 9);
     /* border-radius: 15px; */
     display: grid;
     grid-template-columns: repeat(8, 70px);
     grid-template-rows: repeat(8, 70px);
     height: 100%;
     width: 100%;
+}
+
+.myinfo{
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    padding : 20px;
+    font-size : 22px;
+    
+}
+
+.opponentinfo{
+    position: fixed;
+    top: 40px;
+    left: 40px;
+    padding : 20px;
+    font-size : 22px;
+}
+
+.button{
+    position: fixed;
+    font-size :22px;
+    bottom: 40px;
+    left: 40px;   
+    border: 1px solid white;
+    /* color : #330505; */
+}
+
+.messagebox{
+    padding: 20px;
+    font-size: 22px;
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    
 }

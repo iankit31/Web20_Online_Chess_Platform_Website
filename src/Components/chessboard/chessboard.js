@@ -9,6 +9,7 @@ import Axios from "axios"
 import Cookies from 'js-cookie';
 import Timer from '../Timer/Timer'
 
+
 import Tile from "../tile/tile"
 
 let horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h"]
@@ -56,13 +57,13 @@ function Chessboard() {
         playerRating: "",
     });
 
-    
+
     const [b_mail, setB_mail] = useState("");
     const [w_mail, setW_mail] = useState("");
 
     const [message, setMessage] = useState("");
 
-    const [activeTile,setActiveTile] = useState(null);
+    const [activeTile, setActiveTile] = useState(null);
 
     const { roomId } = useParams();
     const history = useHistory();
@@ -115,7 +116,7 @@ function Chessboard() {
 
         })
 
-        socket.on('opponent-left',()=>{
+        socket.on('opponent-left', () => {
             console.log("Your opponent left");
             setMessage("Your opponent left");
         })
@@ -172,31 +173,32 @@ function Chessboard() {
     const checkMove = new CheckMove();
 
     let board = [];
-    
-    if(yourColor==="black")
-    {for (let row = 7; row >= 0; row--) {
-        for (let col = 0; col <= 7; col++) {
-            board.push(<span>
-               
-                <Tile 
-                    pieces={pieces} 
-                    row={row} 
-                    col={col} 
-                    key={`${horizontalAxis[row]},${verticalAxis[7 - row]}`}
-                    activeTile={activeTile}
-                />
-            </span>)
+
+    if (yourColor === "black") {
+        for (let row = 7; row >= 0; row--) {
+            for (let col = 0; col <= 7; col++) {
+                board.push(<span>
+
+                    <Tile
+                        pieces={pieces}
+                        row={row}
+                        col={col}
+                        key={`${horizontalAxis[row]},${verticalAxis[7 - row]}`}
+                        activeTile={activeTile}
+                    />
+                </span>)
+            }
         }
-    }}
+    }
     else {
         for (let row = 0; row <= 7; row++) {
             for (let col = 0; col <= 7; col++) {
                 board.push(<span>
-                
-                    <Tile 
-                        pieces={pieces} 
-                        row={row} 
-                        col={col} 
+
+                    <Tile
+                        pieces={pieces}
+                        row={row}
+                        col={col}
                         key={`${horizontalAxis[row]},${verticalAxis[7 - row]}`}
                         activeTile={activeTile} />
                 </span>)
@@ -209,36 +211,35 @@ function Chessboard() {
         const element = e.target
         if (element.classList.contains("chess-piece")) {
             setInitialY(Math.floor((e.clientX - chessboard.offsetLeft) / 70));
-            
-            if(yourColor==="black") {
-                setInitialX(Math.floor(8-((e.clientY - chessboard.offsetTop)/70)));
+
+            if (yourColor === "black") {
+                setInitialX(Math.floor(8 - ((e.clientY - chessboard.offsetTop) / 70)));
             } else {
-                setInitialX(Math.floor((e.clientY - chessboard.offsetTop)/70));
+                setInitialX(Math.floor((e.clientY - chessboard.offsetTop) / 70));
             }
-            
+
             const x = e.clientX - 35;
             const y = e.clientY - 35;
-            
+
             element.style.position = "absolute";
             element.style.left = `${x}px`
             element.style.top = `${y}px`
             setActivePiece(element);
         }
-        
+
         const activePieceX = Math.floor((e.clientX - chessboard.offsetLeft) / 70);
-        const activePieceY = yourColor === "white" ? Math.floor((e.clientY - chessboard.offsetTop) / 70) : Math.floor(8-((e.clientY - chessboard.offsetTop)/70));
-        
+        const activePieceY = yourColor === "white" ? Math.floor((e.clientY - chessboard.offsetTop) / 70) : Math.floor(8 - ((e.clientY - chessboard.offsetTop) / 70));
+
         console.log(activePieceX, activePieceY);
         // console.log(pieces);
         let aColor = "";
         let aType = "";
-       pieces.forEach(p =>{  
+        pieces.forEach(p => {
 
-             if(p.x === activePieceY && p.y === activePieceX)
-             {
+            if (p.x === activePieceY && p.y === activePieceX) {
                 aColor = p.color;
                 aType = p.type;
-             }
+            }
         });
 
         console.log(aColor, aType);
@@ -246,40 +247,34 @@ function Chessboard() {
         let array = [];
         for (let row = 0; row <= 7; row++) {
             for (let col = 0; col <= 7; col++) {
-                
-                if(yourColor === "black")
-                {
-                    if(aType === "queen" )
-                    {
-                        validMove = checkMove.isValidMove(activePieceY, activePieceX,7-row, col, "bishop", aColor, pieces, whoseChanceItIs, yourColor) || checkMove.isValidMove(activePieceY, activePieceX,7-row, col, "rook", aColor, pieces, whoseChanceItIs, yourColor);
+
+                if (yourColor === "black") {
+                    if (aType === "queen") {
+                        validMove = checkMove.isValidMove(activePieceY, activePieceX, 7 - row, col, "bishop", aColor, pieces, whoseChanceItIs, yourColor) || checkMove.isValidMove(activePieceY, activePieceX, 7 - row, col, "rook", aColor, pieces, whoseChanceItIs, yourColor);
                     }
-                    else
-                    {
-                        validMove = checkMove.isValidMove(activePieceY, activePieceX,7-row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
+                    else {
+                        validMove = checkMove.isValidMove(activePieceY, activePieceX, 7 - row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
                     }
                     // console.log(validMove);
-                    if(validMove){
-                        console.log(7-row,col);
-                        array.push({x:7-row, y:col});
+                    if (validMove) {
+                        console.log(7 - row, col);
+                        array.push({ x: 7 - row, y: col });
                     }
                 }
-                else
-                {
-                    if(aType === "queen" )
-                    {
-                        validMove = checkMove.isValidMove(activePieceY, activePieceX,row, col, "bishop", aColor, pieces, whoseChanceItIs, yourColor) || checkMove.isValidMove(activePieceY, activePieceX, row, col, "rook", aColor, pieces, whoseChanceItIs, yourColor);
+                else {
+                    if (aType === "queen") {
+                        validMove = checkMove.isValidMove(activePieceY, activePieceX, row, col, "bishop", aColor, pieces, whoseChanceItIs, yourColor) || checkMove.isValidMove(activePieceY, activePieceX, row, col, "rook", aColor, pieces, whoseChanceItIs, yourColor);
                     }
-                    else
-                    {
-                         validMove = checkMove.isValidMove(activePieceY, activePieceX, row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
+                    else {
+                        validMove = checkMove.isValidMove(activePieceY, activePieceX, row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
                     }
                     // console.log(validMove);
-                    if(validMove){
-                        console.log(row,col);
-                        array.push({x:row, y:col});
+                    if (validMove) {
+                        console.log(row, col);
+                        array.push({ x: row, y: col });
                     }
                 }
-                
+
             }
         }
 
@@ -310,12 +305,12 @@ function Chessboard() {
     function dropPiece(e) {
         const chessboard = chessBoardRef.current;
         const col_num = Math.floor((e.clientX - chessboard.offsetLeft) / 70);
-        const row_num = yourColor === "white" ? Math.floor((e.clientY - chessboard.offsetTop)/70) : Math.floor(8-((e.clientY - chessboard.offsetTop)/70));
+        const row_num = yourColor === "white" ? Math.floor((e.clientY - chessboard.offsetTop) / 70) : Math.floor(8 - ((e.clientY - chessboard.offsetTop) / 70));
         const minX = chessboard.offsetLeft;
         const minY = chessboard.offsetTop;
         const maxX = chessboard.offsetLeft + chessboard.clientWidth;
         const maxY = chessboard.offsetTop + chessboard.clientHeight;
-        
+
         setActiveTile(null);
 
         if (activePiece) {
@@ -410,42 +405,70 @@ function Chessboard() {
 
     }
 
+    let opponentColor = yourColor === "white" ? "black" : "white";
     return (
-        <div className="chessboard_wrapper">
-            <div
-                className="chessboard"
-                ref={chessBoardRef}
-                onMouseDown={e => grabPiece(e)}
-                onMouseMove={e => movePiece(e)}
-                onMouseUp={e => dropPiece(e)}
-            >
-                {board}
+        <>
+
+
+            <div className="chessboard_wrapper">
+                <div className="chessboard-container">
+
+                    <div className="opponentinfo" style={{ backgroundColor: "white" }}>
+
+                        <h5>
+                            UserName: {user.playerId}  <br/>
+                            Your Color {yourColor} <br/>
+                            It's {whoseChanceItIs}'s Chance <br/>
+                            Rating: {user.playerRating}
+                        </h5>
+                    </div>
+
+
+                    <div
+                        className="chessboard"
+                        ref={chessBoardRef}
+                        onMouseDown={e => grabPiece(e)}
+                        onMouseMove={e => movePiece(e)}
+                        onMouseUp={e => dropPiece(e)}
+                    >
+                        {board}
+
+                    </div>
+
+
+                    <div className="myinfo" style={{ backgroundColor: "white" }}>
+
+                        <h5>
+                            UserName: {user.playerId}  <br/>
+                            Your Color {yourColor} <br/>
+                            It's {whoseChanceItIs}'s Chance <br/>
+                            Rating: {user.playerRating}
+                        </h5>
+                        <button className="button" onClick={(e) => {
+
+                            e.preventDefault();
+                            Axios.post(
+                                "https://ocwa.herokuapp.com/deleteboard",
+                                {
+                                    jwtToken: Cookies.get('jwt'),
+                                    roomId: roomId,
+                                })
+                            socket.emit('user-left');
+                            // history.push("/chessgame");
+                            window.location.href = "https://chessiiti.netlify.app/chessgame/";
+                        }}>Exit</button>
+                        {/* <Timer /> */}
+                    </div>
+
+                    <div className="messagebox" style={{ backgroundColor: "white" }}>
+                        Dummy message box{message}
+                    </div>
+                </div>
+
 
             </div>
-            <div style={{ backgroundColor: "white" }}>
-                <h5>Your Color {yourColor}</h5>
-                <h5>It's {whoseChanceItIs}'s Chance</h5>
-                <h5>{user.playerName}</h5>
-                <h5>{user.playerId}</h5>
-                <h5>{user.playerEmailId}</h5>
-                <h5>{user.playerRating}</h5>
-                <h5>{message}</h5>
-                <button onClick={(e) => { 
-                   
-                    e.preventDefault();
-                    Axios.post(
-                        "https://ocwa.herokuapp.com/deleteboard",
-                        {   
-                            jwtToken: Cookies.get('jwt'),
-                            roomId: roomId,
-                        })
-                    socket.emit('user-left');
-                    // history.push("/chessgame");
-                    window.location.href = "https://chessiiti.netlify.app/chessgame/";
-                }}>Exit</button>
-                {/* <Timer /> */}
-            </div>
-        </div>
+
+        </>
     )
 }
 

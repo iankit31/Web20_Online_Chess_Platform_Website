@@ -10,12 +10,12 @@
 }
 
 .black-tile {
-    background-color: #b58863;
+    background-color: #864b30;
     /* background-color: #f0e2da; */
 }
 
 .white-tile {
-    background-color: #f0d9b5;
+    background-color: #f5c689;
     /* background-color:#e69c6a; */
 }
 
@@ -23,6 +23,7 @@
 .black-tile .chess-piece {
     height: 70px;
     width: 70px;
+    background-size: 75px;
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -30,6 +31,7 @@
 .white-tile .chess-piece {
     height: 70px;
     width: 70px;
+    background-size: 75px;
     background-repeat: no-repeat;
     background-position: center;
 }

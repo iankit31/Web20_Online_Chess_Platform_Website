@@ -30,7 +30,7 @@ function Tile(props) {
         else {
             return (
                 <div className="tile white-tile highlighted" >
-                    {piece && <div style={{ backgroundImage: `url(${piece.image})` }} className="chess-piece"></div>}
+                    {piece && <div style={{ backgroundImage: `url(${piece.image})` } } className="chess-piece"></div>}
                 </div>
             )
         }
