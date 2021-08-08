@@ -112,7 +112,9 @@ function Chessboard() {
             else if (event === "stalemate") {
                 setMessage("It's a stalemate");
             }
-
+            else if (event === "player-left") {
+                setMessage("Other Player Left the Game");
+            }
         })
 
     }, [pieces, socket]);
@@ -428,12 +430,16 @@ function Chessboard() {
                 <button onClick={(e) => { 
                    
                     e.preventDefault();
-                    Axios.post(
-                        "https://ocwa.herokuapp.com/deleteboard",
-                        {   
-                            jwtToken: Cookies.get('jwt'),
-                            roomId: roomId,
-                        })
+                    if(checkMove.isThereAnyValidMove("black", pieces) && checkMove.isThereAnyValidMove("white",pieces) )
+                    {
+                        socket.emit("game-end","player-left", yourColor);
+                    }
+                    // Axios.post(
+                    //     "https://ocwa.herokuapp.com/deleteboard",
+                    //     {   
+                    //         jwtToken: Cookies.get('jwt'),
+                    //         roomId: roomId,
+                    //     })
                     // history.push("/chessgame");
                     window.location.href = "https://chessiiti.netlify.app/chessgame/";
                 }}>Exit</button>
