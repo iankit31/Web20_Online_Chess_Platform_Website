@@ -115,6 +115,11 @@ function Chessboard() {
 
         })
 
+        socket.on('opponent-left',()=>{
+            console.log("Your opponent left");
+            setMessage("Your opponent left");
+        })
+
     }, [pieces, socket]);
 
     useEffect(() => {
@@ -434,6 +439,7 @@ function Chessboard() {
                             jwtToken: Cookies.get('jwt'),
                             roomId: roomId,
                         })
+                    socket.emit('user-left');
                     // history.push("/chessgame");
                     window.location.href = "https://chessiiti.netlify.app/chessgame/";
                 }}>Exit</button>

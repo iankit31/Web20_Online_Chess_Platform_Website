@@ -303,6 +303,10 @@ io.on('connection', socket => {
 
             socket.to(roomId).emit("receive-updates", event, loseColor);
         })
+
+        socket.on('user-left', () => {
+            socket.to(roomId).emit('opponent-left');
+        })
     })
 
 })
