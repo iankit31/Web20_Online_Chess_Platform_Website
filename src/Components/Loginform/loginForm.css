@@ -96,7 +96,7 @@ input {
     width: 100%;
 }
 
-.container {
+#container {
     background-color: transparent;
     border-radius: 10px;
     /* box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
@@ -122,7 +122,7 @@ input {
     z-index: 2;
 }
 
-.container.right-panel-active .sign-in-container {
+#container.right-panel-active .sign-in-container {
     transform: translateX(100%);
 }
 
@@ -133,7 +133,7 @@ input {
     z-index: 1;
 }
 
-.container.right-panel-active .sign-up-container {
+#container.right-panel-active .sign-up-container {
     transform: translateX(100%);
     opacity: 1;
     z-index: 5;
@@ -166,7 +166,7 @@ input {
     z-index: 100;
 }
 
-.container.right-panel-active .overlay-container {
+#container.right-panel-active .overlay-container {
     transform: translateX(-100%);
 }
 
@@ -186,7 +186,7 @@ input {
     transition: transform 0.6s ease-in-out;
 }
 
-.container.right-panel-active .overlay {
+#container.right-panel-active .overlay {
     transform: translateX(50%);
 }
 
@@ -209,7 +209,7 @@ input {
     transform: translateX(-20%);
 }
 
-.container.right-panel-active .overlay-left {
+#container.right-panel-active .overlay-left {
     transform: translateX(0);
 }
 
@@ -218,13 +218,13 @@ input {
     transform: translateX(0);
 }
 
-.container.right-panel-active .overlay-right {
+#container.right-panel-active .overlay-right {
     transform: translateX(20%);
 }
 
 
 @media only screen and (max-width: 1024px) {
-    .container {
+    #container {
         max-height: 100%;
         max-width: 2000px;
     }

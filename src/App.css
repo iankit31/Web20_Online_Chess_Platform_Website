@@ -1,11 +1,11 @@
+#root {
+    height: 100vh;
+}
+
 .container {
     display: grid;
-    grid-template-rows: auto;
-    grid-template-columns: auto auto;
     place-content: center;
-    /* background-color: rgb(116, 101, 101); */
-    background: red;
-    height: 1800px;
+    height: 100vh;
 }
 
 body {

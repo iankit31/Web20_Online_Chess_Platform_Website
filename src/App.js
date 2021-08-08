@@ -6,38 +6,38 @@ import './App.css'
 import Loginform from './Components/Loginform/Loginform'
 import AccessDenied from "./Components/AccessDenied/AccessDenied"
 
-import { BrowserRouter as Router, Switch, Route,Redirect } from "react-router-dom";
-function App(){
-    
-    return(
-        <Router>
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+function App() {
+
+	return (
+		<Router>
 			<Switch>
-				<Route  exact path="/">
+				<Route exact path="/">
 					<Redirect to="/login" />
 				</Route>
 
 				<Route path="/login">
-					<Loginform/>
-				</Route>
-				
-				<Route  exact path="/chessgame">
-					<Home/>
+					<Loginform />
 				</Route>
 
- 				<Route path="/chess/:roomId" >
-                    <div className="container">
-                        <Chessboard />
-                     </div> 
+				<Route exact path="/chessgame">
+					<Home />
 				</Route>
-				
+
+				<Route path="/chess/:roomId" >
+					<div className="container">
+						<Chessboard />
+					</div>
+				</Route>
+
 				<Route path="/*">
-					<AccessDenied/>
+					<AccessDenied />
 				</Route>
 			</Switch>
 		</Router>
 
-       
-    )
+
+	)
 }
 
 export default App
