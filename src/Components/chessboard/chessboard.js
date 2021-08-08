@@ -441,8 +441,8 @@ function Chessboard() {
                     //         jwtToken: Cookies.get('jwt'),
                     //         roomId: roomId,
                     //     })
-                    // history.push("/chessgame");
-                    window.location.href = "https://chessiiti.netlify.app/chessgame/";
+                    history.push("/chessgame");
+                    // window.location.href = "https://chessiiti.netlify.app/chessgame/";
                 }}>Exit</button>
                 {/* <Timer /> */}
             </div>
