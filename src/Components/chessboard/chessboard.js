@@ -102,7 +102,7 @@ function Chessboard() {
         if(user !== null) {
             socket.emit("send-opponent-info",user);
         }
-    }, [user,socket])
+    }, [user,opponentUser,socket])
 
     useEffect(() => {
         
@@ -113,7 +113,7 @@ function Chessboard() {
             setOpponentUser(oppo);
         });
        
-    }, [user,socket])
+    }, [user,opponentUser,socket])
 
     useEffect(() => {
         const s = io(`https://ocwa.herokuapp.com`);
