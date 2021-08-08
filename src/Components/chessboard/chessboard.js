@@ -246,7 +246,11 @@ function Chessboard() {
                 if(validMove){
                     console.log(row,col);
                     // <HighLightTile/>
-                    array.push({x:row, y:col});
+                    if(yourColor === "black"){
+                        array.push({x: 7-row, y:col});
+                    }
+                    else
+                        array.push({x:row, y:col});
                 }
             }
         }
