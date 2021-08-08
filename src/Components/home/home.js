@@ -21,10 +21,9 @@ export default function Home() {
     historyRouter.push(`/chess/${joinGameCode}`);
   };
   const handleLogout = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     console.log('in logout handle');
     Cookies.remove('jwt');
-
     historyRouter.push('/');
     // window.location.href = "https://chessiiti.netlify.app/";
   };

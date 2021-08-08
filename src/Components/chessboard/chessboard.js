@@ -1,12 +1,14 @@
 import React, { useEffect, useRef } from "react"
 import { useState } from "react"
 import "./chessboard.css"
-import Tile from "../tile/tile"
+
 import CheckMove from "../../CheckMove/CheckMove"
 import { io } from 'socket.io-client'
 import { useParams, useHistory } from "react-router-dom";
 import Axios from "axios"
 import Cookies from 'js-cookie';
+
+import Tile from "../tile/tile"
 
 let horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h"]
 let verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
@@ -53,6 +55,7 @@ function Chessboard() {
         playerRating: "",
     });
 
+    
     const [b_mail, setB_mail] = useState("");
     const [w_mail, setW_mail] = useState("");
 
@@ -179,14 +182,49 @@ function Chessboard() {
         if (element.classList.contains("chess-piece")) {
             setInitialY(Math.floor((e.clientX - chessboard.offsetLeft) / 70));
             setInitialX(Math.floor((e.clientY - chessboard.offsetTop) / 70));
-
+            
             const x = e.clientX - 35;
             const y = e.clientY - 35;
+            
             element.style.position = "absolute";
             element.style.left = `${x}px`
             element.style.top = `${y}px`
             setActivePiece(element);
         }
+        
+        const activePieceX = Math.floor((e.clientX - chessboard.offsetLeft) / 70);
+        const activePieceY = Math.floor((e.clientY - chessboard.offsetTop) / 70);
+        
+        console.log(activePieceX, activePieceY);
+        // console.log(pieces);
+        let aColor = "";
+        let aType = "";
+       pieces.forEach(p =>{  
+
+             if(p.x === activePieceY && p.y === activePieceX)
+             {
+                aColor = p.color;
+                aType = p.type;
+             }
+        });
+
+        console.log(aColor, aType);
+        let validMove = null;
+        for (let row = 0; row <= 7; row++) {
+            for (let col = 0; col <= 7; col++) {
+                
+                validMove = checkMove.isValidMove(activePieceY, activePieceX, row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
+                // console.log(validMove);
+                if(validMove){
+                    console.log(row,col);
+                    // <HighLightTile/>
+                }
+            }
+        }
+
+        // HighLightTile
+        
+
 
     }
 
