@@ -166,11 +166,11 @@ app.post('/users/login', async (req, res) => {
 
 
     const token = createToken(user._id);
-    res.cookie('jwt', token, { 
+    res.cookie('jwt', token, {
         httpOnly: true, maxAge: maxAge * 1000,
         secure: true,
-        sameSite:'none',
-     });
+        sameSite: 'none',
+    });
 
     console.log(user);
     console.log('working ');
@@ -253,16 +253,16 @@ io.on('connection', socket => {
         socket.on("game-end", async (event, loseColor) => {
 
             console.log(event, loseColor);
-            
+
             let doc = await Document.findById(roomId);
-            if(event === "stalemate") {
+            if (event === "stalemate") {
                 doc.delete();
                 socket.to(roomId).emit("receive-updates", event, loseColor);
                 return;
             }
             let blackUserInfo = await Users.findOne({ playerEmailId: doc.black });
             let whiteUserInfo = await Users.findOne({ playerEmailId: doc.white });
-           
+
             if (loseColor === "white") {
                 whiteUserInfo.playerRating = whiteUserInfo.playerRating - 10;
                 blackUserInfo.playerRating = blackUserInfo.playerRating + 10;

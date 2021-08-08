@@ -7,6 +7,7 @@ import { io } from 'socket.io-client'
 import { useParams, useHistory } from "react-router-dom";
 import Axios from "axios"
 import Cookies from 'js-cookie';
+import Timer from '../Timer/Timer'
 
 let horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h"]
 let verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
@@ -72,9 +73,9 @@ function Chessboard() {
                 if (res.data.msg === 'verified') {
                     setUser(res.data.user);
                 }
-                else {
-                    history.push("/");
-                }
+                // else {
+                //     history.push("/");
+                // }
             })
 
     }, []);
@@ -334,6 +335,7 @@ function Chessboard() {
                 <h5>{user.playerRating}</h5>
                 <h5>{message}</h5>
                 <button onClick={() => { window.location.href = `https://chessiiti.netlify.app/chessgame` }}>Exit</button>
+                <Timer />
             </div>
         </div>
     )
