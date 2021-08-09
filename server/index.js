@@ -20,6 +20,7 @@ const upload = multer();
 
 const jwt = require('jsonwebtoken');
 const { requireAuth, checkUser } = require('./verifyToken');
+
 // MongoDB Connection
 mongoose.connect(process.env.DB_CONNECT, {
     useNewUrlParser: true,
@@ -120,7 +121,6 @@ app.post('/users/register', async (req, res) => {
         playerPassword: hashedPassword
     });
     try {
-        // res.status(200).send(user);
         const savedUser = await user.save();
         console.log(savedUser)
         res.status(200).redirect(process.env.FRONTEND);
@@ -134,7 +134,7 @@ app.post('/users/register', async (req, res) => {
 // login user
 app.post('/users/login', async (req, res) => {
 
-    // console.log(req.body,req.body.id);
+    
     const { id, password } = req.body;
     const user = await Users.findOne({ playerId: id });
 
@@ -160,9 +160,6 @@ app.post('/users/login', async (req, res) => {
         sameSite: 'none',
     });
 
-    console.log(user);
-    console.log('working ');
-    // res.status(201).redirect(`${process.env.FRONTEND}/chessgame`);
     res.json({
         token,
         user,
@@ -232,11 +229,10 @@ io.on('connection', socket => {
         }
 
         if (size > 2) {
-            // console.log(`room ${roomId} is full`);
             socket.emit('room-full', roomId, true);
         }
 
-        // Saving color on reload 
+        // Saving player color on reload 
         socket.on('save-my-color', async (p_email, p_color) => {
             let doc = await Document.findById(roomId);
             console.log(p_email, p_color);
@@ -250,7 +246,7 @@ io.on('connection', socket => {
             socket.to(roomId).emit('recieve-pieces', pieces, opponentColor)
         })
 
-        // console.log(document.data);
+        // Saving Pieces on Chessboard 
         socket.on('save-chessboard', async (newData, newChance, playeremail) => {
             let doc = await Document.findById(roomId);
             doc.data = newData;
