@@ -96,9 +96,12 @@ export default function Home() {
         <div className="form-container sign-up-container">
           <form >
             <h1>Account Detail</h1>
-            <h2>Player Name : {`${user.playerName}`}</h2>
-            <h2>UserName : {`${user.playerId}`}</h2>
+            <br/>
+            <br/>
+            <h2>Name : {`${user.playerName}`}</h2>
+            <h2>Username : {`${user.playerId}`}</h2>
             <h2>Email : {`${user.playerEmailId}`}</h2>
+            <br/>
             <h2>Rating : {`${user.playerRating}`}</h2>
           </form>
         </div>
