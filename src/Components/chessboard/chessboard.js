@@ -131,24 +131,39 @@ function Chessboard() {
         if (socket === null) {
             return;
         }
-        socket.on('receive-updates', (event, loseColor) => {
-            const winColor = loseColor ? "white" : "black";
-            if (event === "checkmate") {
+        socket.on("receive-update-checkmate", (loseColor) => {
+            const winColor = loseColor === "black" ? "white" : "black";
                 setMessage(`It's checkmate !! Player with ${winColor} Wins Game`);
-            }
-            else if (event === "stalemate") {
-                setMessage("It's a stalemate");
-            }
-
         })
 
+    },[pieces,socket])
+
+    useEffect(() => {
+
+        if (socket === null) {
+            return;
+        }
+        socket.on("receive-update-stalemate", () => {
+                setMessage("It's a stalemate");
+        })
+
+    }, [pieces, socket])
+
+    useEffect(() => {
+
+        if (socket === null) {
+            return;
+        }
         socket.on('opponent-left', () => {
             console.log("Your opponent left");
             setMessage("Your opponent left");
         })
 
-    }, [pieces, socket]);
+    } , [pieces, socket])
 
+        
+
+    
     useEffect(() => {
 
         if (socket === null) {
@@ -387,12 +402,12 @@ function Chessboard() {
 
                                 if (!checkMove.isKingNotOnCheck(-1, -1, -1, -1, currentPiece.color, newPieces)) {
                                     console.log("checkmate");
-                                    socket.emit("game-end", "checkmate", opponentColor);
+                                    socket.emit("game-end-checkmate", opponentColor);
                                     // setMessage(`It's checkmate !! Player with ${currentPiece.color} Wins Game`);
                                 }
                                 else {
                                     console.log("stalemate");
-                                    socket.emit("game-end-stalemate", "stalemate", opponentColor);
+                                    socket.emit("game-end-stalemate");
                                     // setMessage(`It's stalemate!!`);
                                 }
                             }
@@ -422,7 +437,7 @@ function Chessboard() {
         }
 
     }
-    let opponentColor = yourColor === "white" ? "black" : "white";
+    
     return (
         <>
 
