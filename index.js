@@ -256,9 +256,9 @@ io.on('connection', socket => {
             doc.save();
         })
 
-        socket.on("game-end", async (event, loseColor) => {
+        socket.on("game-end-checkmate", async (loseColor) => {
 
-            console.log(event, loseColor);
+            console.log(loseColor);
 
             let doc = await Document.findById(roomId);
             let blackUserInfo = await Users.findOne({ playerEmailId: doc.black });
@@ -276,21 +276,19 @@ io.on('connection', socket => {
                 blackUserInfo.playerRating = blackUserInfo.playerRating - 10;
             }
             console.log('above save info');
-            await whiteUserInfo.save();
-            await blackUserInfo.save();
+            whiteUserInfo.save();
+            blackUserInfo.save();
             console.log('above doc delete');
-            await doc.delete();
+            doc.delete();
 
-            await socket.to(roomId).emit("receive-updates", event, loseColor);
+            socket.to(roomId).emit("receive-update-checkmate", loseColor);
         })
 
-        socket.on("game-end-stalemate", async (event, loseColor) => {
-
-            console.log(event, loseColor);
+        socket.on("game-end-stalemate", async () => {
 
             let doc = await Document.findById(roomId);
-            await doc.delete();
-            await socket.to(roomId).emit("receive-updates", event, loseColor);
+            doc.delete();
+            socket.to(roomId).emit("receive-update-stalemate");
         })
 
         socket.on('user-left', () => {
