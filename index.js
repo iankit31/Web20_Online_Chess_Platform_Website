@@ -286,22 +286,25 @@ io.on('connection', socket => {
                 socket.to(roomId).emit("receive-updates", event, loseColor);
                 return;
             }
-            let blackUserInfo = await Users.findOne({ playerEmailId: doc.black });
-            let whiteUserInfo = await Users.findOne({ playerEmailId: doc.white });
+            else
+            {
+                let blackUserInfo = await Users.findOne({ playerEmailId: doc.black });
+                let whiteUserInfo = await Users.findOne({ playerEmailId: doc.white });
 
-            if (loseColor === "white") {
-                whiteUserInfo.playerRating = whiteUserInfo.playerRating - 10;
-                blackUserInfo.playerRating = blackUserInfo.playerRating + 10;
-            }
-            else {
-                whiteUserInfo.playerRating = whiteUserInfo.playerRating + 10;
-                blackUserInfo.playerRating = blackUserInfo.playerRating - 10;
-            }
-            await whiteUserInfo.save();
-            await blackUserInfo.save();
-            doc.delete();
+                if (loseColor === "white") {
+                    whiteUserInfo.playerRating = whiteUserInfo.playerRating - 10;
+                    blackUserInfo.playerRating = blackUserInfo.playerRating + 10;
+                }
+                else {
+                    whiteUserInfo.playerRating = whiteUserInfo.playerRating + 10;
+                    blackUserInfo.playerRating = blackUserInfo.playerRating - 10;
+                }
+                await whiteUserInfo.save();
+                await blackUserInfo.save();
+                await doc.delete();
 
-            socket.to(roomId).emit("receive-updates", event, loseColor);
+                await socket.to(roomId).emit("receive-updates", event, loseColor);
+            }
         })
 
         socket.on('user-left', () => {
