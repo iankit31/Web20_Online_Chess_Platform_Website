@@ -4,7 +4,8 @@ import Axios from "axios"
 import "./home.css"
 import Cookies from 'js-cookie';
 import bg from '../../images/1.jpg'
-import CreateNotification from  '../../Functions/Notification'
+import CreateNotification from '../../Functions/Notification'
+import generator from '../../Functions/Random'
 
 export default function Home() {
   const historyRouter = useHistory();
@@ -15,7 +16,7 @@ export default function Home() {
   const handleStartClick = (e) => {
     e.preventDefault();
 
-    if(gameCode === "" )
+    if (gameCode === "")
       return;
     historyRouter.push(`/chess/${gameCode}`);
   };
@@ -23,17 +24,23 @@ export default function Home() {
   const handleJoinClick = (e) => {
     e.preventDefault();
 
-    if(joinGameCode === "")
+    if (joinGameCode === "")
       return;
     historyRouter.push(`/chess/${joinGameCode}`);
   };
+
+  const handleRandomJoin = (e) => {
+    e.preventDefault();
+    historyRouter.push(`/chess/${generator(6)}`)
+  }
+
   const handleLogout = (e) => {
     // e.preventDefault();
-   
+
     console.log('in logout handle');
     Cookies.remove('jwt');
     historyRouter.push('/');
-    
+
   };
 
   const [user, setUser] = useState({
@@ -62,10 +69,10 @@ export default function Home() {
           //   time : 5000,
           // }) 
         }
-        else
-        {
-          historyRouter.push('/');
-        }
+        // else
+        // {
+        //   historyRouter.push('/');
+        // }
       })
 
   }, []);
@@ -99,6 +106,9 @@ export default function Home() {
         <div className="form-container sign-in-container">
           <form >
             <h1>Start Game</h1>
+            <br />
+            <button onClick={(e) => handleRandomJoin(e)}>Join Random GAME</button>
+            <br />
             <input type="text" value={gameCode} placeholder="Enter New Room code" onChange={(e) => { setGameCode(e.target.value) }} required />
             <br />
             <button onClick={(e) => handleStartClick(e)}>Start New Game</button>
