@@ -69,10 +69,9 @@ export default function Home() {
           //   time : 5000,
           // }) 
         }
-        // else
-        // {
-        //   historyRouter.push('/');
-        // }
+        else {
+          historyRouter.push('/');
+        }
       })
 
   }, []);
