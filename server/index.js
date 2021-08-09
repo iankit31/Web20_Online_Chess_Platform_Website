@@ -1,12 +1,26 @@
+const express = require('express');
 const mongoose = require('mongoose');
+
 const Document = require('./models/Document');
 const Users = require('./models/Users');
+
+const app = express();
+const path = require('path');
+const http = require('http').createServer(app);
+const bcrypt = require('bcryptjs');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const dotenv = require('dotenv');
 dotenv.config();
 
+const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer();
+
 const jwt = require('jsonwebtoken');
-const secret = process.env.TOKEN;
+const { requireAuth, checkUser } = require('./verifyToken');
+// MongoDB Connection
 mongoose.connect(process.env.DB_CONNECT, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -16,24 +30,8 @@ mongoose.connect(process.env.DB_CONNECT, {
     console.log("Database Connected")
 });
 
-const path = require('path');
-const express = require('express');
-const app = express();
-const http = require('http').createServer(app);
-const bcrypt = require('bcryptjs');
-const cookieParser = require('cookie-parser');
-// const socketio = require('socket.io');
-const cors = require('cors');
 
-
-
-
-const bodyParser = require('body-parser');
-const multer = require('multer');
-const upload = multer();
-// const io = socketio(server);
-
-const { requireAuth, checkUser } = require('./verifyToken');
+// root server for testing
 app.get('/', (req, res) => {
     res.status(200).send("Server Running ...");
 })
@@ -48,17 +46,11 @@ app.use(express.static('public'));
 
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors(corsOptions));
-// app.use(
-//     cors({
-//         origin: [process.env.FRONTEND,"https://chessiiti.netlify.app/login"],
-//         methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-//         credentials: true,
-//     })
-// );
 app.use(cors());
 
 app.set("trust proxy", 1);
+
+// Get User detail
 app.post('/getuser', (req, res) => {
 
     const token = req.body.jwtToken;
@@ -90,7 +82,7 @@ app.post('/getuser', (req, res) => {
     }
 })
 
-// token 
+// Creating Token 
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
     return jwt.sign({ id }, process.env.TOKEN, {
@@ -98,14 +90,11 @@ const createToken = (id) => {
     });
 }
 
-// Register
+// Register user
 app.post('/users/register', async (req, res) => {
 
     console.log(req.body)
-    // res.status(200).send(req.body);
-
-    // Validation 
-
+    
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
@@ -142,10 +131,9 @@ app.post('/users/register', async (req, res) => {
 })
 
 
-// login 
+// login user
 app.post('/users/login', async (req, res) => {
 
-    // Validation
     // console.log(req.body,req.body.id);
     const { id, password } = req.body;
     const user = await Users.findOne({ playerId: id });
@@ -156,7 +144,7 @@ app.post('/users/login', async (req, res) => {
         })
     }
 
-    // password
+    // password 
     const validPassword = await bcrypt.compare(password, user.playerPassword);
     if (!validPassword) {
         return res.status(400).json({
@@ -180,16 +168,6 @@ app.post('/users/login', async (req, res) => {
         user,
         msg: 'logsuc'
     })
-    // const token = jwt.sign({_id: user._id}, secret);
-    // res.header('auth-token', token).send(token);     
-
-})
-
-app.get('/users/logout', checkUser, (req, res) => {
-    console.log('logout done');
-
-    res.cookie('jwt', '', { maxAge: 1 });
-    res.redirect(process.env.FRONTEND)
 })
 
 // Delete Chessboard
@@ -236,11 +214,12 @@ io.on('connection', socket => {
         socket.join(roomId)
 
         const document = await findorCreateDocument(roomId, pieces)
-        // console.log(document);
+        
         socket.emit('load-chessboard', document.data, document.chance, document.black, document.white);
-        const size = io.sockets.adapter.rooms.get(roomId).size;
-        // console.log(size);
 
+        // size of Room
+        const size = io.sockets.adapter.rooms.get(roomId).size;
+       
         if (size === 1) {
             if (document.white === null) {
                 socket.emit('player-color', "white")
@@ -256,6 +235,8 @@ io.on('connection', socket => {
             // console.log(`room ${roomId} is full`);
             socket.emit('room-full', roomId, true);
         }
+
+        // Saving color on reload 
         socket.on('save-my-color', async (p_email, p_color) => {
             let doc = await Document.findById(roomId);
             console.log(p_email, p_color);
@@ -263,9 +244,12 @@ io.on('connection', socket => {
             if (p_color === "white" && doc.white === null) { doc.white = p_email; }
             await doc.save();
         })
+
+        // Sending movement Pieces to Other Player
         socket.on('send-pieces', (pieces, opponentColor) => {
             socket.to(roomId).emit('recieve-pieces', pieces, opponentColor)
         })
+
         // console.log(document.data);
         socket.on('save-chessboard', async (newData, newChance, playeremail) => {
             let doc = await Document.findById(roomId);
@@ -320,9 +304,7 @@ async function findorCreateDocument(id, pieces) {
     if (id == null)
         return;
 
-    const document = await Document.findById(id)
-    // console.log("ok");
-    // console.log(document);
+    const document = await Document.findById(id);
     if (document)
         return document;
     return Document.create({ _id: id, data: pieces, chance: "white", black: null, white: null });
