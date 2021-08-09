@@ -7,8 +7,6 @@ import { io } from 'socket.io-client'
 import { useParams, useHistory } from "react-router-dom";
 import Axios from "axios"
 import Cookies from 'js-cookie';
-import Timer from '../Timer/Timer'
-
 
 import Tile from "../tile/tile"
 
@@ -121,7 +119,6 @@ function Chessboard() {
         s.emit('join', roomId, pieces);
         s.on('room-full', (roomId) => {
             // window.alert(`room ${roomId} is full`)
-            console.log(roomId, 'is full ')
             history.goBack();
         })
         return () => {
@@ -260,7 +257,7 @@ function Chessboard() {
         const activePieceY = yourColor === "white" ? Math.floor((e.clientY - chessboard.offsetTop) / 70) : Math.floor(8 - ((e.clientY - chessboard.offsetTop) / 70));
 
         console.log(activePieceX, activePieceY);
-        // console.log(pieces);
+        
         let aColor = "";
         let aType = "";
         pieces.forEach(p => {
@@ -284,7 +281,7 @@ function Chessboard() {
                     else {
                         validMove = checkMove.isValidMove(activePieceY, activePieceX, 7 - row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
                     }
-                    // console.log(validMove);
+                    
                     if (validMove) {
                         console.log(7 - row, col);
                         array.push({ x: 7 - row, y: col });
@@ -297,7 +294,7 @@ function Chessboard() {
                     else {
                         validMove = checkMove.isValidMove(activePieceY, activePieceX, row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
                     }
-                    // console.log(validMove);
+                    
                     if (validMove) {
                         console.log(row, col);
                         array.push({ x: row, y: col });
@@ -315,23 +312,17 @@ function Chessboard() {
         const chessboard = chessBoardRef.current;
 
         if (activePiece) {
-            // const minX = chessboard.offsetLeft - 15;
-            // const minY = chessboard.offsetTop - 15;
-            // const maxX = chessboard.offsetLeft + chessboard.clientWidth - 60;
-            // const maxY = chessboard.offsetTop + chessboard.clientHeight - 60;
             const x = e.clientX - 35;
             const y = e.clientY - 35;
             activePiece.style.position = "absolute";
 
             activePiece.style.top = `${y}px`
             activePiece.style.left = `${x}px`
-
-
         }
-
     }
 
     function dropPiece(e) {
+
         const chessboard = chessBoardRef.current;
         const col_num = Math.floor((e.clientX - chessboard.offsetLeft) / 70);
         const row_num = yourColor === "white" ? Math.floor((e.clientY - chessboard.offsetTop) / 70) : Math.floor(8 - ((e.clientY - chessboard.offsetTop) / 70));
@@ -364,9 +355,7 @@ function Chessboard() {
                         validMove = checkMove.isValidMove(initialX, initialY, row_num, col_num, currentPiece.type, currentPiece.color, pieces, whoseChanceItIs, yourColor);
 
                     if (yourColor === currentPiece.color && validMove) {
-                        // socket.emit('send-piece-move', currentPiece, row_num, col_num, initialX, initialY);
-                        // currentPiece.x = row_num;
-                        // currentPiece.y = col_num;
+                        
                         setPieces(prevPieces => {
                             prevPieces = prevPieces.filter(p => !(p === attackedPiece))
                             let newPieces = prevPieces.map(p => {
@@ -434,7 +423,6 @@ function Chessboard() {
 
     }
 
-    let opponentColor = yourColor === "white" ? "black" : "white";
     return (
         <>
 
@@ -459,12 +447,6 @@ function Chessboard() {
                             </div>
                            
                         </div>
-                        {/* <h5>
-                            UserName: {user.playerId}  <br/>
-                            Your Color {yourColor} <br/>
-                            It's {whoseChanceItIs}'s Chance <br/>
-                            Rating: {user.playerRating}
-                        </h5> */}
                     </div>
 
 
@@ -497,12 +479,6 @@ function Chessboard() {
                             </div>
                            
                     </div>
-                        {/* <h5>
-                            UserName: {user.playerId}  <br/>
-                            Your Color {yourColor} <br/>
-                            It's {whoseChanceItIs}'s Chance <br/>
-                            
-                        </h5> */}
                         <button className="button" onClick={(e) => {
 
                             e.preventDefault();
@@ -513,19 +489,15 @@ function Chessboard() {
                                     roomId: roomId,
                                 })
                             socket.emit('user-left');
-                            // history.push("/chessgame");
+                            
                             window.location.href = "https://chessiiti.netlify.app/chessgame/";
                         }}>Exit</button>
-                        {/* <Timer /> */}
                     </div>
 
                     <div className="messagebox" style={{ backgroundColor: "white" }}>
                         Its {whoseChanceItIs}'s Turn <br/>
                         {message}
                     </div>
-                
-
-
             </div>
 
         </>
