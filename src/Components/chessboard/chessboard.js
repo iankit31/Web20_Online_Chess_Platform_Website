@@ -217,7 +217,7 @@ function Chessboard() {
 
     if (yourColor === "black") {
         for (let row = 7; row >= 0; row--) {
-            for (let col = 0; col <= 7; col++) {
+            for (let col = 7; col >= 0; col--) {
                 board.push(<span>
 
                     <Tile
@@ -251,7 +251,12 @@ function Chessboard() {
         const chessboard = chessBoardRef.current;
         const element = e.target
         if (element.classList.contains("chess-piece")) {
-            setInitialY(Math.floor((e.clientX - chessboard.offsetLeft) / 70));
+//             setInitialY(Math.floor((e.clientX - chessboard.offsetLeft) / 70));
+            if(yourColor==="black") {
+                setInitialY(Math.floor(8-((e.clientX - chessboard.offsetLeft)/70)));
+            } else {
+                setInitialY(Math.floor((e.clientX - chessboard.offsetLeft)/70));
+            }
 
             if (yourColor === "black") {
                 setInitialX(Math.floor(8 - ((e.clientY - chessboard.offsetTop) / 70)));
@@ -268,7 +273,7 @@ function Chessboard() {
             setActivePiece(element);
         }
 
-        const activePieceX = Math.floor((e.clientX - chessboard.offsetLeft) / 70);
+        const activePieceX = yourColor === "white" ? Math.floor((e.clientX - chessboard.offsetLeft) / 70) : Math.floor(8-((e.clientX - chessboard.offsetLeft) / 70)) ;
         const activePieceY = yourColor === "white" ? Math.floor((e.clientY - chessboard.offsetTop) / 70) : Math.floor(8 - ((e.clientY - chessboard.offsetTop) / 70));
 
         console.log(activePieceX, activePieceY);
@@ -291,15 +296,15 @@ function Chessboard() {
 
                 if (yourColor === "black") {
                     if (aType === "queen") {
-                        validMove = checkMove.isValidMove(activePieceY, activePieceX, 7 - row, col, "bishop", aColor, pieces, whoseChanceItIs, yourColor) || checkMove.isValidMove(activePieceY, activePieceX, 7 - row, col, "rook", aColor, pieces, whoseChanceItIs, yourColor);
+                        validMove = checkMove.isValidMove(activePieceY, activePieceX, 7 - row, 7 - col, "bishop", aColor, pieces, whoseChanceItIs, yourColor) || checkMove.isValidMove(activePieceY, activePieceX, 7 - row, 7 - col, "rook", aColor, pieces, whoseChanceItIs, yourColor);
                     }
                     else {
-                        validMove = checkMove.isValidMove(activePieceY, activePieceX, 7 - row, col, aType, aColor, pieces, whoseChanceItIs, yourColor);
+                        validMove = checkMove.isValidMove(activePieceY, activePieceX, 7 - row, 7 - col, aType, aColor, pieces, whoseChanceItIs, yourColor);
                     }
                     
                     if (validMove) {
-                        console.log(7 - row, col);
-                        array.push({ x: 7 - row, y: col });
+                        console.log(7 - row, 7 - col);
+                        array.push({ x: 7 - row, y: 7 - col });
                     }
                 }
                 else {
@@ -339,7 +344,7 @@ function Chessboard() {
     function dropPiece(e) {
 
         const chessboard = chessBoardRef.current;
-        const col_num = Math.floor((e.clientX - chessboard.offsetLeft) / 70);
+        const col_num = yourColor === "white" ? Math.floor((e.clientX - chessboard.offsetLeft)/70) : Math.floor(8-((e.clientX - chessboard.offsetLeft)/70));
         const row_num = yourColor === "white" ? Math.floor((e.clientY - chessboard.offsetTop) / 70) : Math.floor(8 - ((e.clientY - chessboard.offsetTop) / 70));
         const minX = chessboard.offsetLeft;
         const minY = chessboard.offsetTop;
