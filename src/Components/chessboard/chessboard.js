@@ -422,7 +422,7 @@ function Chessboard() {
         }
 
     }
-
+    let opponentColor = yourColor === "white" ? "black" : "white";
     return (
         <>
 
