@@ -62,7 +62,7 @@ HTML, CSS, React.js (JavaScript), Express.js, MongoDB, Socket.io
 
 - Start Game View for Player 2
 
-![Game View for Player 2](https://github.com/iankit31/Web20_Online_Chess_Platform_Website/blob/master/public/Readme%20Images/Screenshot%20(42).png)
+![Game View for Player 2](https://github.com/iankit31/Web20_Online_Chess_Platform_Website/blob/master/public/Readme%20Images/View%202.png)
 
 - Avaliable Move for Selected Knight 
 
