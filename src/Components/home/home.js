@@ -111,13 +111,14 @@ export default function Home() {
             <br />
             <button onClick={(e) => handleRandomJoin(e)}>Join Random GAME</button>
             <br />
-            <input type="text" value={gameCode} placeholder="Enter New Room code" onChange={(e) => { setGameCode(e.target.value) }} required />
+            <br />
+            <input type="text" value={gameCode} placeholder="Enter New Room or enter Friend's code" onChange={(e) => { setGameCode(e.target.value) }} required />
             <br />
             <button onClick={(e) => handleStartClick(e)}>Start New Game</button>
             <br />
-            <input type="text" value={joinGameCode} placeholder="Enter Friend's Room code" onChange={(e) => { setJoinGameCode(e.target.value) }} required />
+            {/* <input type="text" value={joinGameCode} placeholder="Enter Friend's Room code" onChange={(e) => { setJoinGameCode(e.target.value) }} required />
             <br />
-            <button onClick={(e) => handleJoinClick(e)}>Join Friend's Game</button>
+            <button onClick={(e) => handleJoinClick(e)}>Join Friend's Game</button> */}
             <br />
           </form>
         </div>
@@ -129,8 +130,8 @@ export default function Home() {
               <button className="ghost" id="signIn">Start Game</button>
             </div>
             <div className="overlay-panel overlay-right">
-              <h1>Start Game</h1>
-              <p>Enter your personal details and start journey with us</p>
+              <h1>User Details</h1>
+              <p>View your personal details </p>
               <button className="ghost" id="signUp">Profile</button>
               <br />
 

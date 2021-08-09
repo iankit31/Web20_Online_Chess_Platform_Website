@@ -403,12 +403,12 @@ function Chessboard() {
                                 if (!checkMove.isKingNotOnCheck(-1, -1, -1, -1, currentPiece.color, newPieces)) {
                                     console.log("checkmate");
                                     socket.emit("game-end-checkmate", opponentColor);
-                                    // setMessage(`It's checkmate !! Player with ${currentPiece.color} Wins Game`);
+                                    setMessage(`It's checkmate !! Player with ${currentPiece.color} Wins Game`);
                                 }
                                 else {
                                     console.log("stalemate");
                                     socket.emit("game-end-stalemate");
-                                    // setMessage(`It's stalemate!!`);
+                                    setMessage(`It's stalemate!!`);
                                 }
                             }
 
